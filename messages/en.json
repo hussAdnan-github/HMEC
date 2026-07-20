@@ -1,0 +1,103 @@
+{
+  "Navigation": {
+    "home": "Home",
+    "about": "About Us",
+    "agencies": "Agencies",
+    "services": "Services",
+    "projects": "Projects",
+    "testimonials": "Testimonials",
+    "branches": "Branches",
+    "contact": "Contact Us",
+    "products": "Products"
+  },
+  "Common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "read_more": "Read More",
+    "search": "Search",
+    "language": "Language",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "working_hours": "Working Hours",
+    "view_on_map": "View on Map",
+    "important_links": "Important Links",
+    "all_rights_reserved": "All Rights Reserved",
+    "full_name": "Full Name",
+    "subject": "Subject",
+    "message": "Message",
+    "send_message": "Send Message",
+    "shop_now": "Shop Now",
+    "browse_products": "Browse Products"
+  },
+  "Sections": {
+    "about_us": "About Us",
+    "our_values": "Our Values",
+    "vision_mission_goals": "Our Vision, Mission, and Goals",
+    "why_choose_us": "Why Choose Us",
+    "why_choose_hmec": "Why choose HMEC?",
+    "our_agencies": "Our Agencies",
+    "our_services": "Our Services",
+    "our_projects": "Our Projects",
+    "testimonials": "Testimonials",
+    "our_branches": "Our Branches",
+    "contact_us": "Contact Us",
+    "products": "Products"
+  },
+  "About": {
+    "title_part1": "Hadramout Modern Center",
+    "title_part2": "for Electricals",
+    "years_experience": "Years Experience",
+    "completed_projects": "Completed Projects",
+    "happy_clients": "Happy Clients",
+    "global_agencies": "Global Agencies",
+    "build_future_energy": "⚡ Building the future with energy",
+    "about_description_extra": "We don't just sell products; we provide integrated solutions that help our customers achieve their goals efficiently and safely. From design to execution, we are with you every step of the way.",
+    "vision_subtitle": "We strive to achieve a clear vision and a noble mission that serves our customers and our community.",
+    "why_choose_subtitle": "We offer you real reasons that make us your first choice in the electrical field.",
+    "vision_title": "Our Vision",
+    "message_title": "Our Mission"
+  },
+  "Services": {
+    "title_part1": "Professional",
+    "title_part2": "and Integrated Services",
+    "subtitle": "We offer a comprehensive range of specialized electrical services to meet all your needs."
+  },
+  "Branches": {
+    "title_part1": "Our Branches",
+    "title_part2": "in Hadramout",
+    "subtitle": "We are always close to you through our branches spread across Hadramout."
+  },
+  "Testimonials": {
+    "title": "What Our Clients Say?",
+    "subtitle": "We are proud of our clients' trust and always strive to provide the best."
+  },
+  "Contact": {
+    "title": "We Are Here To Serve You",
+    "subtitle": "Do not hesitate to contact us for any inquiry or to request a quote. Our team is always available to help you."
+  },
+  "Footer": {
+    "quick_links": "Quick Links",
+    "our_services": "Our Services",
+    "contact_us": "Contact Us",
+    "made_with_love": "Made with love in Hadramout",
+    "services_list": {
+      "supply": "Equipment Supply",
+      "projects": "Project Execution",
+      "solar": "Solar Energy",
+      "lighting": "Lighting Systems",
+      "maintenance": "Maintenance & Support",
+      "consulting": "Consulting"
+    }
+  },
+  "HeroSlider": {
+    "badge": "⚡ Hadramout Modern Center for Electricals",
+    "title_part1": "Your reliable partner in the world of",
+    "title_part2": "Electricals & Energy",
+    "subtitle": "We provide you with the latest electrical products and solutions from the biggest global brands with professional service and specialized technical support around the clock",
+    "discover_services": "Discover Services ⚡",
+    "contact_us": "Contact Us 📩",
+    "agencies_title": "✦ Authorized agents for the biggest global brands ✦"
+  }
+}

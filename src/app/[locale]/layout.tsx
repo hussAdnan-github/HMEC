@@ -1,5 +1,16 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import { Cairo } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { routing } from "../../i18n/routing";
+import "../globals.css";
+
+const cairo = Cairo({
+  subsets: ["arabic"],
+  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "مركز حضرموت الحديث للكهربائيات | HMEC",
@@ -9,19 +20,30 @@ export const metadata: Metadata = {
     title: "مركز حضرموت الحديث للكهربائيات | HMEC",
     description: "وكلاء معتمدون لأكبر العلامات التجارية العالمية في مجال الكهربائيات",
     type: "website",
-    locale: "ar_YE",
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: Readonly<{
+  params
+}: {
   children: React.ReactNode;
-}>) {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+
+  if (!routing.locales.includes(locale as any)) {
+    notFound();
+  }
+
+  const messages = await getMessages();
+
   return (
-    <html lang="ar" dir="rtl">
-      <body>
-        {children}
+    <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
+      <body className={cairo.className}>
+        <NextIntlClientProvider messages={messages}>
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );

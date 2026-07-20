@@ -2,112 +2,140 @@
 
 import { whyChooseUs } from '@/data/siteData';
 import type { ApiContent, ApiGoal } from '@/types/api';
+import { cn } from '@/lib/utils';
+import { useTranslations, useLocale } from 'next-intl';
+import { getLocalizedField } from '@/lib/i18n-utils';
 
 interface AboutUsProps {
   content?: ApiContent;
   goals?: ApiGoal[];
 }
- 
 
 export default function AboutUs({ content, goals }: AboutUsProps) {
-  const weAreText = content?.we_are_ar || 'نحن مركز متخصص في توفير أحدث المنتجات  والحلول الكهربائية...';
+  const tSections = useTranslations('Sections');
+  const tAbout = useTranslations('About');
+  const locale = useLocale();
+
+  const weAreText = getLocalizedField(content, 'we_are', locale) || 'نحن مركز متخصص في توفير أحدث المنتجات والحلول الكهربائية...';
   
-  // Mapping the content to match the "aboutItems" UI (Vision, Message, Values)
   const aboutItems = [
-    { id: 'vision', title: 'رؤيتنا', description: content?.our_vision_ar || 'نسعى لأن نكون الشريك الموثوق لعملائنا...', icon: '🎯' },
-    { id: 'message', title: 'رسالتنا', description: content?.our_message_ar || 'تقديم منتجات أصلية بأسعار تنافسية...', icon: '💌' },
-    { id: 'values', title: 'قيمنا', description: content?.our_values_ar || 'الجودة، الموثوقية، خدمة العملاء...', icon: '💎' },
+    { id: 'vision', title: tAbout('vision_title') || tSections('vision_mission_goals').split(' ')[0], description: getLocalizedField(content, 'our_vision', locale) || 'نسعى لأن نكون الشريك الموثوق لعملائنا...', icon: '🎯' },
+    { id: 'message', title: tAbout('message_title') || tSections('vision_mission_goals').split(' ')[1], description: getLocalizedField(content, 'our_message', locale) || 'تقديم منتجات أصلية بأسعار تنافسية...', icon: '💌' },
+    { id: 'values', title: tSections('our_values'), description: getLocalizedField(content, 'our_values', locale) || 'الجودة، الموثوقية، خدمة العملاء...', icon: '💎' },
   ];
 
   return (
-    <section className="about-section" id="about">
-      <div className="container">
-        {/* Intro */}
-        <div className="about-intro">
-          <div className="about-intro-text">
-            <div className="section-badge">🏢 من نحن</div>
-            <h2>
-              مركز حضرموت الحديث <span className="highlight">للكهربائيات</span>
+    <section className="py-24 bg-secondary relative overflow-hidden" id="about">
+      <div className="container mx-auto px-6 max-w-7xl relative z-10">
+        
+        {/* Intro Section */}
+        <div className="grid lg:grid-cols-2 gap-16 items-center mb-28">
+          <div className="flex flex-col gap-6">
+            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-primary-subtle text-primary font-semibold text-sm w-fit">
+              🏢 {tSections('about_us')}
+            </div>
+            
+            <h2 className="text-4xl md:text-5xl font-extrabold text-foreground leading-tight">
+              {tAbout('title_part1')} <span className="text-primary">{tAbout('title_part2')}</span>
             </h2>
-            <p>{weAreText}</p>
+            
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              {weAreText}
+            </p>
 
-            <div className="about-stats">
-              <div className="about-stat">
-                <div className="about-stat-number">10+</div>
-                <div className="about-stat-label">سنوات خبرة</div>
-              </div>
-              <div className="about-stat">
-                <div className="about-stat-number">500+</div>
-                <div className="about-stat-label">مشروع منفذ</div>
-              </div>
-              <div className="about-stat">
-                <div className="about-stat-number">1000+</div>
-                <div className="about-stat-label">عميل سعيد</div>
-              </div>
-              <div className="about-stat">
-                <div className="about-stat-number">5+</div>
-                <div className="about-stat-label">وكالة عالمية</div>
-              </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-6">
+              {[
+                { num: '10+', label: tAbout('years_experience') },
+                { num: '500+', label: tAbout('completed_projects') },
+                { num: '1000+', label: tAbout('happy_clients') },
+                { num: '5+', label: tAbout('global_agencies') },
+              ].map((stat, i) => (
+                <div key={i} className="flex flex-col items-center sm:items-start">
+                  <div className="text-3xl font-black text-primary mb-1">{stat.num}</div>
+                  <div className="text-sm font-semibold text-muted-foreground">{stat.label}</div>
+                </div>
+              ))}
             </div>
           </div>
 
-          <div className="about-visual">
-            <div className="about-visual-card">
-              <div className="about-visual-content">
-                <h3>⚡ نبني المستقبل بالطاقة</h3>
-                <p>
-                  نحن لا نبيع منتجات فحسب، بل نقدم حلولاً متكاملة تساعد عملائنا على
-                  تحقيق أهدافهم بكفاءة وأمان. من التصميم إلى التنفيذ، نحن معكم في كل خطوة.
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-tr from-primary to-accent opacity-20 blur-3xl rounded-full" />
+            <div className="relative bg-white border border-border rounded-3xl p-10 shadow-xl overflow-hidden group">
+              <div className="absolute -right-10 -top-10 text-[180px] font-black text-slate-50 opacity-50 select-none group-hover:scale-110 transition-transform duration-700">
+                HMEC
+              </div>
+              <div className="relative z-10">
+                <h3 className="text-2xl font-bold text-foreground mb-4">
+                  {tAbout('build_future_energy')}
+                </h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  {tAbout('about_description_extra')}
                 </p>
               </div>
-              <div className="logo-text">HMEC</div>
             </div>
           </div>
         </div>
 
-        {/* Vision, Mission, Goals */}
-        <div className="section-header">
-          <div className="section-badge">✨ قيمنا</div>
-          <h2 className="section-title">
-            رؤيتنا ورسالتنا <span className="highlight">وأهدافنا</span>
+        {/* Vision, Mission, Values */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-primary-subtle text-primary font-semibold text-sm mb-4">
+            ✨ {tSections('our_values')}
+          </div>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-4">
+            {tSections('vision_mission_goals')}
           </h2>
-          <p className="section-subtitle">
-            نسعى لتحقيق رؤية واضحة ورسالة سامية تخدم عملائنا ومجتمعنا
+          <p className="text-lg text-muted-foreground">
+            {tAbout('vision_subtitle')}
           </p>
         </div>
 
-        <div className="about-cards">
+        <div className="grid md:grid-cols-3 gap-8 mb-28">
           {aboutItems.map((item) => (
-            <div key={item.id} className="about-card">
-              <div className="about-card-icon">{item.icon}</div>
-              <h3 className="about-card-title">{item.title}</h3>
-              <p className="about-card-description">{item.description}</p>
+            <div 
+              key={item.id} 
+              className="bg-white p-8 rounded-2xl border border-border shadow-sm hover:shadow-xl hover:-translate-y-2 hover:border-primary/30 transition-all duration-300 flex flex-col items-center text-center group"
+            >
+              <div className="w-16 h-16 bg-secondary rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 group-hover:bg-primary-subtle transition-all duration-300">
+                {item.icon}
+              </div>
+              <h3 className="text-xl font-bold text-foreground mb-3">{item.title}</h3>
+              <p className="text-muted-foreground leading-relaxed">{item.description}</p>
             </div>
           ))}
         </div>
 
         {/* Why Choose Us */}
-        <div className="section-header">
-          <div className="section-badge">💎 لماذا نحن</div>
-          <h2 className="section-title">
-            لماذا تختار <span className="highlight">مركز حضرموت الحديث</span>؟
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-primary-subtle text-primary font-semibold text-sm mb-4">
+            💎 {tSections('why_choose_us')}
+          </div>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-4">
+            {tSections('why_choose_hmec')}
           </h2>
-          <p className="section-subtitle">
-            نقدم لك أسباباً حقيقية تجعلنا خيارك الأول في مجال الكهربائيات
+          <p className="text-lg text-muted-foreground">
+            {tAbout('why_choose_subtitle')}
           </p>
         </div>
 
-        <div className="why-choose">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {whyChooseUs.map((item) => (
-            <div key={item.id} className="why-card">
-              <div className="why-card-stat">{item.stat}</div>
-              <div className="why-card-content">
-                <h4>{item.title}</h4>
-                <p>{item.description}</p>
+            <div 
+              key={item.id} 
+              className="bg-white p-6 rounded-2xl border border-border shadow-sm hover:shadow-lg hover:border-accent/30 transition-all duration-300 group"
+            >
+              <div className="text-4xl font-black text-slate-100 group-hover:text-accent-light/20 transition-colors mb-2 -mt-2">
+                {item.stat}
               </div>
+              <h4 className="text-lg font-bold text-foreground mb-2 -mt-4 relative z-10">
+                {locale === 'ar' ? item.title : item.title} {/* TODO: translate whyChooseUs if needed */}
+              </h4>
+              <p className="text-sm text-muted-foreground leading-relaxed relative z-10">
+                {locale === 'ar' ? item.description : item.description} {/* TODO: translate whyChooseUs if needed */}
+              </p>
             </div>
           ))}
         </div>
+        
       </div>
     </section>
   );
