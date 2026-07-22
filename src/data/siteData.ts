@@ -7,6 +7,7 @@ export const navLinks: NavLink[] = [
   { id: 'about', label: 'من نحن', href: '#about' },
   { id: 'agencies', label: 'وكلاؤنا', href: '#agencies' },
   { id: 'services', label: 'خدماتنا', href: '#services' },
+  { id: 'products', label: 'المنتجات', href: '#products' },
   { id: 'projects', label: 'مشاريعنا', href: '#projects' },
   { id: 'testimonials', label: 'آراء العملاء', href: '#testimonials' },
   { id: 'branches', label: 'فروعنا', href: '#branches' },

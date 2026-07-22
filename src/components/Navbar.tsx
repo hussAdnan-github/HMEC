@@ -7,12 +7,14 @@ import { ShoppingCart, User, Menu, X, Globe } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTranslations, useLocale } from 'next-intl';
 import { usePathname, useRouter } from '@/i18n/routing';
+import { useCart } from '@/context/CartContext';
 
 interface NavbarProps {
   contactInfo?: ApiContent;
 }
 
 export default function Navbar({ contactInfo }: NavbarProps) {
+  const { cartCount } = useCart();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const t = useTranslations('Navigation');
@@ -89,9 +91,11 @@ export default function Navbar({ contactInfo }: NavbarProps) {
               scrolled ? "text-slate-600 hover:text-primary hover:bg-primary-subtle" : "text-white/90 hover:text-white hover:bg-white/10"
             )} title={locale === 'ar' ? "سلة التسوق" : "Cart"}>
               <ShoppingCart size={20} />
-              <span className="absolute top-1 left-1 w-4 h-4 rounded-full bg-accent text-white text-[10px] font-bold flex items-center justify-center">
-                3
-              </span>
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -left-1 w-5 h-5 rounded-full bg-accent text-white text-[10px] font-black flex items-center justify-center animate-bounce shadow-md">
+                  {cartCount}
+                </span>
+              )}
             </button>
             
             <button className={cn(
@@ -150,9 +154,11 @@ export default function Navbar({ contactInfo }: NavbarProps) {
         <div className="mt-8 pt-8 border-t border-slate-100 flex items-center justify-center gap-4">
           <button className="w-12 h-12 rounded-xl flex items-center justify-center text-slate-600 bg-slate-50 hover:bg-primary-subtle hover:text-primary transition-colors relative">
             <ShoppingCart size={24} />
-            <span className="absolute top-2 left-2 w-5 h-5 rounded-full bg-accent text-white text-[11px] font-bold flex items-center justify-center">
-              3
-            </span>
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -left-1 w-6 h-6 rounded-full bg-accent text-white text-[11px] font-black flex items-center justify-center animate-bounce shadow-md">
+                {cartCount}
+              </span>
+            )}
           </button>
           <button className="w-12 h-12 rounded-xl flex items-center justify-center text-slate-600 bg-slate-50 hover:bg-primary-subtle hover:text-primary transition-colors">
             <User size={24} />

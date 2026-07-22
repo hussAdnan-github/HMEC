@@ -29,7 +29,14 @@
     "message": "الرسالة",
     "send_message": "إرسال الرسالة",
     "shop_now": "تسوق الآن",
-    "browse_products": "تصفح المنتجات"
+    "browse_products": "تصفح المنتجات",
+    "add_to_cart": "إضافة إلى السلة 🛒",
+    "added_to_cart": "تمت الإضافة ✅",
+    "view_more_products": "عرض المزيد من المنتجات ",
+    "view_more_projects": "عرض المزيد من المشاريع ",
+    "back_to_home": "العودة للرئيسية 🏠",
+    "back_to_projects": "العودة للمشاريع 📂",
+    "cart": "السلة"
   },
   "Sections": {
     "about_us": "من نحن",
@@ -99,5 +106,36 @@
     "discover_services": "اكتشف خدماتنا ⚡",
     "contact_us": "تواصل معنا 📩",
     "agencies_title": "✦ وكلاء معتمدون لأكبر العلامات التجارية العالمية ✦"
+  },
+  "Products": {
+    "title_part1": "منتجاتنا",
+    "title_part2": "المتميزة",
+    "subtitle": "نوفر تشكيلة واسعة من المعدات والمنتجات الكهربائية عالية الجودة من كبرى الشركات العالمية",
+    "search_placeholder": "ابحث عن منتج...",
+    "all_categories": "جميع الفئات",
+    "order_whatsapp": "طلب عبر واتساب 💬",
+    "brand": "الوكيل/العلامة التجارية",
+    "group": "المجموعة",
+    "product_number": "رقم المنتج",
+    "price_starts_from": "السعر يبدأ من",
+    "view_details": "تفاصيل المنتج",
+    "no_products": "لا توجد منتجات مطابقة للبحث",
+    "unit_price": "السعر حسب الوحدة",
+    "details_title": "تفاصيل المنتج"
+  },
+  "Projects": {
+    "title_part1": "مشاريعنا",
+    "title_part2": "المنفذة",
+    "subtitle": "نفخر بتنفيذ العديد من المشاريع الكهربائية الناجحة بمختلف القطاعات السكنية والتجارية والصناعية",
+    "owner": "المالك",
+    "location": "الموقع",
+    "duration": "المدة",
+    "completed": "تم الإنجاز في",
+    "view_project": "عرض المشروع",
+    "no_projects": "لا توجد مشاريع حالياً",
+    "project_details": "تفاصيل المشروع",
+    "project_owner": "الجهة المالكة",
+    "implementation_period": "فترة التنفيذ",
+    "associated_brand": "العلامة التجارية المستخدمة"
   }
 }
