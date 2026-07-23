@@ -92,26 +92,72 @@ export async function serverFetch<T>(
 
     const authHeaders = await getAuthHeaders(options?.headers);
 
+    // If the body is FormData, do not set Content-Type header so the browser/runtime
+    // can set it automatically with the correct multipart boundary
+    if (options?.body instanceof FormData) {
+      if (authHeaders instanceof Headers) {
+        authHeaders.delete('Content-Type');
+      } else if (typeof authHeaders === 'object' && authHeaders !== null) {
+        delete (authHeaders as Record<string, string>)['Content-Type'];
+      }
+    }
+
     const response = await fetch(fullUrl, {
       ...options,
       headers: authHeaders,
     });
 
     if (!response.ok) {
+      let serverErrorMessage = `خطأ في السيرفر (${response.status}): ${response.statusText}`;
+      try {
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          const errJson = await response.json();
+          if (errJson) {
+            if (typeof errJson === 'string') {
+              serverErrorMessage = errJson;
+            } else if (errJson.detail) {
+              serverErrorMessage = String(errJson.detail);
+            } else if (errJson.error) {
+              serverErrorMessage = typeof errJson.error === 'string' ? errJson.error : JSON.stringify(errJson.error);
+            } else if (errJson.message) {
+              serverErrorMessage = String(errJson.message);
+            } else {
+              const fieldErrors = Object.entries(errJson)
+                .map(([key, val]) => `${key}: ${Array.isArray(val) ? val.join(', ') : val}`)
+                .join(' | ');
+              if (fieldErrors) serverErrorMessage = fieldErrors;
+            }
+          }
+        } else {
+          const errText = await response.text();
+          if (errText && errText.length < 300) {
+            serverErrorMessage = errText;
+          }
+        }
+      } catch (e) {
+        // Fallback to generic message if parsing fails
+      }
+
       return {
         success: false,
-        error: `API Error: ${response.status} ${response.statusText}`,
+        error: serverErrorMessage,
         status: response.status,
       };
     }
 
-    const data: T = await response.json();
+    if (response.status === 204 || response.status === 205) {
+      return { success: true, status: response.status };
+    }
+
+    const text = await response.text();
+    const data: T = text ? JSON.parse(text) : ({} as T);
     return { success: true, data, status: response.status };
   } catch (error: any) {
     console.error(`serverFetch error for endpoint [${endpoint}]:`, error);
     return {
       success: false,
-      error: error?.message || 'Network error occurred during server fetch',
+      error: error?.message || 'حدث خطأ في الاتصال بالسيرفر',
     };
   }
 }

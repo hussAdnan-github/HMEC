@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { DashboardHeader } from './DashboardHeader';
 import { DashboardSidebar } from './DashboardSidebar';
 import { ProductModal } from './Modals';
+import { createProductServerAction, addProductImageServerAction } from '@/actions/productActions';
 
 interface DashboardClientShellProps {
   children: React.ReactNode;
@@ -58,7 +59,20 @@ export const DashboardClientShell: React.FC<DashboardClientShellProps> = ({ chil
       <ProductModal
         isOpen={isProductModalOpen}
         onClose={() => setIsProductModalOpen(false)}
-        onSave={() => setIsProductModalOpen(false)}
+        onSave={async (formData, newSubImages) => {
+          const res = await createProductServerAction(formData);
+          if (res.success && res.data) {
+            if (newSubImages && newSubImages.length > 0) {
+              for (const file of newSubImages) {
+                await addProductImageServerAction(res.data.id, file);
+              }
+            }
+            setIsProductModalOpen(false);
+            window.location.reload();
+          } else {
+            alert(res.error || 'حدث خطأ أثناء إضافة المنتج');
+          }
+        }}
       />
     </>
   );

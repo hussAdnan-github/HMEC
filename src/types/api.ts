@@ -230,3 +230,9 @@ export interface ApiSingleProjectResponse {
   message: string;
   data: ApiProject;
 }
+
+export interface ApiAgentsResponse {
+  success: boolean;
+  message: string;
+  data: ApiPaginatedData<ApiAgent>;
+}
