@@ -4,7 +4,11 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "../../i18n/routing";
+ 
 import { CartProvider } from "@/context/CartContext";
+import CartDrawer from "@/components/cart/CartDrawer";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import "../globals.css";
 
 const cairo = Cairo({
@@ -41,10 +45,13 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
-      <body className={cairo.className}>
+      <body className={`${cairo.className} min-h-screen flex flex-col`}>
         <NextIntlClientProvider messages={messages}>
           <CartProvider>
-            {children}
+            <Navbar />
+            <div className="flex-1 flex flex-col">{children}</div>
+            <Footer />
+            <CartDrawer />
           </CartProvider>
         </NextIntlClientProvider>
       </body>

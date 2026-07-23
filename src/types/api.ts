@@ -199,3 +199,34 @@ export interface ApiResponse {
   message: string;
   data: ApiData;
 }
+
+export interface ApiPaginatedData<T> {
+  next: string | null;
+  previous: string | null;
+  count: number;
+  results: T[];
+}
+
+export interface ApiProductsResponse {
+  success: boolean;
+  message: string;
+  data: ApiPaginatedData<ApiProduct>;
+}
+
+export interface ApiSingleProductResponse {
+  success: boolean;
+  message: string;
+  data: ApiProduct;
+}
+
+export interface ApiProjectsResponse {
+  success: boolean;
+  message: string;
+  data: ApiPaginatedData<ApiProject>;
+}
+
+export interface ApiSingleProjectResponse {
+  success: boolean;
+  message: string;
+  data: ApiProject;
+}

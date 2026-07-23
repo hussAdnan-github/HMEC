@@ -49,19 +49,16 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
 
   const navItems: NavRouteItem[] = [
     { href: '/dashboard', label: 'الرئيسية والتحليلات', icon: LayoutDashboard },
-    { href: '/dashboard/site-cms', label: 'إدارة محتوى صفحات الموقع', icon: Globe, badgeColor: 'bg-emerald-600 text-white' },
     { href: '/dashboard/products', label: 'إدارة المنتجات', icon: Package, badge: productsCount },
-    { href: '/dashboard/gallery', label: 'معرض الوسائط', icon: ImageIcon, badge: mediaCount },
     { href: '/dashboard/projects', label: 'إدارة المشاريع', icon: FolderKanban, badge: projectsCount },
     { href: '/dashboard/branches', label: 'إدارة الفروع', icon: Building2, badge: branchesCount },
     {
       href: '/dashboard/orders',
-      label: 'الطلبات والاستفسارات',
+      label: 'الطلبات ',
       icon: ShoppingBag,
       badge: ordersCount,
       badgeColor: ordersCount > 0 ? 'bg-amber-500 text-white' : undefined,
     },
-    { href: '/dashboard/settings', label: 'الإعدادات والهوية', icon: Settings },
   ];
 
   return (

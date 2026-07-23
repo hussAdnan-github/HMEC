@@ -36,28 +36,32 @@ export default function ProductUnitSelector({
   const selectedUnit = units[selectedUnitIndex];
 
   const handleAddToCart = () => {
-    addToCart({
-      id: `${productId}-${selectedUnitIndex}`,
-      name: `${productName} (${
-        selectedUnit
-          ? locale === 'ar'
-            ? selectedUnit.name_unit_ar
-            : selectedUnit.name_unit_en || selectedUnit.name_unit_ar
-          : ''
-      })`,
-      price: selectedUnit?.price || '0.00',
-      image: productImage,
-      unit: selectedUnit
-        ? locale === 'ar'
-          ? selectedUnit.name_unit_ar
-          : selectedUnit.name_unit_en || selectedUnit.name_unit_ar
-        : undefined,
-      quantity
-    });
+    const unitNameAr = selectedUnit?.name_unit_ar || 'حبة';
+    const unitNameEn = selectedUnit?.name_unit_en || selectedUnit?.name_unit_ar || 'Unit';
+    const unitPriceNum = parseFloat(selectedUnit?.price || '0');
+    const cartItemId = `${productId}_${unitNameAr}`;
+
+    addToCart(
+      {
+        id: cartItemId,
+        productId: productId,
+        nameAr: productName,
+        nameEn: productName,
+        image: productImage,
+        unitNameAr: unitNameAr,
+        unitNameEn: unitNameEn,
+        unitPrice: !isNaN(unitPriceNum) ? unitPriceNum : 0,
+        quantity: quantity,
+        numberProduct: productCode,
+      },
+      true
+    );
 
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 2000);
   };
+
+ 
 
   const getWhatsAppLink = () => {
     const unitName = selectedUnit
@@ -173,7 +177,7 @@ export default function ProductUnitSelector({
         <button
           onClick={handleAddToCart}
           className={cn(
-            'w-full py-4 rounded-2xl font-extrabold text-base flex items-center justify-center gap-3 transition-all shadow-xl',
+            'w-full py-4 rounded-2xl font-extrabold text-base flex items-center justify-center gap-3 transition-all shadow-xl cursor-pointer',
             isAdded
               ? 'bg-emerald-500 text-white shadow-emerald-500/20'
               : 'bg-primary hover:bg-primary-dark text-white shadow-primary/25 hover:shadow-2xl hover:-translate-y-0.5'
@@ -183,15 +187,7 @@ export default function ProductUnitSelector({
           {isAdded ? tCommon('added_to_cart') : tCommon('add_to_cart')}
         </button>
 
-        <a
-          href={getWhatsAppLink()}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-full py-4 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-base flex items-center justify-center gap-3 shadow-lg shadow-emerald-500/20 transition-all hover:-translate-y-0.5"
-        >
-          <MessageSquare size={20} />
-          {tProducts('order_whatsapp')}
-        </a>
+        
       </div>
     </div>
   );

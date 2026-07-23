@@ -5,8 +5,9 @@ import type { ApiProduct } from '@/types/api';
 import { getImageUrl, cn } from '@/lib/utils';
 import { useTranslations, useLocale } from 'next-intl';
 import { Eye, Info, ShoppingCart } from 'lucide-react';
-import { useCart } from '@/context/CartContext';
+ 
 import { Link } from '@/i18n/routing';
+import { useCart } from '@/context/CartContext';
 
 interface ProductCardProps {
   product: ApiProduct;
@@ -17,7 +18,9 @@ export default function ProductCard({ product }: ProductCardProps) {
   const tCommon = useTranslations('Common');
   const locale = useLocale();
   const { addToCart } = useCart();
+ 
   const [isAdded, setIsAdded] = useState(false);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   const name =
     locale === 'ar'
@@ -35,24 +38,35 @@ export default function ProductCard({ product }: ProductCardProps) {
       ? product.agent_name_ar
       : product.agent_name_en || product.agent_name_ar;
 
+  // Compile all unique images for the product
+  const allImages = [
+    getImageUrl(product.image),
+    ...(product.product_images?.map((img) => getImageUrl(img.image)) || [])
+  ].filter((img, idx, self) => img && self.indexOf(img) === idx);
+
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
+    const unitPrice = parseFloat(startingUnit?.price || '0');
+    const cartItemId = `${product.id}_${startingUnit?.name_unit_ar || 'default'}`;
+
     addToCart({
-      id: product.id.toString(),
-      name,
-      price: startingUnit?.price || '0.00',
+      id: cartItemId,
+      productId: product.id,
+      nameAr: product.name_product_ar,
+      nameEn: product.name_product_en || product.name_product_ar,
       image: getImageUrl(product.image),
-      unit: startingUnit
-        ? locale === 'ar'
-          ? startingUnit.name_unit_ar
-          : startingUnit.name_unit_en || startingUnit.name_unit_ar
-        : undefined
+      unitNameAr: startingUnit?.name_unit_ar || 'حبة',
+      unitNameEn: startingUnit?.name_unit_en || startingUnit?.name_unit_ar || 'Unit',
+      unitPrice: !isNaN(unitPrice) ? unitPrice : 0,
+      brandNameAr: product.agent_name_ar,
+      brandNameEn: product.agent_name_en || product.agent_name_ar,
+      numberProduct: product.number_product,
     });
 
     setIsAdded(true);
-    setTimeout(() => setIsAdded(false), 1500);
+    setTimeout(() => setIsAdded(false), 2000);
   };
 
   return (
@@ -74,35 +88,108 @@ export default function ProductCard({ product }: ProductCardProps) {
         )}
       </div>
 
-      {/* Product Image Link */}
-      <Link
-        href={`/products/${product.id}`}
-        className="relative aspect-[4/3] overflow-hidden bg-gradient-to-b from-slate-50 to-slate-100/80 border-b border-slate-100 shrink-0 block"
-      >
-        <img
-          src={getImageUrl(product.image)}
-          alt={name}
-          className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
-        />
+      {/* Product Image Link & Gallery Flipper */}
+      <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-b from-slate-50 to-slate-100/80 border-b border-slate-100 shrink-0 block group/image">
+        <Link
+          href={`/products/${product.id}`}
+          className="w-full h-full block"
+        >
+          <img
+            src={allImages[activeImageIndex]}
+            alt={name}
+            className="w-full h-full object-cover transition-transform duration-700 ease-out"
+          />
+          {/* Image Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent opacity-60 pointer-events-none" />
+        </Link>
 
-        {/* Image Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-        {/* View Details Floating CTA */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-95 group-hover:scale-100">
-          <span className="px-5 py-2.5 rounded-full bg-white/95 text-slate-900 font-extrabold text-xs flex items-center gap-2 shadow-xl border border-white/40">
+        {/* View Details Floating CTA (only shown if not hovering image selectors) */}
+        <Link
+          href={`/products/${product.id}`}
+          className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/image:opacity-100 transition-all duration-300 pointer-events-none z-10"
+        >
+          <span className="px-5 py-2.5 rounded-full bg-white/95 text-slate-900 font-extrabold text-xs flex items-center gap-2 shadow-xl border border-white/40 pointer-events-auto">
             <Eye size={15} className="text-primary" />
             {tProducts('view_details')}
           </span>
-        </div>
+        </Link>
 
-        {/* Group Category Tag */}
-        {product.number_group && (
-          <span className="absolute bottom-3 right-3 bg-white/95 text-slate-700 text-[10px] font-extrabold px-2.5 py-1 rounded-lg backdrop-blur-md shadow-sm border border-slate-100">
-            {product.number_group}
-          </span>
+        {/* Left/Right Navigation Arrows (Only visible if > 1 image) */}
+        {allImages.length > 1 && (
+          <>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setActiveImageIndex((prev) => (prev === 0 ? allImages.length - 1 : prev - 1));
+              }}
+              className="absolute left-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-slate-800 hover:text-primary flex items-center justify-center shadow-md opacity-0 group-hover/image:opacity-100 transition-all duration-300 z-20 cursor-pointer"
+              aria-label="Previous Image"
+            >
+              {locale === 'ar' ? '←' : '→'}
+            </button>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setActiveImageIndex((prev) => (prev === allImages.length - 1 ? 0 : prev + 1));
+              }}
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-slate-800 hover:text-primary flex items-center justify-center shadow-md opacity-0 group-hover/image:opacity-100 transition-all duration-300 z-20 cursor-pointer"
+              aria-label="Next Image"
+            >
+              {locale === 'ar' ? '→' : '←'}
+            </button>
+          </>
         )}
-      </Link>
+
+        {/* Thumbnail Strip Overlay (Hover-activated) */}
+        {allImages.length > 1 && (
+          <div className="absolute bottom-3 inset-x-3 flex justify-center gap-1.5 z-20 opacity-0 group-hover/image:opacity-100 translate-y-2 group-hover/image:translate-y-0 transition-all duration-300 bg-slate-950/70 backdrop-blur-md px-2.5 py-1.5 rounded-2xl border border-white/10 max-w-fit mx-auto scrollbar-none">
+            {allImages.map((imgUrl, idx) => (
+              <button
+                key={idx}
+                onMouseEnter={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setActiveImageIndex(idx);
+                }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setActiveImageIndex(idx);
+                }}
+                className={cn(
+                  "relative w-7 h-7 rounded-lg overflow-hidden border transition-all cursor-pointer",
+                  activeImageIndex === idx
+                    ? "border-primary-light scale-105 shadow-md shadow-primary/20"
+                    : "border-white/10 hover:border-white/40"
+                )}
+              >
+                <img
+                  src={imgUrl}
+                  alt={`thumbnail ${idx}`}
+                  className="w-full h-full object-cover"
+                />
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Pagination Dots (Hidden on hover when thumbnail strip is shown) */}
+        {allImages.length > 1 && (
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10 group-hover/image:opacity-0 transition-opacity duration-200">
+            {allImages.map((_, idx) => (
+              <span
+                key={idx}
+                className={cn(
+                  "w-1.5 h-1.5 rounded-full transition-all",
+                  activeImageIndex === idx ? "bg-primary w-3.5" : "bg-white/60"
+                )}
+              />
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* Product Body Content */}
       <div className="p-6 flex flex-col flex-1">
@@ -149,7 +236,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             <button
               onClick={handleAddToCart}
               className={cn(
-                'w-full py-3.5 rounded-2xl font-extrabold text-xs flex items-center justify-center gap-2 transition-all duration-300 shadow-md',
+                'w-full py-3.5 rounded-2xl font-extrabold text-xs flex items-center justify-center gap-2 transition-all duration-300 shadow-md cursor-pointer',
                 isAdded
                   ? 'bg-emerald-500 text-white shadow-emerald-500/20 scale-[0.99]'
                   : 'bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5'

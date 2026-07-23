@@ -1,10 +1,10 @@
 import { ApiResponse } from '@/types/api';
-
-const API_BASE_URL = 'https://hmec.pythonanywhere.com';
+import { getApiBaseUrl } from './server-api';
 
 export async function getSiteData(): Promise<ApiResponse | null> {
   try {
-    const res = await fetch(API_BASE_URL, {
+    const baseUrl = getApiBaseUrl();
+    const res = await fetch(baseUrl, {
       // Use Incremental Static Regeneration to validate data every hour (3600 seconds)
       // or you can use next: { revalidate: 60 } for 1 minute
       next: { revalidate: 3600 },

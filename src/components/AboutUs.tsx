@@ -14,14 +14,46 @@ interface AboutUsProps {
 export default function AboutUs({ content, goals }: AboutUsProps) {
   const tSections = useTranslations('Sections');
   const tAbout = useTranslations('About');
+  const tWhyChoose = useTranslations('WhyChooseUs');
   const locale = useLocale();
 
-  const weAreText = getLocalizedField(content, 'we_are', locale) || 'نحن مركز متخصص في توفير أحدث المنتجات والحلول الكهربائية...';
+  const weAreText = getLocalizedField(content, 'we_are', locale) || (
+    locale === 'ar'
+      ? 'نحن مركز متخصص في توفير أحدث المنتجات والحلول الكهربائية وتقديم استشارات فنية متكاملة لتلبية جميع تطلعات عملائنا.'
+      : 'We are a specialized center providing the latest electrical products and solutions with comprehensive technical consulting to meet all client expectations.'
+  );
   
   const aboutItems = [
-    { id: 'vision', title: tAbout('vision_title') || tSections('vision_mission_goals').split(' ')[0], description: getLocalizedField(content, 'our_vision', locale) || 'نسعى لأن نكون الشريك الموثوق لعملائنا...', icon: '🎯' },
-    { id: 'message', title: tAbout('message_title') || tSections('vision_mission_goals').split(' ')[1], description: getLocalizedField(content, 'our_message', locale) || 'تقديم منتجات أصلية بأسعار تنافسية...', icon: '💌' },
-    { id: 'values', title: tSections('our_values'), description: getLocalizedField(content, 'our_values', locale) || 'الجودة، الموثوقية، خدمة العملاء...', icon: '💎' },
+    {
+      id: 'vision',
+      title: tAbout('vision_title') || (locale === 'ar' ? 'رؤيتنا' : 'Our Vision'),
+      description: getLocalizedField(content, 'our_vision', locale) || (
+        locale === 'ar'
+          ? 'نسعى لأن نكون الشريك الموثوق لعملائنا عبر تقديم حلول كهربائية مبتكرة وعالية الجودة.'
+          : 'We strive to be the trusted partner for our clients by delivering innovative and high-quality electrical solutions.'
+      ),
+      icon: '🎯'
+    },
+    {
+      id: 'message',
+      title: tAbout('message_title') || (locale === 'ar' ? 'رسالتنا' : 'Our Mission'),
+      description: getLocalizedField(content, 'our_message', locale) || (
+        locale === 'ar'
+          ? 'تقديم منتجات أصلية بأسعار تنافسية ودعم فني متميز يضمن رضا كافة عملائنا.'
+          : 'Providing original products at competitive prices with outstanding technical support ensuring client satisfaction.'
+      ),
+      icon: '💌'
+    },
+    {
+      id: 'values',
+      title: tSections('our_values'),
+      description: getLocalizedField(content, 'our_values', locale) || (
+        locale === 'ar'
+          ? 'الجودة، الموثوقية، خدمة العملاء والتطوير المستمر.'
+          : 'Quality, reliability, customer service, and continuous development.'
+      ),
+      icon: '💎'
+    },
   ];
 
   return (
@@ -118,22 +150,36 @@ export default function AboutUs({ content, goals }: AboutUsProps) {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {whyChooseUs.map((item) => (
-            <div 
-              key={item.id} 
-              className="bg-white p-6 rounded-2xl border border-border shadow-sm hover:shadow-lg hover:border-accent/30 transition-all duration-300 group"
-            >
-              <div className="text-4xl font-black text-slate-100 group-hover:text-accent-light/20 transition-colors mb-2 -mt-2">
-                {item.stat}
+          {whyChooseUs.map((item) => {
+            const itemTitle = tWhyChoose.has(`items.${item.id}.title`)
+              ? tWhyChoose(`items.${item.id}.title`)
+              : (locale === 'ar' ? item.title : (item.titleEn || item.title));
+
+            const itemDescription = tWhyChoose.has(`items.${item.id}.description`)
+              ? tWhyChoose(`items.${item.id}.description`)
+              : (locale === 'ar' ? item.description : (item.descriptionEn || item.description));
+
+            const itemStat = tWhyChoose.has(`items.${item.id}.stat`)
+              ? tWhyChoose(`items.${item.id}.stat`)
+              : (locale === 'ar' ? item.stat : (item.statEn || item.stat));
+
+            return (
+              <div 
+                key={item.id} 
+                className="bg-white p-6 rounded-2xl border border-border shadow-sm hover:shadow-lg hover:border-accent/30 transition-all duration-300 group"
+              >
+                <div className="text-4xl font-black text-slate-100 group-hover:text-accent-light/20 transition-colors mb-2 -mt-2">
+                  {itemStat}
+                </div>
+                <h4 className="text-lg font-bold text-foreground mb-2 -mt-4 relative z-10">
+                  {itemTitle}
+                </h4>
+                <p className="text-sm text-muted-foreground leading-relaxed relative z-10">
+                  {itemDescription}
+                </p>
               </div>
-              <h4 className="text-lg font-bold text-foreground mb-2 -mt-4 relative z-10">
-                {locale === 'ar' ? item.title : item.title} {/* TODO: translate whyChooseUs if needed */}
-              </h4>
-              <p className="text-sm text-muted-foreground leading-relaxed relative z-10">
-                {locale === 'ar' ? item.description : item.description} {/* TODO: translate whyChooseUs if needed */}
-              </p>
-            </div>
-          ))}
+            );
+          })}
         </div>
         
       </div>

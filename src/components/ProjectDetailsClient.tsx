@@ -6,8 +6,6 @@ import { getImageUrl, cn } from '@/lib/utils';
 import { useTranslations, useLocale } from 'next-intl';
 import { Calendar, MapPin, Building, ArrowLeft, ArrowRight, MessageSquare, ShieldCheck, Video, Clock } from 'lucide-react';
 import { Link } from '@/i18n/routing';
-import Navbar from './Navbar';
-import Footer from './Footer';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 
 interface ProjectDetailsClientProps {
@@ -65,10 +63,7 @@ export default function ProjectDetailsClient({ project, content }: ProjectDetail
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col text-white">
-      {/* Navigation */}
-      <Navbar contactInfo={content} />
-
+    <div className="min-h-screen bg-slate-950 flex flex-col flex-1 text-white">
       {/* Main Content Area */}
       <main className="flex-grow pt-32 pb-24 relative overflow-hidden">
         {/* Background Gradients */}
@@ -275,9 +270,6 @@ export default function ProjectDetailsClient({ project, content }: ProjectDetail
 
         </div>
       </main>
-
-      {/* Footer */}
-      <Footer content={content} />
     </div>
   );
 }

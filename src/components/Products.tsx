@@ -66,7 +66,7 @@ export default function Products({ products = [], isHomePage = false }: Products
   }, [filteredProducts, isHomePage]);
 
   return (
-    <section className="py-24 bg-slate-50/50 relative overflow-hidden animate-fade-in" id="products">
+    <section className="py-12  bg-slate-50/50 relative overflow-hidden animate-fade-in" id="products">
       {/* Background ambient lighting */}
       <div className="absolute inset-0 pointer-events-none opacity-30">
         <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[140px] -translate-y-1/2" />
@@ -77,7 +77,7 @@ export default function Products({ products = [], isHomePage = false }: Products
         
         {/* Section Header */}
         <SectionHeader
-          badge={`📦 ${tSections('products')}`}
+     
           titlePart1={tProducts('title_part1')}
           titlePart2={tProducts('title_part2')}
           subtitle={tProducts('subtitle')}

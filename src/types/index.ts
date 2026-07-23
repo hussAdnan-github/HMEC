@@ -86,9 +86,12 @@ export interface AboutItem {
 export interface WhyChooseUs {
   id: string;
   title: string;
+  titleEn?: string;
   description: string;
+  descriptionEn?: string;
   icon: string;
   stat?: string;
+  statEn?: string;
 }
 
 export interface ContactFormData {
@@ -97,4 +100,19 @@ export interface ContactFormData {
   phone: string;
   subject: string;
   message: string;
+}
+
+export interface CartItem {
+  id: string; // Unique key e.g. `${productId}_${unitName}`
+  productId: string | number;
+  nameAr: string;
+  nameEn?: string;
+  image?: string;
+  unitNameAr?: string;
+  unitNameEn?: string;
+  unitPrice: number;
+  quantity: number;
+  brandNameAr?: string;
+  brandNameEn?: string;
+  numberProduct?: string;
 }

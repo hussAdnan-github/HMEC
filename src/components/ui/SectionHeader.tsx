@@ -1,7 +1,7 @@
 'use client';
 
 interface SectionHeaderProps {
-  badge: string;
+  badge?: string;
   titlePart1: string;
   titlePart2?: string;
   subtitle?: string;
@@ -21,7 +21,7 @@ export default function SectionHeader({
     <div className={`text-center max-w-3xl mx-auto mb-16 ${className}`}>
       {badge && (
         <div
-          className={`inline-flex items-center gap-2 px-5 py-2 rounded-full font-bold text-sm mb-4 border shadow-sm ${
+          className={`inline-flex items-center gap-2 px-5 py-2 rounded-full font-bold text-sm mb-4 border shadow-xs ${
             dark
               ? 'bg-white/10 text-primary-light border-white/5'
               : 'bg-primary-subtle text-primary border-primary/10'

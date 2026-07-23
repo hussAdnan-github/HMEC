@@ -30,7 +30,7 @@ interface ProductDetailsClientProps {
 
 export default function ProductDetailsClient({
   product,
-  content,
+ 
   relatedProducts = []
 }: ProductDetailsClientProps) {
   const locale = useLocale();
@@ -86,9 +86,7 @@ export default function ProductDetailsClient({
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
-      <Navbar contactInfo={content} />
-
+    <div className="min-h-screen bg-slate-50 flex flex-col flex-1 font-sans">
       {/* Breadcrumb Header */}
       <div className="pt-32 pb-6 bg-slate-900 text-white relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(circle_at_30%_50%,_rgba(27,166,156,0.25)_0%,_transparent_60%)]" />
@@ -104,99 +102,99 @@ export default function ProductDetailsClient({
           <div className="flex justify-between items-center mb-8">
             <Link
               href="/products"
-              className="inline-flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-primary transition-colors bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm"
+              className="inline-flex items-center gap-2 text-sm font-extrabold text-slate-600 hover:text-primary transition-colors bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-xs"
             >
               {locale === 'ar' ? <ArrowRight size={16} /> : <ArrowLeft size={16} />}
               {locale === 'ar' ? 'العودة لقائمة المنتجات' : 'Back to Products'}
             </Link>
 
-            <button
+            {/* <button
               onClick={handleShare}
-              className="inline-flex items-center gap-2 text-xs font-bold text-slate-600 hover:text-primary bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm transition-all"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 hover:border-primary hover:text-primary font-extrabold text-xs transition-all shadow-xs"
             >
               {copied ? (
-                <Check size={16} className="text-emerald-500" />
+                <>
+                  <Check size={15} className="text-emerald-500" />
+                  {locale === 'ar' ? 'تم نسخ الرابط' : 'Link Copied'}
+                </>
               ) : (
-                <Share2 size={16} />
+                <>
+                  <Share2 size={15} className="text-primary" />
+                  {locale === 'ar' ? 'مشاركة المنتج' : 'Share Product'}
+                </>
               )}
-              {copied
-                ? locale === 'ar'
-                  ? 'تم نسخ الرابط'
-                  : 'Link Copied'
-                : locale === 'ar'
-                ? 'مشاركة المنتج'
-                : 'Share'}
-            </button>
+            </button> */}
           </div>
 
-          {/* Product Layout Grid */}
-          <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xl overflow-hidden mb-16">
-            <div className="grid lg:grid-cols-12 gap-8 p-6 lg:p-10">
-              {/* Media Gallery (6 cols) */}
-              <div className="lg:col-span-6">
-                <ProductGallery
-                  images={allImages}
+          {/* Product Highlights Grid */}
+          <div className="grid lg:grid-cols-12 gap-12 items-start mb-16">
+            {/* Gallery */}
+            <div className="lg:col-span-6 bg-white p-6 rounded-3xl border border-slate-200/80 shadow-md">
+              <ProductGallery images={allImages} productName={name} />
+            </div>
+
+            {/* Product Specifications & Controls */}
+            <div className="lg:col-span-6 flex flex-col gap-6">
+              {/* Category & Code Badges */}
+              <div className="flex flex-wrap items-center gap-3">
+                
+                {product.number_product && (
+                  <span className="px-3.5 py-1.5 rounded-full bg-slate-100 text-slate-600 font-extrabold text-xs border border-slate-200">
+                    {tProducts('product_number')}: #{product.number_product}
+                  </span>
+                )}
+              </div>
+
+              {/* Title & Brand */}
+              <div>
+                {brandName && (
+                  <div className="flex items-center gap-2 text-xs font-black text-primary uppercase tracking-wider mb-2">
+                    <Building size={14} />
+                    {brandName}
+                  </div>
+                )}
+                <h1 className="text-3xl md:text-4xl font-black text-slate-900 leading-tight">
+                  {name}
+                </h1>
+              </div>
+
+              {/* Unit Selector & Interactive Pricing */}
+              <div className="p-6 rounded-3xl bg-white border border-slate-200/90 shadow-md">
+                <ProductUnitSelector
+                  productId={product.id}
                   productName={name}
-                  categoryGroup={product.number_group}
+                  productCode={product.number_product}
+                  productImage={getImageUrl(product.image)}
+                  units={product.name_uint || []}
                 />
               </div>
 
-              {/* Info & Purchase Options (6 cols) */}
-              <div className="lg:col-span-6 flex flex-col justify-between">
-                <div>
-                  {/* Brand & Code Header */}
-                  <div className="flex items-center gap-3 flex-wrap mb-4">
-                    {brandName && (
-                      <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-primary-subtle text-primary font-bold text-xs">
-                        <Building size={14} />
-                        {brandName}
-                      </span>
-                    )}
-
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-slate-600 font-bold text-xs">
-                      <Tag size={14} />
-                      {tProducts('product_number')}: {product.number_product || '#'}
-                    </span>
-                  </div>
-
-                  {/* Title */}
-                  <h1 className="text-2xl md:text-3xl font-black text-slate-900 leading-tight mb-4">
-                    {name}
-                  </h1>
-
-                  {/* Description */}
-                  <div className="bg-slate-50 border border-slate-100 rounded-2xl p-5 mb-6 text-slate-600 text-sm leading-relaxed">
-                    <h3 className="font-bold text-slate-800 mb-2 text-xs uppercase tracking-wider">
-                      {locale === 'ar' ? 'وصف المنتج' : 'Product Description'}
-                    </h3>
-                    <p className="whitespace-pre-line">{desc}</p>
-                  </div>
-
-                  {/* Unit Selector & Quantity Control */}
-                  <ProductUnitSelector
-                    productId={product.id}
-                    productName={name}
-                    productCode={product.number_product}
-                    productImage={getImageUrl(product.image)}
-                    units={units}
-                    whatsappContact={content?.whatsapp}
-                  />
-                </div>
-              </div>
+              {/* Trust Badges & Guarantees */}
+              <ProductGuarantees />
             </div>
           </div>
 
-          {/* Guarantees & Features */}
-          <ProductGuarantees />
+          {/* Product Description */}
+          {desc && (
+            <div className="bg-white p-8 md:p-10 rounded-3xl border border-slate-200/80 shadow-md mb-16">
+              <h2 className="text-2xl font-black text-slate-900 mb-4 flex items-center gap-2">
+                <Tag className="text-primary" size={22} />
+                {locale === 'ar' ? 'وصف المنتج' : 'Product Description'}
+              </h2>
+              <div className="prose max-w-none text-slate-600 leading-relaxed font-medium text-base whitespace-pre-line">
+                {desc}
+              </div>
+            </div>
+          )}
 
-          {/* Related Products Section */}
+          {/* Related Products Slider / Grid */}
           {sameCategoryProducts.length > 0 && (
-            <div>
-              <div className="flex justify-between items-center mb-8">
+            <div className="pt-8 border-t border-slate-200">
+              <div className="flex items-center justify-between mb-8">
                 <div>
-                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-subtle text-primary font-bold text-xs mb-2">
+                  <span className="text-xs font-extrabold text-primary uppercase tracking-wider">
                     📦 {locale === 'ar' ? 'منتجات ذات صلة' : 'Related Products'}
-                  </div>
+                  </span>
                   <h3 className="text-2xl font-black text-slate-900">
                     {locale === 'ar' ? 'قد يعجبك أيضاً' : 'You Might Also Like'}
                   </h3>
@@ -220,8 +218,6 @@ export default function ProductDetailsClient({
           )}
         </div>
       </main>
-
-      <Footer content={content} />
     </div>
   );
 }

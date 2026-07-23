@@ -10,29 +10,36 @@ import Contact from '@/components/Contact';
 import ChatBot from '@/components/ChatBot';
 import Footer from '@/components/Footer';
 import { getSiteData } from '@/lib/api';
+import { getProductsServerAction } from '@/actions/productActions';
+import { getProjectsServerAction } from '@/actions/projectActions';
 
 export default async function Home() {
-  const siteData = await getSiteData();
+  const [siteData, productsRes, projectsRes] = await Promise.all([
+    getSiteData(),
+    getProductsServerAction(),
+    getProjectsServerAction(),
+  ]);
+
   const data = siteData?.data;
+  const products = productsRes?.data?.results || data?.product || [];
+  const projects = projectsRes?.data?.results || data?.project || [];
 
   return (
-    <main>
-      <Navbar contactInfo={data?.content} />
+    <main className="flex-1">
       <HeroSlider 
         sliders={data?.slider} 
         agencies={data?.our_agent} 
-        products={data?.product}
-        projects={data?.project}
+        products={products}
+        projects={projects}
       />
       <AboutUs content={data?.content} goals={data?.gool} />
       <Services services={data?.service} publicServices={data?.public_service} />
-      <Products products={data?.product} content={data?.content} isHomePage={true} />
-      <Projects projects={data?.project} isHomePage={true} />
+      <Products products={products} content={data?.content} isHomePage={true} />
+      <Projects projects={projects} isHomePage={true} />
       <Testimonials reviews={data?.customer_review} />
       <Branches branches={data?.branch} />
       <Contact content={data?.content} />
       <ChatBot />
-      <Footer content={data?.content} />
     </main>
   );
 }

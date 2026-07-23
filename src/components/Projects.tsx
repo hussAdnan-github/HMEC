@@ -38,7 +38,7 @@ export default function Projects({ projects = [], isHomePage = false }: Projects
         
         {/* Section Header */}
         <SectionHeader
-          badge={`⚡ ${tSections('our_projects')}`}
+    
           titlePart1={tProjects('title_part1')}
           titlePart2={tProjects('title_part2')}
           subtitle={tProjects('subtitle')}

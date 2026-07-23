@@ -137,5 +137,56 @@
     "project_owner": "Owner Entity",
     "implementation_period": "Implementation Period",
     "associated_brand": "Associated Brand"
+  },
+  "WhyChooseUs": {
+    "items": {
+      "w1": {
+        "title": "Original Products",
+        "description": "All our products are 100% original and imported directly from factories with full warranty",
+        "stat": "100%"
+      },
+      "w2": {
+        "title": "Authorized Agents",
+        "description": "Authorized agents for major global brands in the electrical field",
+        "stat": "5+"
+      },
+      "w3": {
+        "title": "Specialized Technical Support",
+        "description": "Specialized technical support team available to assist you in selecting and installing the right products",
+        "stat": "24/7"
+      },
+      "w4": {
+        "title": "Competitive Prices",
+        "description": "We offer the best prices in the market while maintaining the highest quality standards",
+        "stat": "Best"
+      },
+      "w5": {
+        "title": "Extensive Experience",
+        "description": "Years of experience in executing major and minor electrical projects",
+        "stat": "10+"
+      },
+      "w6": {
+        "title": "Fast Delivery",
+        "description": "Fast delivery service to all regions of Hadramout with secure packaging",
+        "stat": "Fast"
+      }
+    }
+  },
+  "Cart": {
+    "title": "Shopping Cart",
+    "items_count": "items",
+    "empty_title": "Your Cart is Currently Empty",
+    "empty_desc": "Explore our premium electrical products and add what you need to your cart.",
+    "browse_products": "Browse Products ⚡",
+    "unit_price": "Unit Price",
+    "total_price": "Total Price",
+    "subtotal": "Subtotal",
+    "grand_total": "Grand Total",
+    "tax_shipping_note": "Includes taxes | Shipping calculated upon order confirmation",
+    "checkout_whatsapp": "Order Directly via WhatsApp 💬",
+    "clear_cart": "Clear Cart",
+    "continue_shopping": "Continue Shopping",
+    "view_cart": "View Cart",
+    "item_removed": "Item removed from cart"
   }
 }

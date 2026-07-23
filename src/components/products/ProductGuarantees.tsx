@@ -30,7 +30,7 @@ export default function ProductGuarantees() {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {guarantees.map((feat, idx) => {
         const Icon = feat.icon;
         return (

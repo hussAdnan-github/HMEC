@@ -5,7 +5,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const API_BASE_URL = 'https://hmec.pythonanywhere.com';
+export const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL ||
+  process.env.API_BASE_URL ||
+  'https://hmec.pythonanywhere.com';
 
 /**
  * Ensures that an image URL is an absolute URL pointing to the backend

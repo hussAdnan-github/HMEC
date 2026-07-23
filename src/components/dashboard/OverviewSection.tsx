@@ -6,10 +6,8 @@ import {
   FolderKanban,
   Building2,
   ShoppingBag,
-  Plus,
-  Zap,
-  ShieldCheck,
-  Globe
+   Zap,
+ 
 } from 'lucide-react';
 import { ProductItem, ProjectItem, BranchItem, OrderItem } from '@/data/dashboardMockData';
 
@@ -19,10 +17,7 @@ interface OverviewSectionProps {
   branches: BranchItem[];
   orders: OrderItem[];
   onNavigateTab: (tab: string) => void;
-  onOpenProductModal: () => void;
-  onOpenProjectModal: () => void;
-  onOpenBranchModal: () => void;
-  onOpenOrderModal: () => void;
+ 
 }
 
 export const OverviewSection: React.FC<OverviewSectionProps> = ({
@@ -31,10 +26,7 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
   branches,
   orders,
   onNavigateTab,
-  onOpenProductModal,
-  onOpenProjectModal,
-  onOpenBranchModal,
-  onOpenOrderModal,
+ 
 }) => {
   const newOrdersCount = orders.filter((o) => o.status === 'new').length;
   const totalRevenue = orders
@@ -60,23 +52,7 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
             </p>
           </div>
 
-          {/* Quick Action Buttons */}
-          <div className="flex flex-wrap items-center gap-2.5">
-            <button
-              onClick={() => onNavigateTab('site_cms')}
-              className="px-4 py-2.5 rounded-2xl bg-emerald-600 text-white font-extrabold text-xs hover:brightness-110 shadow-lg transition-all flex items-center gap-2"
-            >
-              <Globe className="w-4 h-4" />
-              إدارة محتوى الموقع
-            </button>
-            <button
-              onClick={onOpenProductModal}
-              className="px-4 py-2.5 rounded-2xl bg-primary text-primary-foreground font-extrabold text-xs hover:opacity-90 shadow-lg shadow-primary/20 transition-all flex items-center gap-2"
-            >
-              <Plus className="w-4 h-4" />
-              منتج جديد
-            </button>
-          </div>
+         
         </div>
       </div>
 
@@ -161,65 +137,8 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({
         </div>
       </div>
 
-      {/* Quick Access Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-card border border-border/80 p-6 rounded-3xl shadow-sm space-y-4">
-          <div className="flex items-center justify-between border-b border-border pb-3">
-            <h3 className="font-extrabold text-foreground text-base">إدارة محتوى الموقع العام (CMS)</h3>
-            <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold">
-              محدث ⚡
-            </span>
-          </div>
-          <p className="text-xs text-muted-foreground leading-relaxed">
-            تحكّم في نصوص الصفحة الرئيسية، البنرات الترويجية، الماركات العالمية (شنايدر، ABB، لوغراند)، تقييمات العملاء، وأرقام التواصل ببطاقات تفاعلية مميزة.
-          </p>
-          <button
-            onClick={() => onNavigateTab('site_cms')}
-            className="w-full py-2.5 rounded-2xl bg-primary/10 text-primary font-extrabold text-xs hover:bg-primary hover:text-primary-foreground transition-all"
-          >
-            الانتقال لبطاقات إدارة محتوى الموقع
-          </button>
-        </div>
-
-        <div className="bg-card border border-border/80 p-6 rounded-3xl shadow-sm space-y-4">
-          <div className="flex items-center justify-between border-b border-border pb-3">
-            <h3 className="font-extrabold text-foreground text-base">إضافة سريعة وقوائم الجداول</h3>
-            <span className="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-bold">
-              عمليات متطابقة
-            </span>
-          </div>
-          <div className="grid grid-cols-2 gap-2 text-xs">
-            <button
-              onClick={onOpenProductModal}
-              className="p-3 rounded-2xl bg-muted/40 hover:bg-muted font-bold text-foreground flex items-center justify-center gap-1.5 border border-border"
-            >
-              <Plus className="w-4 h-4 text-primary" />
-              إضافة منتج
-            </button>
-            <button
-              onClick={onOpenProjectModal}
-              className="p-3 rounded-2xl bg-muted/40 hover:bg-muted font-bold text-foreground flex items-center justify-center gap-1.5 border border-border"
-            >
-              <Plus className="w-4 h-4 text-blue-500" />
-              إضافة مشروع
-            </button>
-            <button
-              onClick={onOpenBranchModal}
-              className="p-3 rounded-2xl bg-muted/40 hover:bg-muted font-bold text-foreground flex items-center justify-center gap-1.5 border border-border"
-            >
-              <Plus className="w-4 h-4 text-emerald-500" />
-              إضافة فرع
-            </button>
-            <button
-              onClick={onOpenOrderModal}
-              className="p-3 rounded-2xl bg-muted/40 hover:bg-muted font-bold text-foreground flex items-center justify-center gap-1.5 border border-border"
-            >
-              <Plus className="w-4 h-4 text-amber-500" />
-              إضافة طلب
-            </button>
-          </div>
-        </div>
-      </div>
+      
+      
     </div>
   );
 };
