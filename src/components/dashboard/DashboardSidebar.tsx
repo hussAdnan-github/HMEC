@@ -122,9 +122,9 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
                 <Zap className="w-3.5 h-3.5" />
                 وكلاء معتمدون
               </span>
-              <p className="text-[10px] text-muted-foreground">
+              {/* <p className="text-[10px] text-muted-foreground">
                 شنايدر، ABB، لوغراند، فيليبس، سيمنز
-              </p>
+              </p> */}
             </div>
           </div>
         )}

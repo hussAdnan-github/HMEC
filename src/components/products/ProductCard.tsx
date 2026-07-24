@@ -5,7 +5,7 @@ import type { ApiProduct } from '@/types/api';
 import { getImageUrl, cn } from '@/lib/utils';
 import { useTranslations, useLocale } from 'next-intl';
 import { Eye, Info, ShoppingCart } from 'lucide-react';
- 
+
 import { Link } from '@/i18n/routing';
 import { useCart } from '@/context/CartContext';
 
@@ -18,7 +18,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const tCommon = useTranslations('Common');
   const locale = useLocale();
   const { addToCart } = useCart();
- 
+
   const [isAdded, setIsAdded] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { navLinks } from '@/data/siteData';
 import { ApiContent } from '@/types/api';
-import { ShoppingCart, User, Menu, X, Globe } from 'lucide-react';
+import { ShoppingCart, User, Menu, X, Globe, LogIn } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTranslations, useLocale } from 'next-intl';
 import { usePathname, useRouter, Link } from '@/i18n/routing';
@@ -159,14 +159,29 @@ export default function Navbar({ contactInfo }: NavbarProps) {
               )}
             </button>
             
-            <button className={cn(
-              "w-10 h-10 rounded-xl flex items-center justify-center transition-colors shadow-xs",
-              scrolled || !isHomePage
-                ? "text-slate-700 hover:text-primary hover:bg-primary-subtle border border-slate-200" 
-                : "text-white/90 hover:text-white hover:bg-white/10 border border-white/20"
-            )} title={locale === 'ar' ? "تسجيل الدخول" : "Login"}>
+            <Link 
+              href="/register"
+              className={cn(
+                "w-10 h-10 rounded-xl flex items-center justify-center transition-colors shadow-xs",
+                scrolled || !isHomePage
+                  ? "text-slate-700 hover:text-primary hover:bg-primary-subtle border border-slate-200" 
+                  : "text-white/90 hover:text-white hover:bg-white/10 border border-white/20"
+              )} title={locale === 'ar' ? "إنشاء حساب" : "Register"}
+            >
               <User size={20} />
-            </button>
+            </Link>
+            
+            <Link 
+              href="/login"
+              className={cn(
+                "w-10 h-10 rounded-xl flex items-center justify-center transition-colors shadow-xs",
+                scrolled || !isHomePage
+                  ? "text-slate-700 hover:text-primary hover:bg-primary-subtle border border-slate-200" 
+                  : "text-white/90 hover:text-white hover:bg-white/10 border border-white/20"
+              )} title={locale === 'ar' ? "تسجيل الدخول" : "Login"}
+            >
+              <LogIn size={20} />
+            </Link>
             
             <button 
               onClick={toggleLanguage}

@@ -61,7 +61,7 @@ export default function ProductUnitSelector({
     setTimeout(() => setIsAdded(false), 2000);
   };
 
- 
+
 
   const getWhatsAppLink = () => {
     const unitName = selectedUnit
@@ -73,12 +73,10 @@ export default function ProductUnitSelector({
 
     const text =
       locale === 'ar'
-        ? `مرحباً مركز حضرموت الحديث للكهربائيات، أود طلب المنتج:\n- اسم المنتج: ${productName}\n- رمز المنتج: ${
-            productCode || '#'
-          }\n- الوحدة: ${unitName} (${unitPrice})\n- الكمية: ${quantity}`
-        : `Hello Hadramout Modern Center, I would like to order product:\n- Product: ${productName}\n- Code: ${
-            productCode || '#'
-          }\n- Unit: ${unitName} (${unitPrice})\n- Quantity: ${quantity}`;
+        ? `مرحباً مركز حضرموت الحديث للكهربائيات، أود طلب المنتج:\n- اسم المنتج: ${productName}\n- رمز المنتج: ${productCode || '#'
+        }\n- الوحدة: ${unitName} (${unitPrice})\n- الكمية: ${quantity}`
+        : `Hello Hadramout Modern Center, I would like to order product:\n- Product: ${productName}\n- Code: ${productCode || '#'
+        }\n- Unit: ${unitName} (${unitPrice})\n- Quantity: ${quantity}`;
 
     const encodedText = encodeURIComponent(text);
 
@@ -187,7 +185,7 @@ export default function ProductUnitSelector({
           {isAdded ? tCommon('added_to_cart') : tCommon('add_to_cart')}
         </button>
 
-        
+
       </div>
     </div>
   );

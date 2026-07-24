@@ -138,12 +138,12 @@ export default function HeroSlider({ sliders, agencies, products, projects }: He
             return (
               <button
                 key={agency.id}
-                className="group relative flex flex-col items-center gap-3 px-8 py-6 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md min-w-[160px] hover:bg-white/10 hover:border-primary-light/50 hover:-translate-y-2 hover:shadow-[0_15px_40px_-10px_rgba(27,166,156,0.4)] transition-all duration-500 cursor-pointer overflow-hidden"
+                className="group relative flex flex-col items-center justify-start gap-3 px-4 py-6 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md w-[160px] sm:w-[180px] h-[240px] hover:bg-white/10 hover:border-primary-light/50 hover:-translate-y-2 hover:shadow-[0_15px_40px_-10px_rgba(27,166,156,0.4)] transition-all duration-500 cursor-pointer overflow-hidden"
                 onClick={() => setSelectedAgency(agency)}
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-primary-light/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
-                <div className="relative z-10 w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center p-2 shadow-inner border border-white/5 group-hover:scale-110 transition-transform duration-500">
+                <div className="relative z-10 w-16 h-16 shrink-0 rounded-2xl bg-white/10 flex items-center justify-center p-2 shadow-inner border border-white/5 group-hover:scale-110 transition-transform duration-500">
                   {hasImage ? (
                     <img
                       src={(agency as any).imageUrl}
@@ -155,21 +155,23 @@ export default function HeroSlider({ sliders, agencies, products, projects }: He
                   )}
                 </div>
                 
-                <div className="relative z-10 flex flex-col items-center">
-                  <span className="text-base font-bold text-white text-center group-hover:text-primary-light transition-colors duration-300">
+                <div className="relative z-10 flex flex-col items-center flex-1 justify-center w-full px-2 overflow-hidden">
+                  <span className="text-base font-bold text-white text-center group-hover:text-primary-light transition-colors duration-300 truncate w-full" title={agency.name}>
                     {agency.name}
                   </span>
-                  <span className="text-[10px] text-white/50 tracking-widest uppercase font-medium mt-1">
+                  <span className="text-[10px] text-white/50 tracking-widest uppercase font-medium mt-1 truncate w-full text-center" title={agency.nameEn}>
                     {agency.nameEn}
                   </span>
                 </div>
                 
-                {agency.services && agency.services.length > 0 && (
-                  <div className="relative z-10 mt-1 px-3 py-1 rounded-full bg-primary-light/20 border border-primary-light/30 text-[10px] text-primary-light font-bold flex items-center gap-1.5 opacity-80 group-hover:opacity-100 group-hover:bg-primary-light/30 transition-all duration-300">
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary-light animate-pulse" />
-                    {agency.services.length} {locale === 'ar' ? 'خدمات' : 'Services'}
-                  </div>
-                )}
+                <div className="relative z-10 mt-auto h-[28px] shrink-0 flex items-center justify-center w-full">
+                  {agency.services && agency.services.length > 0 && (
+                    <div className="px-3 py-1 rounded-full bg-primary-light/20 border border-primary-light/30 text-[10px] text-primary-light font-bold flex items-center gap-1.5 opacity-80 group-hover:opacity-100 group-hover:bg-primary-light/30 transition-all duration-300">
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary-light animate-pulse" />
+                      {agency.services.length} {locale === 'ar' ? 'خدمات' : 'Services'}
+                    </div>
+                  )}
+                </div>
               </button>
             );
           })}

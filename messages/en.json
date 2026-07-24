@@ -188,5 +188,28 @@
     "continue_shopping": "Continue Shopping",
     "view_cart": "View Cart",
     "item_removed": "Item removed from cart"
+  },
+  "Auth": {
+    "login_title": "Login",
+    "login_subtitle": "Welcome back! Please login to access your account",
+    "register_title": "Create New Account",
+    "register_subtitle": "Join us now for a better and faster shopping experience",
+    "email_label": "Email Address",
+    "email_placeholder": "Enter your email",
+    "password_label": "Password",
+    "password_placeholder": "Enter your password",
+    "confirm_password_label": "Confirm Password",
+    "confirm_password_placeholder": "Re-enter your password",
+    "full_name_label": "Full Name",
+    "full_name_placeholder": "Enter your full name",
+    "phone_label": "Phone Number",
+    "phone_placeholder": "Enter your phone number",
+    "forgot_password": "Forgot password?",
+    "login_button": "Login",
+    "register_button": "Create Account",
+    "no_account": "Don't have an account?",
+    "create_account": "Create a new account",
+    "have_account": "Already have an account?",
+    "login_now": "Login now"
   }
 }

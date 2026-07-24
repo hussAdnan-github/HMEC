@@ -48,22 +48,22 @@ export default function AgencyModal({ agency, onClose }: AgencyModalProps) {
           agency ? "scale-100 translate-y-0 opacity-100" : "scale-95 translate-y-8 opacity-0"
         )}>
           {/* Header */}
-          <div className="p-6 md:p-8 flex items-center justify-between border-b border-slate-100 bg-slate-50/50">
-            <div className="flex items-center gap-5">
+          <div className="p-6 md:p-8 flex items-start sm:items-center justify-between gap-4 border-b border-slate-100 bg-slate-50/50">
+            <div className="flex items-center gap-4 sm:gap-5 flex-1 min-w-0">
               <div className="w-16 h-16 rounded-2xl bg-primary-subtle flex items-center justify-center text-3xl shrink-0 overflow-hidden shadow-inner">
                 {(agency as Agency & { imageUrl?: string }).imageUrl ? (
-                  <img src={(agency as Agency & { imageUrl?: string }).imageUrl} alt={agency.name} className="w-full h-full object-cover" />
+                  <img src={(agency as Agency & { imageUrl?: string }).imageUrl} alt={agency.name} className="w-full h-full object-contain" />
                 ) : (
                   agency.logo
                 )}
               </div>
-              <div>
-                <h2 className="text-2xl font-black text-foreground">{agency.name}</h2>
-                <p className="text-muted-foreground font-medium">{agency.nameEn}</p>
+              <div className="flex flex-col flex-1 min-w-0">
+                <h2 className="text-xl sm:text-2xl font-black text-foreground break-words whitespace-normal leading-tight">{agency.name}</h2>
+                <p className="text-muted-foreground font-medium break-words whitespace-normal mt-1 text-sm sm:text-base">{agency.nameEn}</p>
               </div>
             </div>
             <button
-              className="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors shrink-0"
+              className="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors shrink-0 self-start sm:self-auto"
               onClick={onClose}
             >
               <X size={24} />
@@ -73,7 +73,7 @@ export default function AgencyModal({ agency, onClose }: AgencyModalProps) {
           {/* Body */}
           <div className="p-6 md:p-8 overflow-y-auto flex-1 scroll-smooth">
             {/* Description */}
-            <div className="p-6 bg-slate-50 rounded-2xl text-slate-700 leading-relaxed mb-10 border border-slate-100 shadow-sm">
+            <div className="p-6 bg-slate-50 rounded-2xl text-slate-700 leading-relaxed mb-10 border border-slate-100 shadow-sm break-words whitespace-normal">
               {agency.description}
             </div>
 

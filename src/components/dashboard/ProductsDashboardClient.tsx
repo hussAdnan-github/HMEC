@@ -12,7 +12,8 @@ import {
   deleteProductImageServerAction,
   createProductUnitServerAction,
   deleteProductUnitServerAction,
-  getProductByIdServerAction
+  getProductByIdServerAction,
+  getProductsServerAction
 } from '@/actions/productActions';
 import { Loader2 } from 'lucide-react';
 import { ToastNotification, ToastMessage } from '@/components/ui/ToastNotification';
@@ -151,6 +152,52 @@ export default function ProductsDashboardClient({
     }
   };
 
+  const handleFilterChange = async (agentId: string) => {
+    try {
+      const res = await getProductsServerAction({
+        agent: agentId === 'all' ? undefined : agentId
+      });
+      if (res && res.data && res.data.results) {
+        setProducts(res.data.results);
+      } else {
+        setProducts([]);
+      }
+    } catch (error: any) {
+      console.error('Error fetching filtered products:', error);
+      setToast({ type: 'error', message: 'فشل في تحديث البيانات' });
+    }
+  };
+
+  const handleToggleActive = async (product: ApiProduct, newStatus: boolean) => {
+    // Optimistic update
+    setProducts((prev) =>
+      prev.map((p) => (p.id === product.id ? { ...p, is_active: newStatus } : p))
+    );
+
+    try {
+      const formData = new FormData();
+      formData.append('is_active', String(newStatus));
+      
+      const res = await updateProductServerAction(product.id, formData);
+      if (!res.success) {
+        // Revert on failure
+        setProducts((prev) =>
+          prev.map((p) => (p.id === product.id ? { ...p, is_active: !newStatus } : p))
+        );
+        setToast({ type: 'error', message: res.error || 'فشل في تغيير حالة المنتج' });
+      } else {
+        setToast({ type: 'success', message: 'تم تحديث حالة المنتج بنجاح' });
+      }
+    } catch (error) {
+      console.error('Error toggling product active status:', error);
+      // Revert on failure
+      setProducts((prev) =>
+        prev.map((p) => (p.id === product.id ? { ...p, is_active: !newStatus } : p))
+      );
+      setToast({ type: 'error', message: 'حدث خطأ أثناء تغيير حالة المنتج' });
+    }
+  };
+
   return (
     <div className="relative">
       {/* Global loading spinner overlay during submit/delete */}
@@ -165,6 +212,9 @@ export default function ProductsDashboardClient({
 
       <ProductsSection
         products={products}
+        agents={agents}
+        onFilterChange={handleFilterChange}
+        onToggleActive={handleToggleActive}
         onAddProduct={() => {
           setEditingProduct(null);
           setIsProductModalOpen(true);

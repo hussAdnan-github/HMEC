@@ -108,7 +108,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
               <thead className="bg-muted/50 text-muted-foreground border-b border-border font-bold">
                 <tr>
                   <th className="p-4">اسم المشروع</th>
-                  <th className="p-4">الوكيل / المالك</th>
+                  <th className="p-4">الوكيل   </th>
                   <th className="p-4">الموقع وتاريخ التنفيذ</th>
                   <th className="p-4">الوصف والتصنيف</th>
                   <th className="p-4 text-left">الإجراءات</th>

@@ -2,46 +2,35 @@
 
 import React, { useState } from 'react';
 import { Package, Search, Plus, Edit, Trash2, Globe, Hash } from 'lucide-react';
-import { ApiProduct } from '@/types/api';
+import { ApiProduct, ApiAgent } from '@/types/api';
 import { getImageUrl, cn } from '@/lib/utils';
 
 interface ProductsSectionProps {
   products: ApiProduct[];
+  agents: ApiAgent[];
   onAddProduct: () => void;
   onEditProduct: (product: ApiProduct) => void;
   onDeleteProduct: (product: ApiProduct) => void;
+  onFilterChange: (agentId: string) => void;
+  onToggleActive: (product: ApiProduct, newStatus: boolean) => void;
 }
 
 export const ProductsSection: React.FC<ProductsSectionProps> = ({
   products = [],
+  agents = [],
   onAddProduct,
   onEditProduct,
   onDeleteProduct,
+  onFilterChange,
+  onToggleActive,
 }) => {
-  const [searchQuery, setSearchQuery] = useState('');
   const [selectedAgent, setSelectedAgent] = useState('all');
 
-  const filteredProducts = products.filter((prod) => {
-    const name = prod.name_product_ar || prod.name_product_en || '';
-    const matchesSearch =
-      name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (prod.number_product && prod.number_product.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      (prod.number_group && prod.number_group.toLowerCase().includes(searchQuery.toLowerCase()));
-
-    const agentName = prod.agent_name_ar || prod.agent_name_en || '';
-    const matchesAgent = selectedAgent === 'all' || agentName === selectedAgent;
-
-    return matchesSearch && matchesAgent;
-  });
-
-  // Get unique agent names for filtering
-  const uniqueAgents = Array.from(
-    new Set(
-      products
-        .map((p) => p.agent_name_ar || p.agent_name_en)
-        .filter(Boolean)
-    )
-  );
+  const handleAgentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const val = e.target.value;
+    setSelectedAgent(val);
+    onFilterChange(val);
+  };
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
@@ -73,29 +62,18 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
         </button>
       </div>
 
-      {/* Search & Filters Bar */}
-      <div className="bg-card border border-border/80 p-4 rounded-3xl shadow-sm flex flex-col md:flex-row items-center gap-3">
-        <div className="relative flex-1 w-full">
-          <Search className="w-4 h-4 absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="ابحث باسم المنتج، رمز الموديل، أو رقم المجموعة..."
-            className="w-full pl-4 pr-10 py-2.5 rounded-2xl bg-background/50 border border-input text-xs sm:text-sm font-semibold focus:ring-2 focus:ring-primary"
-          />
-        </div>
-
+      {/* Filters Bar */}
+      <div className="bg-card border border-border/80 p-4 rounded-3xl shadow-sm flex flex-col md:flex-row items-center justify-end gap-3">
         <div className="flex items-center gap-2 w-full md:w-auto shrink-0">
           <select
             value={selectedAgent}
-            onChange={(e) => setSelectedAgent(e.target.value)}
+            onChange={handleAgentChange}
             className="w-full md:w-auto px-4 py-2.5 rounded-2xl bg-background/50 border border-input text-xs font-bold text-foreground focus:ring-2 focus:ring-primary"
           >
             <option value="all">كافة الوكلاء</option>
-            {uniqueAgents.map((agentName) => (
-              <option key={agentName} value={agentName}>
-                {agentName}
+            {agents.map((agent) => (
+              <option key={agent.id} value={agent.id}>
+                {agent.name_ar || agent.name_en}
               </option>
             ))}
           </select>
@@ -103,7 +81,7 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
       </div>
 
       {/* Empty State Banner */}
-      {filteredProducts.length === 0 ? (
+      {products.length === 0 ? (
         <div className="bg-card text-card-foreground border border-dashed border-border/80 rounded-3xl p-12 text-center space-y-4 shadow-sm">
           <div className="w-16 h-16 rounded-3xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center mx-auto text-2xl">
             ⚡
@@ -130,16 +108,16 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
               <thead className="bg-muted/50 text-muted-foreground border-b border-border font-bold">
                 <tr>
                   <th className="p-4">المنتج</th>
-                  <th className="p-4">الوكيل / العلامة</th>
+                  <th className="p-4">الوكيل </th>
                   <th className="p-4">رقم المجموعة (النظام المحاسبي)</th>
-                  <th className="p-4">رمز المنتج / الموديل</th>
-                  <th className="p-4">السعر الافتتاحي</th>
+                  <th className="p-4"> الموديل</th>
+                  <th className="p-4">السعر  </th>
                   <th className="p-4">حالة الظهور</th>
                   <th className="p-4 text-left">الإجراءات</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
-                {filteredProducts.map((prod) => {
+                {products.map((prod) => {
                   const prodName = prod.name_product_ar || prod.name_product_en || '';
                   const agentName = prod.agent_name_ar || prod.agent_name_en || '';
                   const prodDesc = prod.description_product_ar || prod.description_product_en || '';
@@ -191,16 +169,28 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
                       </td>
 
                       <td className="p-4">
-                        <span
-                          className={cn(
-                            "px-3 py-1 rounded-full text-xs font-bold border",
-                            prod.is_active
-                              ? "bg-emerald-500/10 text-emerald-600 border-emerald-500/20"
-                              : "bg-rose-500/10 text-rose-600 border-rose-500/20"
-                          )}
-                        >
-                          {prod.is_active ? 'نشط 🟢' : 'غير نشط 🔴'}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            role="switch"
+                            aria-checked={prod.is_active}
+                            onClick={() => onToggleActive(prod, !prod.is_active)}
+                            className={cn(
+                              "relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary",
+                              prod.is_active ? "bg-emerald-500" : "bg-slate-300 dark:bg-slate-600"
+                            )}
+                          >
+                            <span
+                              className={cn(
+                                "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
+                                prod.is_active ? "rtl:-translate-x-5 translate-x-5" : "translate-x-0"
+                              )}
+                            />
+                          </button>
+                          <span className={cn("text-xs font-bold", prod.is_active ? "text-emerald-600" : "text-slate-500")}>
+                            {prod.is_active ? 'نشط' : 'غير نشط'}
+                          </span>
+                        </div>
                       </td>
 
                       <td className="p-4 text-left">
