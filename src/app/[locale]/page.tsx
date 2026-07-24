@@ -26,9 +26,9 @@ export default async function Home() {
 
   return (
     <main className="flex-1">
-      <HeroSlider 
-        sliders={data?.slider} 
-        agencies={data?.our_agent} 
+      <HeroSlider
+        sliders={data?.slider}
+        agencies={data?.our_agent}
         products={products}
         projects={projects}
       />

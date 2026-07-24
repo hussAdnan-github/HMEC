@@ -17,13 +17,12 @@ export default function OverviewDashboardPage() {
     <OverviewSection
       products={products}
       projects={projects}
-      branches={branches}
       orders={orders}
       onNavigateTab={(path) => {
         if (path === 'products') router.push('/dashboard/products');
         else if (path === 'projects') router.push('/dashboard/projects');
-        else if (path === 'branches') router.push('/dashboard/branches');
         else if (path === 'orders') router.push('/dashboard/orders');
+        else if (path.startsWith('site-cms')) router.push(`/dashboard/${path}`);
         else router.push(`/dashboard/${path}`);
       }}
     />

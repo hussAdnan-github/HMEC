@@ -9,14 +9,7 @@ export interface SliderSlide {
   isActive: boolean;
 }
 
-export interface CmsGoal {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-  stat?: string;
-  category: 'رؤية ورسالة' | 'لماذا تختارنا' | 'هدف استراتيجي';
-}
+
 
 export interface CmsAgency {
   id: string;
@@ -118,39 +111,7 @@ export const initialSlides: SliderSlide[] = [
   },
 ];
 
-export const initialCmsGoals: CmsGoal[] = [
-  {
-    id: 'goal-1',
-    title: 'منتجات أصلية 100%',
-    description: 'جميع المنتجات مستوردة مباشرة من المصانع العالمية مع ضمان معتمد.',
-    icon: '✅',
-    stat: '100%',
-    category: 'لماذا تختارنا',
-  },
-  {
-    id: 'goal-2',
-    title: 'وكلاء معتمدون',
-    description: 'وكلاء حصريون ومعتمدون لأكبر العلامات التجارية الكهربائية العالمية.',
-    icon: '🏆',
-    stat: '5+',
-    category: 'لماذا تختارنا',
-  },
-  {
-    id: 'goal-3',
-    title: 'دعم فني متخصص',
-    description: 'فريق هندسي متخصص للاستشارات والتركيبات الميدانية والصيانة.',
-    icon: '🛠️',
-    stat: '24/7',
-    category: 'لماذا تختارنا',
-  },
-  {
-    id: 'goal-4',
-    title: 'الريادة الكهربائية في حضرموت',
-    description: 'أن نكون الخيار الأول الموثوق لكافة المشاريع السكنية والصناعية والتجارية.',
-    icon: '🎯',
-    category: 'هدف استراتيجي',
-  },
-];
+
 
 export const initialCmsAgencies: CmsAgency[] = [
   {

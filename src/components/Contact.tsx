@@ -6,6 +6,7 @@ import type { ApiContent } from '@/types/api';
 import { MapPin, Phone, Mail, Clock, Send, Monitor, Camera, Video } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTranslations, useLocale } from 'next-intl';
+import { submitContactUsAction } from '@/actions/contactActions';
 
 interface ContactProps {
   content?: ApiContent;
@@ -27,12 +28,32 @@ export default function Contact({ content }: ContactProps) {
 
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
-    setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+    setIsSubmitting(true);
+    setErrorMsg(null);
+    
+    const res = await submitContactUsAction({
+      name_ar: formData.name,
+      name_en: formData.name,
+      phone: formData.phone,
+      subject: formData.subject,
+      email: formData.email,
+      message: formData.message,
+    });
+
+    setIsSubmitting(false);
+
+    if (res.success) {
+      setSubmitted(true);
+      setTimeout(() => setSubmitted(false), 3000);
+      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+    } else {
+      setErrorMsg(res.error || 'حدث خطأ أثناء الإرسال');
+    }
   };
 
   return (
@@ -220,15 +241,20 @@ export default function Contact({ content }: ContactProps) {
 
               <button 
                 type="submit" 
+                disabled={isSubmitting || submitted}
                 className={cn(
                   "w-full py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all duration-300",
                   submitted 
                     ? "bg-green-500 text-white" 
+                    : isSubmitting
+                    ? "bg-primary/70 text-white cursor-not-allowed"
                     : "bg-primary hover:bg-primary-dark text-white hover:shadow-lg hover:shadow-primary/30"
                 )}
               >
                 {submitted ? (
                   locale === 'ar' ? 'تم إرسال الرسالة بنجاح! ✅' : 'Message sent successfully! ✅'
+                ) : isSubmitting ? (
+                  locale === 'ar' ? 'جاري الإرسال...' : 'Sending...'
                 ) : (
                   <>
                     <span>{tCommon('send_message')}</span>
@@ -236,6 +262,11 @@ export default function Contact({ content }: ContactProps) {
                   </>
                 )}
               </button>
+              {errorMsg && (
+                <div className="text-red-500 text-sm text-center font-bold mt-2">
+                  {errorMsg}
+                </div>
+              )}
             </form>
           </div>
         </div>

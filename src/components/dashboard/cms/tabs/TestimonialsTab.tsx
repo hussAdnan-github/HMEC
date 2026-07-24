@@ -1,103 +1,223 @@
 'use client';
 
-import React from 'react';
-import { Plus, Edit, Trash2, Star } from 'lucide-react';
-import { CmsTestimonial } from '@/data/siteCmsMockData';
+import React, { useState, useTransition } from 'react';
+import { Plus, Edit, Trash2, Loader2, Star, MessageSquareQuote } from 'lucide-react';
+import Image from 'next/image';
+import { ApiCustomerReview } from '@/types/api';
+import { TestimonialModal } from '../TestimonialModal';
+import { DeleteConfirmModal } from '../../Modals';
+import { ToastNotification, ToastMessage } from '@/components/ui/ToastNotification';
+import {
+  createTestimonialServerAction,
+  updateTestimonialServerAction,
+  deleteTestimonialServerAction,
+} from '@/actions/testimonialActions';
 
 interface TestimonialsTabProps {
-  testimonials: CmsTestimonial[];
-  onAddTestimonial: () => void;
-  onEditTestimonial: (testimonial: CmsTestimonial) => void;
-  onDeleteTestimonial: (id: string) => void;
-  onToggleApproved: (id: string) => void;
+  initialTestimonials: ApiCustomerReview[];
 }
 
-export const TestimonialsTab: React.FC<TestimonialsTabProps> = ({
-  testimonials,
-  onAddTestimonial,
-  onEditTestimonial,
-  onDeleteTestimonial,
-  onToggleApproved,
-}) => {
+export const TestimonialsTab: React.FC<TestimonialsTabProps> = ({ initialTestimonials }) => {
+  const [testimonials, setTestimonials] = useState<ApiCustomerReview[]>(initialTestimonials);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingTestimonial, setEditingTestimonial] = useState<ApiCustomerReview | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<ApiCustomerReview | null>(null);
+  
+  // Transition state for server actions feedback
+  const [isPending, startTransition] = useTransition();
+  const [toast, setToast] = useState<ToastMessage | null>(null);
+
+  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+    setToast({ message, type });
+  };
+
+  const handleAddClick = () => {
+    setEditingTestimonial(null);
+    setIsModalOpen(true);
+  };
+
+  const handleEditClick = (testimonial: ApiCustomerReview) => {
+    setEditingTestimonial(testimonial);
+    setIsModalOpen(true);
+  };
+
+  const handleSaveTestimonial = async (formData: FormData) => {
+    setIsModalOpen(false); // Close immediately for better UX
+    startTransition(async () => {
+      if (editingTestimonial) {
+        // Edit Testimonial
+        const res = await updateTestimonialServerAction(editingTestimonial.id, formData);
+        if (res.success && res.data) {
+          setTestimonials((prev) =>
+            prev.map((t) => (t.id === editingTestimonial.id ? { ...t, ...res.data! } : t))
+          );
+          showToast('تم تعديل التقييم بنجاح');
+        } else {
+          showToast(res.error || 'فشل تعديل التقييم', 'error');
+        }
+      } else {
+        // Add Testimonial
+        const res = await createTestimonialServerAction(formData);
+        if (res.success && res.data) {
+          setTestimonials((prev) => [res.data!, ...prev]);
+          showToast('تم إضافة التقييم بنجاح');
+        } else {
+          showToast(res.error || 'فشل إضافة التقييم', 'error');
+        }
+      }
+      setEditingTestimonial(null);
+    });
+  };
+
+  const handleConfirmDelete = () => {
+    if (!deleteTarget) return;
+
+    const targetId = deleteTarget.id;
+    setDeleteTarget(null); // Close modal immediately
+
+    startTransition(async () => {
+      const res = await deleteTestimonialServerAction(targetId);
+      if (res.success) {
+        setTestimonials((prev) => prev.filter((t) => t.id !== targetId));
+        showToast('تم حذف التقييم بنجاح');
+      } else {
+        showToast(res.error || 'فشل حذف التقييم', 'error');
+      }
+    });
+  };
+
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 relative">
+      {/* Toast Feedback */}
+      <ToastNotification toast={toast} onClose={() => setToast(null)} />
+
+      {/* Global loading spinner overlay */}
+      {isPending && (
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center">
+          <div className="bg-card border border-border p-6 rounded-3xl shadow-xl flex items-center gap-3 text-sm font-bold text-foreground">
+            <Loader2 className="w-5 h-5 text-primary animate-spin" />
+            <span>جاري معالجة طلبك</span>
+          </div>
+        </div>
+      )}
+
+      {/* Header Panel */}
       <div className="flex items-center justify-between bg-card p-5 rounded-3xl border border-border shadow-sm">
         <div>
-          <h3 className="font-extrabold text-foreground text-base">إدارة تقييمات وآراء العملاء</h3>
-          <p className="text-xs text-muted-foreground mt-0.5">آراء المهندسين والمقاولين والشركات في حضرموت</p>
+          <h3 className="font-extrabold text-foreground text-base flex items-center gap-2">
+            <MessageSquareQuote className="w-5 h-5 text-amber-500" />
+            إدارة تقييمات وآراء العملاء
+          </h3>
+          <p className="text-xs text-muted-foreground mt-0.5">
+            آراء ومراجعات المهندسين والشركات حول خدمات ومنتجات المركز
+          </p>
         </div>
         <button
-          onClick={onAddTestimonial}
-          className="px-4 py-2.5 rounded-2xl bg-primary text-primary-foreground font-bold text-xs flex items-center gap-2 shadow-md shadow-primary/20"
+          onClick={handleAddClick}
+          disabled={isPending}
+          className="px-4 py-2.5 rounded-2xl bg-primary text-primary-foreground font-bold text-xs flex items-center gap-2 shadow-md shadow-primary/20 hover:opacity-90 transition-all disabled:opacity-50"
         >
           <Plus className="w-4 h-4" />
           إضافة تقييم جديد
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {testimonials.map((test) => (
-          <div
-            key={test.id}
-            className="bg-card text-card-foreground border border-border/80 rounded-3xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-4"
-          >
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <span className="text-2xl p-2.5 rounded-2xl bg-primary/10 border border-primary/20">
-                    {test.avatar}
-                  </span>
-                  <div>
-                    <h4 className="font-bold text-sm text-foreground">{test.name}</h4>
-                    <span className="text-[11px] text-muted-foreground block">
-                      {test.role} - {test.company}
-                    </span>
+      {/* Grid List */}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+        {testimonials.length === 0 ? (
+          <div className="col-span-full bg-card border border-border/80 rounded-3xl p-12 text-center text-muted-foreground">
+            <MessageSquareQuote className="w-12 h-12 mx-auto text-muted-foreground/30 mb-3" />
+            <p className="text-sm font-bold">لا توجد تقييمات مضافة حالياً.</p>
+            <p className="text-xs mt-1">اضغط على زر الإضافة لإدراج تقييم جديد بالسيرفر.</p>
+          </div>
+        ) : (
+          testimonials.map((test) => (
+            <div
+              key={test.id}
+              className="bg-card text-card-foreground border border-border rounded-3xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-5"
+            >
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    {test.image ? (
+                      <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-primary/20 shadow-sm shrink-0">
+                        <Image src={test.image} alt={test.name_ar} fill className="object-cover" />
+                      </div>
+                    ) : (
+                      <div className="w-12 h-12 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+                        <Star className="w-5 h-5 text-primary" />
+                      </div>
+                    )}
+                    <div>
+                      <h4 className="font-bold text-sm text-foreground">{test.name_ar}</h4>
+                      <span className="text-[10px] text-muted-foreground block dir-ltr text-left mt-0.5">
+                        {test.name_en}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-0.5 text-amber-500">
+                    <Star className="w-3.5 h-3.5 fill-current" />
+                    <Star className="w-3.5 h-3.5 fill-current" />
+                    <Star className="w-3.5 h-3.5 fill-current" />
+                    <Star className="w-3.5 h-3.5 fill-current" />
+                    <Star className="w-3.5 h-3.5 fill-current" />
                   </div>
                 </div>
 
-                <div className="flex items-center gap-0.5 text-amber-500 text-xs">
-                  {Array.from({ length: test.rating }).map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 fill-current" />
-                  ))}
+                <div className="bg-muted/40 p-4 rounded-2xl border border-border/50 relative">
+                  <MessageSquareQuote className="w-6 h-6 text-muted-foreground/20 absolute top-2 right-2" />
+                  <p className="text-xs text-foreground font-medium leading-relaxed italic mb-3 relative z-10">
+                    "{test.review_ar}"
+                  </p>
+                  <div className="border-t border-border/50 pt-2 relative z-10">
+                    <p className="text-[10px] text-muted-foreground leading-relaxed dir-ltr text-left">
+                      "{test.review_en}"
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              <p className="text-xs text-muted-foreground leading-relaxed italic bg-muted/40 p-3.5 rounded-2xl border border-border/50">
-                "{test.text}"
-              </p>
-
-              <div className="flex items-center justify-between text-[11px] text-muted-foreground pt-1">
-                <span>تاريخ: {test.date}</span>
-                <button
-                  onClick={() => onToggleApproved(test.id)}
-                  className={`px-3 py-1 rounded-full font-bold text-[10px] transition-all ${
-                    test.isApproved
-                      ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
-                      : 'bg-amber-500/10 text-amber-600 border border-amber-500/30'
-                  }`}
-                >
-                  {test.isApproved ? '🟢 معتمد ومصلان' : '🟡 قيد المراجعة'}
-                </button>
+              <div className="pt-3 border-t border-border flex items-center justify-between">
+                <span className="text-[10px] text-muted-foreground font-medium bg-muted px-2.5 py-1 rounded-full">
+                  تاريخ: {new Date(test.create_at).toLocaleDateString('ar-EG')}
+                </span>
+                
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handleEditClick(test)}
+                    disabled={isPending}
+                    className="p-2 rounded-xl border border-input hover:bg-muted text-blue-600 transition-colors disabled:opacity-50"
+                  >
+                    <Edit className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => setDeleteTarget(test)}
+                    disabled={isPending}
+                    className="p-2 rounded-xl border border-rose-500/20 text-rose-600 hover:bg-rose-500/10 transition-colors disabled:opacity-50"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
             </div>
-
-            <div className="pt-3 border-t border-border flex items-center justify-end gap-2">
-              <button
-                onClick={() => onEditTestimonial(test)}
-                className="p-2 rounded-xl border border-input hover:bg-muted text-foreground"
-              >
-                <Edit className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => onDeleteTestimonial(test.id)}
-                className="p-2 rounded-xl border border-destructive/20 text-destructive hover:bg-destructive/10"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
+
+      <TestimonialModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSaveTestimonial}
+        initialData={editingTestimonial}
+      />
+
+      <DeleteConfirmModal
+        isOpen={!!deleteTarget}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={handleConfirmDelete}
+        title={deleteTarget ? deleteTarget.name_ar : ''}
+      />
     </div>
   );
 };

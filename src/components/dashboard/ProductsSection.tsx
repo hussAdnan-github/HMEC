@@ -64,13 +64,13 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
           </div>
         </div>
 
-        {/* <button
+        <button
           onClick={onAddProduct}
           className="px-5 py-2.5 rounded-2xl bg-primary text-primary-foreground font-extrabold text-xs sm:text-sm hover:opacity-90 transition-all flex items-center gap-2 shadow-lg shadow-primary/20"
         >
           <Plus className="w-4 h-4" />
           إضافة منتج جديد
-        </button> */}
+        </button>
       </div>
 
       {/* Search & Filters Bar */}
@@ -114,13 +114,13 @@ export const ProductsSection: React.FC<ProductsSectionProps> = ({
               لم نجد أي منتجات تطابق بحثك أو تصفيتك الحالية.
             </p>
           </div>
-          {/* <button
+          <button
             onClick={onAddProduct}
             className="px-6 py-2.5 rounded-2xl bg-primary text-primary-foreground font-extrabold text-xs inline-flex items-center gap-2 shadow-lg shadow-primary/20"
           >
             <Plus className="w-4 h-4" />
             إضافة أول منتج الآن
-          </button> */}
+          </button>
         </div>
       ) : (
         /* Data Table View */

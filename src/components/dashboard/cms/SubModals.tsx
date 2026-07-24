@@ -4,11 +4,11 @@ import React, { useState, useEffect } from 'react';
 import { X, Check, Image as ImageIcon, Award, Layers, Star, Plus, Trash } from 'lucide-react';
 import {
   SliderSlide,
-  CmsGoal,
   CmsAgency,
   CmsService,
   CmsTestimonial
 } from '@/data/siteCmsMockData';
+import { ApiGoal, ApiPublicService } from '@/types/api';
 
 // --- Modal 1: Hero Slider Modal ---
 interface SliderModalProps {
@@ -178,35 +178,26 @@ export const SliderModal: React.FC<SliderModalProps> = ({ isOpen, onClose, onSav
 interface GoalModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (goal: Partial<CmsGoal>) => void;
-  initialData?: CmsGoal | null;
+  onSave: (goal: { name_ar: string; name_en: string }) => void;
+  initialData?: ApiGoal | null;
 }
 
 export const GoalModal: React.FC<GoalModalProps> = ({ isOpen, onClose, onSave, initialData }) => {
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    icon: '🎯',
-    stat: '100%',
-    category: 'لماذا تختارنا' as 'رؤية ورسالة' | 'لماذا تختارنا' | 'هدف استراتيجي',
+    name_ar: '',
+    name_en: '',
   });
 
   useEffect(() => {
     if (initialData) {
       setFormData({
-        title: initialData.title,
-        description: initialData.description,
-        icon: initialData.icon,
-        stat: initialData.stat || '',
-        category: initialData.category,
+        name_ar: initialData.name_ar || '',
+        name_en: initialData.name_en || '',
       });
     } else {
       setFormData({
-        title: '',
-        description: '',
-        icon: '🎯',
-        stat: '100%',
-        category: 'لماذا تختارنا',
+        name_ar: '',
+        name_en: '',
       });
     }
   }, [initialData, isOpen]);
@@ -223,7 +214,7 @@ export const GoalModal: React.FC<GoalModalProps> = ({ isOpen, onClose, onSave, i
             </div>
             <div>
               <h3 className="text-lg font-bold text-foreground">
-                {initialData ? 'تعديل هدف / تمايز' : 'إضافة هدف جديد'}
+                {initialData ? 'تعديل الهدف' : 'إضافة هدف جديد'}
               </h3>
             </div>
           </div>
@@ -241,60 +232,26 @@ export const GoalModal: React.FC<GoalModalProps> = ({ isOpen, onClose, onSave, i
           className="p-6 overflow-y-auto space-y-4 text-sm"
         >
           <div>
-            <label className="block mb-1 font-semibold text-foreground">عنوان الهدف / ركيزة التمايز *</label>
-            <input
-              type="text"
-              required
-              value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              placeholder="مثال: منتجات أصلية 100%"
-              className="w-full px-3 py-2 rounded-lg border border-input bg-background"
-            />
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block mb-1 font-semibold text-foreground">التصنيف</label>
-              <select
-                value={formData.category}
-                onChange={(e) => setFormData({ ...formData, category: e.target.value as any })}
-                className="w-full px-3 py-2 rounded-lg border border-input bg-background"
-              >
-                <option value="لماذا تختارنا">لماذا تختارنا (مميزات)</option>
-                <option value="هدف استراتيجي">هدف استراتيجي</option>
-                <option value="رؤية ورسالة">رؤية ورسالة</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block mb-1 font-semibold text-foreground">الأيقونة / الرمز</label>
-              <input
-                type="text"
-                value={formData.icon}
-                onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-                className="w-full px-3 py-2 rounded-lg border border-input bg-background"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block mb-1 font-semibold text-foreground">الرقم أو الرقم الإحصائي (Stat)</label>
-            <input
-              type="text"
-              value={formData.stat}
-              onChange={(e) => setFormData({ ...formData, stat: e.target.value })}
-              placeholder="مثال: 100% أو 24/7 أو 10+"
-              className="w-full px-3 py-2 rounded-lg border border-input bg-background"
-            />
-          </div>
-
-          <div>
-            <label className="block mb-1 font-semibold text-foreground">الوصف الشارح</label>
+            <label className="block mb-1 font-semibold text-foreground">الهدف باللغة العربية *</label>
             <textarea
+              required
               rows={3}
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              value={formData.name_ar}
+              onChange={(e) => setFormData({ ...formData, name_ar: e.target.value })}
+              placeholder="اكتب الهدف باللغة العربية هنا..."
               className="w-full px-3 py-2 rounded-lg border border-input bg-background resize-none"
+            />
+          </div>
+
+          <div>
+            <label className="block mb-1 font-semibold text-foreground">الهدف باللغة الإنجليزية *</label>
+            <textarea
+              required
+              rows={3}
+              value={formData.name_en}
+              onChange={(e) => setFormData({ ...formData, name_en: e.target.value })}
+              placeholder="Write the goal in English here..."
+              className="w-full px-3 py-2 rounded-lg border border-input bg-background resize-none dir-ltr text-left"
             />
           </div>
 

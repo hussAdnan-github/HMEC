@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { ProductsSection } from '@/components/dashboard/ProductsSection';
-import { ProductModal, DeleteConfirmModal } from '@/components/dashboard/Modals';
+import { ProductModal, DeleteConfirmModal, NewUnitInput } from '@/components/dashboard/Modals';
 import { ApiProduct, ApiAgent } from '@/types/api';
 import { 
   createProductServerAction, 
@@ -10,6 +10,8 @@ import {
   deleteProductServerAction,
   addProductImageServerAction,
   deleteProductImageServerAction,
+  createProductUnitServerAction,
+  deleteProductUnitServerAction,
   getProductByIdServerAction
 } from '@/actions/productActions';
 import { Loader2 } from 'lucide-react';
@@ -34,7 +36,9 @@ export default function ProductsDashboardClient({
   const handleSaveProduct = async (
     formData: FormData,
     newSubImages: File[],
-    deletedSubImageIds: number[]
+    deletedSubImageIds: number[],
+    newUnits: NewUnitInput[],
+    deletedUnitIds: number[]
   ) => {
     setIsSubmitting(true);
     try {
@@ -72,21 +76,47 @@ export default function ProductsDashboardClient({
         // 2. Upload new sub-images to /products/productimage/
         if (newSubImages && newSubImages.length > 0) {
           for (const file of newSubImages) {
-            await addProductImageServerAction(productId, file);
+            const imgRes = await addProductImageServerAction(productId, file);
+            if (!imgRes.success) {
+              setToast({ type: 'error', message: imgRes.error || 'فشل رفع إحدى الصور الفرعية للمنتج' });
+            }
           }
         }
 
-        // 3. Fetch latest product with full updated product_images
+        // 3. Delete removed units
+        if (deletedUnitIds && deletedUnitIds.length > 0) {
+          for (const unitId of deletedUnitIds) {
+            await deleteProductUnitServerAction(unitId);
+          }
+        }
+
+        // 4. Create new units to /products/unit/
+        if (newUnits && newUnits.length > 0) {
+          for (const unit of newUnits) {
+            const unitRes = await createProductUnitServerAction({
+              name_unit_ar: unit.name_unit_ar,
+              name_unit_en: unit.name_unit_en,
+              price: unit.price,
+              is_active: unit.is_active,
+              product: productId,
+            });
+            if (!unitRes.success) {
+              setToast({ type: 'error', message: unitRes.error || 'فشل إضافة إحدى وحدات المنتج' });
+            }
+          }
+        }
+
+        // 5. Fetch latest product with full updated product_images and name_uint
         const updatedProduct = await getProductByIdServerAction(productId);
         if (updatedProduct) {
           if (isEditing) {
             setProducts((prev) =>
               prev.map((p) => (p.id === updatedProduct.id ? updatedProduct : p))
             );
-            setToast({ type: 'success', message: 'تم تعديل بيانات المنتج بنجاح ⚡' });
+            setToast({ type: 'success', message: 'تم تعديل بيانات المنتج والوحدات بنجاح ⚡' });
           } else {
             setProducts((prev) => [updatedProduct, ...prev]);
-            setToast({ type: 'success', message: 'تمت إضافة المنتج الجديد بنجاح ⚡' });
+            setToast({ type: 'success', message: 'تمت إضافة المنتج والوحدات بنجاح ⚡' });
           }
         } else {
           setToast({ type: 'success', message: isEditing ? 'تم التعديل بنجاح' : 'تمت الإضافة بنجاح' });

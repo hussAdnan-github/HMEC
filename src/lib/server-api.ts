@@ -70,6 +70,66 @@ export async function getAuthHeaders(extraHeaders?: HeadersInit): Promise<Header
   return headers;
 }
 
+ 
+export function formatApiErrorMessage(errJson: any): string {
+  if (!errJson) return 'حدث خطأ في السيرفر';
+  if (typeof errJson === 'string') return errJson;
+
+  let mainMessage = '';
+  if (errJson.message && typeof errJson.message === 'string') {
+    mainMessage = errJson.message;
+  } else if (errJson.detail && typeof errJson.detail === 'string') {
+    mainMessage = errJson.detail;
+  } else if (errJson.error && typeof errJson.error === 'string') {
+    mainMessage = errJson.error;
+  }
+
+  let fieldErrorsFormatted = '';
+  const rawErrors = errJson.errors || (errJson.error && typeof errJson.error === 'object' ? errJson.error : null);
+
+  const extractValues = (errorsObj: Record<string, any>): string => {
+    const errorValues: string[] = [];
+    for (const [key, val] of Object.entries(errorsObj)) {
+      if (key === 'success' || key === 'status') continue;
+      let valStr = '';
+      if (Array.isArray(val)) {
+        valStr = val.map((v) => (typeof v === 'object' ? JSON.stringify(v) : String(v))).join(', ');
+      } else if (typeof val === 'object' && val !== null) {
+        valStr = JSON.stringify(val);
+      } else {
+        valStr = String(val);
+      }
+      valStr = valStr.trim();
+      if (valStr && !errorValues.includes(valStr)) {
+        errorValues.push(valStr);
+      }
+    }
+    return errorValues.join(' | ');
+  };
+
+  if (rawErrors) {
+    if (typeof rawErrors === 'string') {
+      fieldErrorsFormatted = rawErrors;
+    } else if (typeof rawErrors === 'object' && rawErrors !== null) {
+      fieldErrorsFormatted = extractValues(rawErrors);
+    }
+  }
+
+  if (mainMessage && fieldErrorsFormatted) {
+    return `${mainMessage}\n${fieldErrorsFormatted}`;
+  }
+  if (mainMessage) return mainMessage;
+  if (fieldErrorsFormatted) return fieldErrorsFormatted;
+
+  // Fallback for direct field dictionary responses without message/errors wrapper: e.g. { "image": "..." }
+  if (typeof errJson === 'object' && errJson !== null) {
+    const fallbackVals = extractValues(errJson);
+    if (fallbackVals) return fallbackVals;
+  }
+
+  return 'حدث خطأ غير معروف في السيرفر';
+}
+
 /**
  * Global Server Fetch Wrapper for Server Actions & Server Components.
  * Prepends Base API URL, injects Auth Headers, handles errors and returns typed responses.
@@ -94,11 +154,20 @@ export async function serverFetch<T>(
 
     // If the body is FormData, do not set Content-Type header so the browser/runtime
     // can set it automatically with the correct multipart boundary
-    if (options?.body instanceof FormData) {
+    const isFormData =
+      options?.body instanceof FormData ||
+      (options?.body &&
+        typeof options.body === 'object' &&
+        typeof (options.body as any).append === 'function' &&
+        typeof (options.body as any).get === 'function');
+
+    if (isFormData) {
       if (authHeaders instanceof Headers) {
         authHeaders.delete('Content-Type');
+        authHeaders.delete('content-type');
       } else if (typeof authHeaders === 'object' && authHeaders !== null) {
         delete (authHeaders as Record<string, string>)['Content-Type'];
+        delete (authHeaders as Record<string, string>)['content-type'];
       }
     }
 
@@ -114,20 +183,7 @@ export async function serverFetch<T>(
         if (contentType && contentType.includes('application/json')) {
           const errJson = await response.json();
           if (errJson) {
-            if (typeof errJson === 'string') {
-              serverErrorMessage = errJson;
-            } else if (errJson.detail) {
-              serverErrorMessage = String(errJson.detail);
-            } else if (errJson.error) {
-              serverErrorMessage = typeof errJson.error === 'string' ? errJson.error : JSON.stringify(errJson.error);
-            } else if (errJson.message) {
-              serverErrorMessage = String(errJson.message);
-            } else {
-              const fieldErrors = Object.entries(errJson)
-                .map(([key, val]) => `${key}: ${Array.isArray(val) ? val.join(', ') : val}`)
-                .join(' | ');
-              if (fieldErrors) serverErrorMessage = fieldErrors;
-            }
+            serverErrorMessage = formatApiErrorMessage(errJson);
           }
         } else {
           const errText = await response.text();
@@ -152,6 +208,17 @@ export async function serverFetch<T>(
 
     const text = await response.text();
     const data: T = text ? JSON.parse(text) : ({} as T);
+
+    if (data && typeof data === 'object' && (data as any).success === false) {
+      const serverErrorMessage = formatApiErrorMessage(data);
+      return {
+        success: false,
+        error: serverErrorMessage,
+        data,
+        status: response.status,
+      };
+    }
+
     return { success: true, data, status: response.status };
   } catch (error: any) {
     console.error(`serverFetch error for endpoint [${endpoint}]:`, error);
@@ -161,3 +228,4 @@ export async function serverFetch<T>(
     };
   }
 }
+

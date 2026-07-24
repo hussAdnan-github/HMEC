@@ -1,17 +1,42 @@
 import Products from '@/components/Products';
-import { getProductsServerAction } from '@/actions/productActions';
+import { getProductsServerAction, getAgentsServerAction } from '@/actions/productActions';
 import { Link } from '@/i18n/routing';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 
 export default async function ProductsPage({
-  params
+  params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { locale } = await params;
+  const resolvedSearchParams = await searchParams;
+  const agentParam = resolvedSearchParams?.agent;
+  const searchParam = resolvedSearchParams?.search;
 
-  const productsRes = await getProductsServerAction();
+  const [productsRes, agentsRes, allProductsRes] = await Promise.all([
+    getProductsServerAction({ 
+      agent: typeof agentParam === 'string' ? agentParam : undefined,
+      search: typeof searchParam === 'string' ? searchParam : undefined
+    }),
+    getAgentsServerAction(),
+    getProductsServerAction({ 
+      search: typeof searchParam === 'string' ? searchParam : undefined
+    }) // To calculate total counts for each agent
+  ]);
+
   const products = productsRes?.data?.results || [];
+  const allProducts = allProductsRes?.data?.results || [];
+  const agents = agentsRes?.data?.results || agentsRes?.data || [];
+
+  // Calculate agent counts from all products
+  const agentCounts: Record<string, number> = { all: allProducts.length };
+  allProducts.forEach((p) => {
+    if (p.agent) {
+      agentCounts[p.agent] = (agentCounts[p.agent] || 0) + 1;
+    }
+  });
 
   return (
     <main className="min-h-screen bg-slate-50 flex flex-col flex-1">
@@ -22,7 +47,13 @@ export default async function ProductsPage({
 
       {/* Catalog */}
       <div className="flex-1">
-        <Products products={products} isHomePage={false} />
+        <Products 
+          products={products} 
+          agents={Array.isArray(agents) ? agents : []} 
+          agentCounts={agentCounts}
+          selectedAgentId={typeof agentParam === 'string' ? agentParam : undefined}
+          isHomePage={false} 
+        />
       </div>
     </main>
   );

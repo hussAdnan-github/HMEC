@@ -51,6 +51,14 @@ export interface ApiAgent {
   urls: string;
   buy_fome_us_ar: string;
   buy_fome_us_en: string;
+  service?: Array<{
+    id: number;
+    agent_name_ar: string;
+    agent_name_en: string;
+    name_ar: string;
+    name_en: string;
+    agent: number;
+  }>;
   create_at: string;
   update_at: string;
 }

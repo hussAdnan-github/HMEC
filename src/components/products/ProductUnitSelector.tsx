@@ -175,7 +175,7 @@ export default function ProductUnitSelector({
       {/* Primary Action CTAs */}
       <div className="flex flex-col gap-3 pt-4 border-t border-slate-100">
         <button
-          onClick={handleAddToCart}
+          // onClick={handleAddToCart}
           className={cn(
             'w-full py-4 rounded-2xl font-extrabold text-base flex items-center justify-center gap-3 transition-all shadow-xl cursor-pointer',
             isAdded

@@ -13,7 +13,8 @@ import {
   ShoppingBag,
   Settings,
   Zap,
-  X
+  X,
+  MessageSquare
 } from 'lucide-react';
 
 export interface NavRouteItem {
@@ -48,10 +49,12 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
   const pathname = usePathname();
 
   const navItems: NavRouteItem[] = [
+   
     { href: '/dashboard', label: 'الرئيسية والتحليلات', icon: LayoutDashboard },
+    { href: '/dashboard/site-cms', label: 'إدارة المحتوى', icon: Globe },
     { href: '/dashboard/products', label: 'إدارة المنتجات', icon: Package, badge: productsCount },
     { href: '/dashboard/projects', label: 'إدارة المشاريع', icon: FolderKanban, badge: projectsCount },
-    { href: '/dashboard/branches', label: 'إدارة الفروع', icon: Building2, badge: branchesCount },
+    { href: '/dashboard/contact-messages', label: 'رسائل التواصل', icon: MessageSquare },
     {
       href: '/dashboard/orders',
       label: 'الطلبات ',

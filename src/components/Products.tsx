@@ -1,69 +1,75 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import type { ApiProduct, ApiContent } from '@/types/api';
-import { cn } from '@/lib/utils';
+import { useState, useMemo, useEffect } from 'react';
+import type { ApiProduct, ApiContent, ApiAgent } from '@/types/api';
+import { cn, getImageUrl } from '@/lib/utils';
 import { useTranslations, useLocale } from 'next-intl';
-import { Search, ArrowLeft, ArrowRight, Package, SlidersHorizontal } from 'lucide-react';
+import { Search, ArrowLeft, ArrowRight, Package, SlidersHorizontal, Award } from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import SectionHeader from '@/components/ui/SectionHeader';
 import ProductCard from '@/components/products/ProductCard';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
 interface ProductsProps {
   products?: ApiProduct[];
   content?: ApiContent;
   isHomePage?: boolean;
+  agents?: ApiAgent[];
+  selectedAgentId?: string;
+  agentCounts?: Record<string, number>;
 }
 
-export default function Products({ products = [], isHomePage = false }: ProductsProps) {
+export default function Products({ products = [], isHomePage = false, agents = [], selectedAgentId, agentCounts = {} }: ProductsProps) {
   const tSections = useTranslations('Sections');
   const tProducts = useTranslations('Products');
   const tCommon = useTranslations('Common');
   const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedGroup, setSelectedGroup] = useState('all');
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
+
+  // Debounce search query and push to router
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (searchQuery.trim()) {
+        params.set('search', searchQuery);
+      } else {
+        params.delete('search');
+      }
+      
+      // Only push if the search param actually changed
+      if (params.get('search') !== searchParams.get('search')) {
+        router.push(`${pathname}?${params.toString()}`, { scroll: false });
+      }
+    }, 500);
+
+    return () => clearTimeout(handler);
+  }, [searchQuery, pathname, router, searchParams]);
 
   const safeProducts = useMemo(() => (Array.isArray(products) ? products : []), [products]);
 
-  // Extract unique groups/categories for filtering with count
-  const groupCounts = useMemo(() => {
-    const counts: Record<string, number> = { all: safeProducts.length };
-    safeProducts.forEach((p) => {
-      if (p.number_group) {
-        counts[p.number_group] = (counts[p.number_group] || 0) + 1;
-      }
-    });
-    return counts;
-  }, [safeProducts]);
-
-  const groups = useMemo(() => {
-    const allGroups = safeProducts
-      .map((p) => p.number_group)
-      .filter((g): g is string => !!g);
-    return ['all', ...Array.from(new Set(allGroups))];
-  }, [safeProducts]);
-
-  // Filter products based on search and selected group
+  // Filter out inactive products (active status should ideally be handled by the server, but we double-check)
   const filteredProducts = useMemo(() => {
-    return safeProducts.filter((product) => {
-      const name = locale === 'ar' ? product.name_product_ar : (product.name_product_en || product.name_product_ar);
-      const desc = locale === 'ar' ? product.description_product_ar : (product.description_product_en || product.description_product_ar);
-      const matchesSearch =
-        name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        desc.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (product.number_product && product.number_product.includes(searchQuery));
-
-      const matchesGroup = selectedGroup === 'all' || product.number_group === selectedGroup;
-
-      return matchesSearch && matchesGroup && product.is_active;
-    });
-  }, [safeProducts, searchQuery, selectedGroup, locale]);
+    return safeProducts.filter((product) => product.is_active);
+  }, [safeProducts]);
 
   // If homepage, display only first 3 items
   const displayProducts = useMemo(() => {
     return isHomePage ? filteredProducts.slice(0, 3) : filteredProducts;
   }, [filteredProducts, isHomePage]);
+
+  const handleAgentClick = (agentId?: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (agentId) {
+      params.set('agent', agentId);
+    } else {
+      params.delete('agent');
+    }
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
 
   return (
     <section className="py-12  bg-slate-50/50 relative overflow-hidden animate-fade-in" id="products">
@@ -110,36 +116,59 @@ export default function Products({ products = [], isHomePage = false }: Products
 
             </div>
 
-            {/* Group Category Filter Tabs */}
-            <div className="flex gap-2 flex-wrap items-center pt-4 border-t border-slate-100">
-              {groups.map((group) => {
-                const count = groupCounts[group] || 0;
-                const isSelected = selectedGroup === group;
-
-                return (
-                  <button
-                    key={group}
-                    onClick={() => setSelectedGroup(group)}
+            {/* Agents (Brands) Filter Tabs */}
+            {agents && agents.length > 0 && (
+              <div className="flex gap-2 flex-wrap items-center pt-4 border-t border-slate-100">
+                <button
+                  onClick={() => handleAgentClick()}
+                  className={cn(
+                    "px-4 py-2.5 rounded-2xl text-xs font-extrabold transition-all duration-300 flex items-center gap-2 border",
+                    !selectedAgentId
+                      ? "bg-primary border-primary text-white shadow-lg shadow-primary/25 scale-[1.02]"
+                      : "bg-slate-50 border-slate-200 text-slate-600 hover:border-primary/50 hover:bg-slate-100"
+                  )}
+                >
+                  <span>{locale === 'ar' ? 'جميع الوكلاء' : 'All Brands'}</span>
+                  <span
                     className={cn(
-                      "px-4 py-2.5 rounded-2xl text-xs font-extrabold transition-all duration-300 flex items-center gap-2 border",
-                      isSelected
-                        ? "bg-primary border-primary text-white shadow-lg shadow-primary/25 scale-[1.02]"
-                        : "bg-slate-50 border-slate-200 text-slate-600 hover:border-primary/50 hover:bg-slate-100"
+                      "px-2 py-0.5 rounded-full text-[10px] font-black",
+                      !selectedAgentId ? "bg-white/20 text-white" : "bg-slate-200 text-slate-600"
                     )}
                   >
-                    <span>{group === 'all' ? tProducts('all_categories') : group}</span>
-                    <span
+                    {agentCounts['all'] || 0}
+                  </span>
+                </button>
+                
+                {agents.map((agent) => {
+                  const isSelected = selectedAgentId === agent.id.toString();
+                  const count = agentCounts[agent.id] || 0;
+                  return (
+                    <button
+                      key={agent.id}
+                      onClick={() => handleAgentClick(agent.id.toString())}
                       className={cn(
-                        "px-2 py-0.5 rounded-full text-[10px] font-black",
-                        isSelected ? "bg-white/20 text-white" : "bg-slate-200 text-slate-600"
+                        "px-4 py-2.5 rounded-2xl text-xs font-extrabold transition-all duration-300 flex items-center gap-2 border",
+                        isSelected
+                          ? "bg-primary border-primary text-white shadow-lg shadow-primary/25 scale-[1.02]"
+                          : "bg-slate-50 border-slate-200 text-slate-600 hover:border-primary/50 hover:bg-slate-100"
                       )}
                     >
-                      {count}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
+                      <span>{locale === 'ar' ? agent.name_ar : (agent.name_en || agent.name_ar)}</span>
+                      <span
+                        className={cn(
+                          "px-2 py-0.5 rounded-full text-[10px] font-black",
+                          isSelected ? "bg-white/20 text-white" : "bg-slate-200 text-slate-600"
+                        )}
+                      >
+                        {count}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+
+            
           </div>
         )}
 

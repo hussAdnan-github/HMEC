@@ -48,7 +48,7 @@ export const ToastNotification: React.FC<ToastProps> = ({ toast, onClose }) => {
 
         <div className="flex-1 space-y-0.5 text-right">
           {toast.title && <div className="font-extrabold text-xs opacity-90">{toast.title}</div>}
-          <div className="leading-relaxed">{toast.message}</div>
+          <div className="leading-relaxed whitespace-pre-line">{toast.message}</div>
         </div>
 
         <button

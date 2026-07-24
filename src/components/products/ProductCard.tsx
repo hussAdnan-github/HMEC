@@ -234,7 +234,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           {/* Interactive Action Buttons */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2 border-t border-slate-100">
             <button
-              onClick={handleAddToCart}
+              // onClick={handleAddToCart}
               className={cn(
                 'w-full py-3.5 rounded-2xl font-extrabold text-xs flex items-center justify-center gap-2 transition-all duration-300 shadow-md cursor-pointer',
                 isAdded

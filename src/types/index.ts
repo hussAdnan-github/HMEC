@@ -11,6 +11,7 @@ export interface Agency {
   products: Product[];
   projects: Project[];
   reviews: Review[];
+  services?: { id: string; name: string; nameEn: string }[];
 }
 
 export interface Product {

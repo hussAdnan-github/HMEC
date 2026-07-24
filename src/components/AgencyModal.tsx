@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import type { Agency } from '@/types';
-import { X, Package, Building2, MessageSquare, Star, Calendar, MapPin } from 'lucide-react';
+import { X, Package, Building2, MessageSquare, Star, Calendar, MapPin, Layers } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface AgencyModalProps {
@@ -24,10 +24,10 @@ export default function AgencyModal({ agency, onClose }: AgencyModalProps) {
 
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }).map((_, i) => (
-      <Star 
-        key={i} 
-        size={16} 
-        className={i < rating ? "fill-accent text-accent" : "fill-slate-200 text-slate-200"} 
+      <Star
+        key={i}
+        size={16}
+        className={i < rating ? "fill-accent text-accent" : "fill-slate-200 text-slate-200"}
       />
     ));
   };
@@ -62,8 +62,8 @@ export default function AgencyModal({ agency, onClose }: AgencyModalProps) {
                 <p className="text-muted-foreground font-medium">{agency.nameEn}</p>
               </div>
             </div>
-            <button 
-              className="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors shrink-0" 
+            <button
+              className="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors shrink-0"
               onClick={onClose}
             >
               <X size={24} />
@@ -76,25 +76,6 @@ export default function AgencyModal({ agency, onClose }: AgencyModalProps) {
             <div className="p-6 bg-slate-50 rounded-2xl text-slate-700 leading-relaxed mb-10 border border-slate-100 shadow-sm">
               {agency.description}
             </div>
-
-            {/* Products */}
-            {agency.products && agency.products.length > 0 && (
-              <div className="mb-12">
-                <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
-                  <Package className="text-primary" size={24} />
-                  المنتجات
-                </h3>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {agency.products.map((product) => (
-                    <div key={product.id} className="p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-primary/30 transition-all text-center group">
-                      <div className="text-4xl mb-3 group-hover:scale-110 transition-transform">{product.image}</div>
-                      <div className="font-bold text-slate-800 mb-1">{product.name}</div>
-                      <div className="text-xs text-slate-500">{product.description}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
 
             {/* Projects */}
             {agency.projects && agency.projects.length > 0 && (
@@ -114,6 +95,31 @@ export default function AgencyModal({ agency, onClose }: AgencyModalProps) {
                           <span className="flex items-center gap-1"><Calendar size={14} /> {project.date}</span>
                           <span className="flex items-center gap-1"><MapPin size={14} /> {project.location}</span>
                         </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Detailed Services */}
+            {agency.services && agency.services.length > 0 && (
+              <div className="mb-12">
+                <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
+                  <Layers className="text-primary" size={24} />
+                      الخدمات التفصيلية للوكلاء
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {agency.services.map((service) => (
+                    <div key={service.id} className="p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-primary/30 transition-all group flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                        <Layers size={20} />
+                      </div>
+                      <div>
+                        <div className="font-bold text-slate-800 mb-1">{service.name}</div>
+                        {service.nameEn && service.nameEn !== service.name && (
+                          <div className="text-xs text-slate-500">{service.nameEn}</div>
+                        )}
                       </div>
                     </div>
                   ))}

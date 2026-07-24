@@ -8,7 +8,7 @@ export default function SiteCmsDashboardPage() {
     <Suspense fallback={
       <div className="p-8 text-center text-xs font-bold text-muted-foreground animate-pulse">
         جاري تحميل بطاقات ومحتوى إدارة صفحات الموقع...
-      </div>
+      </div> 
     }>
       <SiteCmsSection />
     </Suspense>
