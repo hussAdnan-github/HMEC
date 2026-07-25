@@ -4,10 +4,6 @@ import { serverFetch, formatApiErrorMessage } from '@/lib/server-api';
 import type { ApiPublicService } from '@/types/api';
 import { revalidatePath } from 'next/cache';
 
-/**
- * Server Action: Fetch all public services from the server.
- * Endpoint: GET /content/pullicservice/
- */
 export async function getPublicServicesServerAction(): Promise<ApiPublicService[] | null> {
   try {
     const res = await serverFetch<any>('/content/pullicservice/', {
@@ -34,10 +30,6 @@ export async function getPublicServicesServerAction(): Promise<ApiPublicService[
   }
 }
 
-/**
- * Server Action: Create a new public service.
- * Endpoint: POST /content/pullicservice/
- */
 export async function createPublicServiceServerAction(data: {
   name_ar: string;
   name_en: string;
@@ -52,7 +44,7 @@ export async function createPublicServiceServerAction(data: {
       revalidatePath('/');
       revalidatePath('/[locale]', 'layout');
       revalidatePath('/dashboard/site-cms/public-services');
-      
+
       const responseData = res.data.data || res.data;
       return { success: true, data: responseData };
     }
@@ -67,10 +59,6 @@ export async function createPublicServiceServerAction(data: {
   }
 }
 
-/**
- * Server Action: Update an existing public service.
- * Endpoint: PUT/PATCH /content/pullicservice/${id}/
- */
 export async function updatePublicServiceServerAction(
   id: number,
   data: {
@@ -88,7 +76,7 @@ export async function updatePublicServiceServerAction(
       revalidatePath('/');
       revalidatePath('/[locale]', 'layout');
       revalidatePath('/dashboard/site-cms/public-services');
-      
+
       const responseData = res.data.data || res.data;
       return { success: true, data: responseData };
     }
@@ -103,10 +91,6 @@ export async function updatePublicServiceServerAction(
   }
 }
 
-/**
- * Server Action: Delete a public service.
- * Endpoint: DELETE /content/pullicservice/${id}/
- */
 export async function deletePublicServiceServerAction(
   id: number
 ): Promise<{ success: boolean; error?: string }> {

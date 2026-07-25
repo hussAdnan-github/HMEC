@@ -4,10 +4,6 @@ import { serverFetch, formatApiErrorMessage } from '@/lib/server-api';
 import type { ApiContent } from '@/types/api';
 import { revalidatePath } from 'next/cache';
 
-/**
- * Server Action: Fetch the main content from the server.
- * Endpoint: GET /content/content/
- */
 export async function getContentServerAction(): Promise<ApiContent | null> {
   try {
     const res = await serverFetch<any>('/content/content/', {
@@ -15,7 +11,7 @@ export async function getContentServerAction(): Promise<ApiContent | null> {
     });
 
     if (res.success && res.data) {
-      // The API response structure: { success: true, message: "...", data: { results: [...] } }
+
       const data = res.data;
       let resultsArray: any[] = [];
 
@@ -30,7 +26,7 @@ export async function getContentServerAction(): Promise<ApiContent | null> {
       }
 
       if (resultsArray.length > 0) {
-        return resultsArray[0] as ApiContent; // Return the first (and only) content record
+        return resultsArray[0] as ApiContent; 
       }
     }
 
@@ -41,10 +37,6 @@ export async function getContentServerAction(): Promise<ApiContent | null> {
   }
 }
 
-/**
- * Server Action: Create the main content.
- * Endpoint: POST /content/content/
- */
 export async function createContentServerAction(
   data: Omit<ApiContent, 'id' | 'create_at' | 'update_at'>
 ): Promise<{ success: boolean; data?: ApiContent; error?: string }> {
@@ -58,7 +50,7 @@ export async function createContentServerAction(
       revalidatePath('/');
       revalidatePath('/[locale]', 'layout');
       revalidatePath('/dashboard/site-cms/main-content');
-      
+
       const responseData = res.data.data || res.data;
       return { success: true, data: responseData };
     }
@@ -73,10 +65,6 @@ export async function createContentServerAction(
   }
 }
 
-/**
- * Server Action: Update the existing main content.
- * Endpoint: PUT/PATCH /content/content/${id}/
- */
 export async function updateContentServerAction(
   id: number,
   data: Partial<Omit<ApiContent, 'id' | 'create_at' | 'update_at'>>
@@ -91,7 +79,7 @@ export async function updateContentServerAction(
       revalidatePath('/');
       revalidatePath('/[locale]', 'layout');
       revalidatePath('/dashboard/site-cms/main-content');
-      
+
       const responseData = res.data.data || res.data;
       return { success: true, data: responseData };
     }

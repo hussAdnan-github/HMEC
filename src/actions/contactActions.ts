@@ -14,10 +14,6 @@ export interface ApiContactMessage {
   create_at?: string;
 }
 
-/**
- * Server Action: Submit contact us form
- * Endpoint: POST /content/contactus/
- */
 export async function submitContactUsAction(
   data: Omit<ApiContactMessage, 'id' | 'create_at'>
 ): Promise<{ success: boolean; data?: ApiContactMessage; error?: string }> {
@@ -41,10 +37,6 @@ export async function submitContactUsAction(
   }
 }
 
-/**
- * Server Action: Get all contact messages
- * Endpoint: GET /content/contactus/
- */
 export async function getContactMessagesAction(): Promise<ApiContactMessage[] | null> {
   try {
     const res = await serverFetch<any>('/content/contactus/', {

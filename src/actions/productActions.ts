@@ -12,11 +12,6 @@ import type {
 } from '@/types/api';
 import { revalidatePath } from 'next/cache';
 
-/**
- * Server Action: Fetch all products with pagination / search.
- * Uses global serverFetch helper and API base URL from ENV.
- * Endpoint: /products/product/
- */
 export async function getProductsServerAction(params?: {
   page?: number;
   search?: string;
@@ -32,7 +27,7 @@ export async function getProductsServerAction(params?: {
     const endpoint = `/products/product/${queryString ? `?${queryString}` : ''}`;
 
     const res = await serverFetch<ApiProductsResponse>(endpoint, {
-      next: { revalidate: 0 }, // Do not cache inside the dashboard to get fresh data
+      next: { revalidate: 0 }, 
     });
 
     if (res.success && res.data) {
@@ -46,7 +41,6 @@ export async function getProductsServerAction(params?: {
   }
 }
 
- 
 export async function getProductByIdServerAction(
   id: string | number
 ): Promise<ApiProduct | null> {
@@ -68,7 +62,6 @@ export async function getProductByIdServerAction(
   }
 }
 
- 
 export async function createProductServerAction(
   formData: FormData
 ): Promise<{ success: boolean; data?: ApiProduct; error?: string }> {
@@ -94,7 +87,6 @@ export async function createProductServerAction(
   }
 }
 
- 
 export async function updateProductServerAction(
   id: string | number,
   formData: FormData
@@ -122,7 +114,6 @@ export async function updateProductServerAction(
   }
 }
 
- 
 export async function deleteProductServerAction(
   id: string | number
 ): Promise<{ success: boolean; error?: string }> {
@@ -144,10 +135,6 @@ export async function deleteProductServerAction(
   }
 }
 
-/**
- * Server Action: Add a secondary/gallery image to a product.
- * Endpoint: POST /products/productimage/
- */
 export async function addProductImageServerAction(
   productId: string | number,
   imageFile: File
@@ -175,10 +162,6 @@ export async function addProductImageServerAction(
   }
 }
 
-/**
- * Server Action: Delete a secondary/gallery image from a product.
- * Endpoint: DELETE /products/productimage/${imageId}/
- */
 export async function deleteProductImageServerAction(
   imageId: string | number
 ): Promise<{ success: boolean; error?: string }> {
@@ -200,10 +183,6 @@ export async function deleteProductImageServerAction(
   }
 }
 
-/**
- * Server Action: Create a new product unit.
- * Endpoint: POST /products/unit/
- */
 export async function createProductUnitServerAction(unitData: {
   name_unit_ar: string;
   name_unit_en?: string;
@@ -236,10 +215,6 @@ export async function createProductUnitServerAction(unitData: {
   }
 }
 
-/**
- * Server Action: Update a product unit.
- * Endpoint: PATCH /products/unit/${unitId}/
- */
 export async function updateProductUnitServerAction(
   unitId: number | string,
   unitData: Partial<{
@@ -269,10 +244,6 @@ export async function updateProductUnitServerAction(
   }
 }
 
-/**
- * Server Action: Delete a product unit.
- * Endpoint: DELETE /products/unit/${unitId}/
- */
 export async function deleteProductUnitServerAction(
   unitId: number | string
 ): Promise<{ success: boolean; error?: string }> {
@@ -294,10 +265,6 @@ export async function deleteProductUnitServerAction(
   }
 }
 
-/**
- * Server Action: Fetch all agents (ouragent).
- * Endpoint: GET /content/ouragent/
- */
 export async function getAgentsServerAction(): Promise<ApiAgentsResponse | null> {
   try {
     const res = await serverFetch<ApiAgentsResponse>('/content/ouragent/', {

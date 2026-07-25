@@ -4,10 +4,6 @@ import { serverFetch, formatApiErrorMessage } from '@/lib/server-api';
 import type { ApiBranch } from '@/types/api';
 import { revalidatePath } from 'next/cache';
 
-/**
- * Server Action: Fetch all branches from the server.
- * Endpoint: GET /content/branch/
- */
 export async function getBranchesServerAction(): Promise<ApiBranch[] | null> {
   try {
     const res = await serverFetch<any>('/content/branch/', {
@@ -34,11 +30,6 @@ export async function getBranchesServerAction(): Promise<ApiBranch[] | null> {
   }
 }
 
-/**
- * Server Action: Create a new branch.
- * Endpoint: POST /content/branch/
- * Uses FormData to support image uploads.
- */
 export async function createBranchServerAction(
   formData: FormData
 ): Promise<{ success: boolean; data?: ApiBranch; error?: string }> {
@@ -52,7 +43,7 @@ export async function createBranchServerAction(
       revalidatePath('/');
       revalidatePath('/[locale]', 'layout');
       revalidatePath('/dashboard/site-cms/branches');
-      
+
       const responseData = res.data.data || res.data;
       return { success: true, data: responseData };
     }
@@ -67,11 +58,6 @@ export async function createBranchServerAction(
   }
 }
 
-/**
- * Server Action: Update an existing branch.
- * Endpoint: PUT/PATCH /content/branch/${id}/
- * Uses FormData to support image uploads.
- */
 export async function updateBranchServerAction(
   id: number,
   formData: FormData
@@ -86,7 +72,7 @@ export async function updateBranchServerAction(
       revalidatePath('/');
       revalidatePath('/[locale]', 'layout');
       revalidatePath('/dashboard/site-cms/branches');
-      
+
       const responseData = res.data.data || res.data;
       return { success: true, data: responseData };
     }
@@ -101,10 +87,6 @@ export async function updateBranchServerAction(
   }
 }
 
-/**
- * Server Action: Delete a branch.
- * Endpoint: DELETE /content/branch/${id}/
- */
 export async function deleteBranchServerAction(
   id: number
 ): Promise<{ success: boolean; error?: string }> {

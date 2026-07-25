@@ -9,10 +9,6 @@ import type {
 } from '@/types/api';
 import { revalidatePath } from 'next/cache';
 
-/**
- * Server Action: Fetch all projects with pagination / search.
- * Endpoint: GET /gallery/project/
- */
 export async function getProjectsServerAction(params?: {
   page?: number;
   search?: string;
@@ -40,10 +36,6 @@ export async function getProjectsServerAction(params?: {
   }
 }
 
-/**
- * Server Action: Fetch a single project by ID.
- * Endpoint: GET /gallery/project/${id}/
- */
 export async function getProjectByIdServerAction(
   id: string | number
 ): Promise<ApiProject | null> {
@@ -65,10 +57,6 @@ export async function getProjectByIdServerAction(
   }
 }
 
-/**
- * Server Action: Create a new project.
- * Endpoint: POST /gallery/project/
- */
 export async function createProjectServerAction(
   formData: FormData
 ): Promise<{ success: boolean; data?: ApiProject; error?: string }> {
@@ -94,10 +82,6 @@ export async function createProjectServerAction(
   }
 }
 
-/**
- * Server Action: Update an existing project.
- * Endpoint: PATCH /gallery/project/${id}/
- */
 export async function updateProjectServerAction(
   id: string | number,
   formData: FormData
@@ -125,10 +109,6 @@ export async function updateProjectServerAction(
   }
 }
 
-/**
- * Server Action: Delete a project.
- * Endpoint: DELETE /gallery/project/${id}/
- */
 export async function deleteProjectServerAction(
   id: string | number
 ): Promise<{ success: boolean; error?: string }> {
@@ -150,10 +130,6 @@ export async function deleteProjectServerAction(
   }
 }
 
-/**
- * Server Action: Add a secondary/gallery image to a project.
- * Endpoint: POST /gallery/projectimage/
- */
 export async function addProjectImageServerAction(
   projectId: string | number,
   imageFile: File
@@ -181,10 +157,6 @@ export async function addProjectImageServerAction(
   }
 }
 
-/**
- * Server Action: Delete a secondary/gallery image from a project.
- * Endpoint: DELETE /gallery/projectimage/${imageId}/
- */
 export async function deleteProjectImageServerAction(
   imageId: string | number
 ): Promise<{ success: boolean; error?: string }> {

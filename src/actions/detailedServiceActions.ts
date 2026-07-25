@@ -39,7 +39,7 @@ export async function createDetailedServiceServerAction(data: { name_ar: string;
         'Content-Type': 'application/json',
       },
     });
-    
+
     if (res.success && res.data) {
       revalidatePath('/dashboard/site-cms');
       revalidatePath('/[locale]', 'layout');
@@ -63,7 +63,7 @@ export async function updateDetailedServiceServerAction(id: number, data: { name
         'Content-Type': 'application/json',
       },
     });
-    
+
     if (res.success && res.data) {
       revalidatePath('/dashboard/site-cms');
       revalidatePath('/[locale]', 'layout');
@@ -83,7 +83,7 @@ export async function deleteDetailedServiceServerAction(id: number) {
     const res = await serverFetch<any>(`/content/service/${id}/`, {
       method: 'DELETE',
     });
-    
+
     if (res.success) {
       revalidatePath('/dashboard/site-cms');
       revalidatePath('/[locale]', 'layout');

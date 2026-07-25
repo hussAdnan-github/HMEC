@@ -4,10 +4,6 @@ import { serverFetch, formatApiErrorMessage } from '@/lib/server-api';
 import type { ApiAgent } from '@/types/api';
 import { revalidatePath } from 'next/cache';
 
-/**
- * Server Action: Fetch all agents from the server.
- * Endpoint: GET /content/ouragent/
- */
 export async function getAgentsServerAction(): Promise<ApiAgent[] | null> {
   try {
     const res = await serverFetch<any>('/content/ouragent/', {
@@ -34,11 +30,6 @@ export async function getAgentsServerAction(): Promise<ApiAgent[] | null> {
   }
 }
 
-/**
- * Server Action: Create a new agent.
- * Endpoint: POST /content/ouragent/
- * Uses FormData to support image uploads.
- */
 export async function createAgentServerAction(
   formData: FormData
 ): Promise<{ success: boolean; data?: ApiAgent; error?: string }> {
@@ -52,7 +43,7 @@ export async function createAgentServerAction(
       revalidatePath('/');
       revalidatePath('/[locale]', 'layout');
       revalidatePath('/dashboard/site-cms/agencies');
-      
+
       const responseData = res.data.data || res.data;
       return { success: true, data: responseData };
     }
@@ -67,18 +58,13 @@ export async function createAgentServerAction(
   }
 }
 
-/**
- * Server Action: Update an existing agent.
- * Endpoint: PUT/PATCH /content/ouragent/${id}/
- * Uses FormData to support image uploads.
- */
 export async function updateAgentServerAction(
   id: number,
   formData: FormData
 ): Promise<{ success: boolean; data?: ApiAgent; error?: string }> {
   try {
     const res = await serverFetch<any>(`/content/ouragent/${id}/`, {
-      method: 'PATCH', // Usually Django APIs use PATCH for partial updates
+      method: 'PATCH',  
       body: formData,
     });
 
@@ -86,7 +72,7 @@ export async function updateAgentServerAction(
       revalidatePath('/');
       revalidatePath('/[locale]', 'layout');
       revalidatePath('/dashboard/site-cms/agencies');
-      
+
       const responseData = res.data.data || res.data;
       return { success: true, data: responseData };
     }
@@ -101,10 +87,6 @@ export async function updateAgentServerAction(
   }
 }
 
-/**
- * Server Action: Delete an agent.
- * Endpoint: DELETE /content/ouragent/${id}/
- */
 export async function deleteAgentServerAction(
   id: number
 ): Promise<{ success: boolean; error?: string }> {

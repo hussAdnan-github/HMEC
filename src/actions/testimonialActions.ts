@@ -4,10 +4,6 @@ import { serverFetch, formatApiErrorMessage } from '@/lib/server-api';
 import type { ApiCustomerReview } from '@/types/api';
 import { revalidatePath } from 'next/cache';
 
-/**
- * Server Action: Fetch all customer reviews from the server.
- * Endpoint: GET /content/customerreview/
- */
 export async function getTestimonialsServerAction(): Promise<ApiCustomerReview[] | null> {
   try {
     const res = await serverFetch<any>('/content/customerreview/', {
@@ -34,11 +30,6 @@ export async function getTestimonialsServerAction(): Promise<ApiCustomerReview[]
   }
 }
 
-/**
- * Server Action: Create a new customer review.
- * Endpoint: POST /content/customerreview/
- * Uses FormData to support image uploads.
- */
 export async function createTestimonialServerAction(
   formData: FormData
 ): Promise<{ success: boolean; data?: ApiCustomerReview; error?: string }> {
@@ -52,7 +43,7 @@ export async function createTestimonialServerAction(
       revalidatePath('/');
       revalidatePath('/[locale]', 'layout');
       revalidatePath('/dashboard/site-cms/testimonials');
-      
+
       const responseData = res.data.data || res.data;
       return { success: true, data: responseData };
     }
@@ -67,11 +58,6 @@ export async function createTestimonialServerAction(
   }
 }
 
-/**
- * Server Action: Update an existing customer review.
- * Endpoint: PUT/PATCH /content/customerreview/${id}/
- * Uses FormData to support image uploads.
- */
 export async function updateTestimonialServerAction(
   id: number,
   formData: FormData
@@ -86,7 +72,7 @@ export async function updateTestimonialServerAction(
       revalidatePath('/');
       revalidatePath('/[locale]', 'layout');
       revalidatePath('/dashboard/site-cms/testimonials');
-      
+
       const responseData = res.data.data || res.data;
       return { success: true, data: responseData };
     }
@@ -101,10 +87,6 @@ export async function updateTestimonialServerAction(
   }
 }
 
-/**
- * Server Action: Delete a customer review.
- * Endpoint: DELETE /content/customerreview/${id}/
- */
 export async function deleteTestimonialServerAction(
   id: number
 ): Promise<{ success: boolean; error?: string }> {
