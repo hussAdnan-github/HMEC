@@ -117,3 +117,90 @@ export interface CartItem {
   brandNameEn?: string;
   numberProduct?: string;
 }
+
+export interface OrderItem {
+  id: string;
+  orderNumber: string;
+  customerName: string;
+  customerPhone: string;
+  customerCity: string;
+  totalAmount: number;
+  status: 'new' | 'processing' | 'shipped' | 'completed' | 'cancelled';
+  createdAt: string;
+  itemsCount: number;
+  notes?: string;
+}
+
+export interface SliderSlide {
+  id: string;
+  badge: string;
+  title: string;
+  subtitle: string;
+  ctaText: string;
+  ctaLink: string;
+  image: string;
+  isActive: boolean;
+}
+
+export interface BranchesInfoConfig {
+  introTitle: string;
+  introSubtitle: string;
+  customerHotline: string;
+  workingDays: string;
+}
+
+export interface MainContentConfig {
+  heroTitle: string;
+  heroSubtitle: string;
+  heroBadge: string;
+  aboutTitle: string;
+  aboutText: string;
+  visionText: string;
+  missionText: string;
+  yearsExperience: string;
+}
+
+export interface GeneralServiceConfig {
+  title: string;
+  subtitle: string;
+  guaranteeText: string;
+  supportCoverage: string;
+}
+
+export interface ContactInfoConfig {
+  phoneMain: string;
+  phoneSales: string;
+  whatsapp: string;
+  email: string;
+  hqAddress: string;
+  googleMapsUrl: string;
+  workingHours: string;
+  facebookUrl: string;
+  instagramUrl: string;
+}
+
+export interface CmsAgency {
+  name: string;
+  nameEn: string;
+  logo: string;
+  description: string;
+  isFeatured: boolean;
+}
+
+export interface CmsService {
+  title: string;
+  description: string;
+  icon: string;
+  features?: string[];
+}
+
+export interface CmsTestimonial {
+  name: string;
+  role: string;
+  company: string;
+  rating: number;
+  text: string;
+  date: string;
+  avatar: string;
+  isApproved: boolean;
+}

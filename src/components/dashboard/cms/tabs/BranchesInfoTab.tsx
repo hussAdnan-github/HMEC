@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Building2, Save, PhoneCall, Clock, Sparkles } from 'lucide-react';
-import { BranchesInfoConfig } from '@/data/siteCmsMockData';
+import type { BranchesInfoConfig } from '@/types';
 
 interface BranchesInfoTabProps {
   branchesInfo: BranchesInfoConfig;

@@ -8,14 +8,10 @@ import {
   ArrowRight
 } from 'lucide-react';
 
-import {
-  initialSlides,
-
-  initialBranchesInfo,
+import type {
   SliderSlide,
-
   BranchesInfoConfig,
-} from '@/data/siteCmsMockData';
+} from '@/types';
 
 import { CmsCardsGrid, SubTabType } from './cms/CmsCardsGrid';
 import { SliderTab } from './cms/tabs/SliderTab';
@@ -81,10 +77,14 @@ export const SiteCmsSection: React.FC = () => {
     }
   };
 
-  // Datasets states
-  const [slides, setSlides] = useState<SliderSlide[]>(initialSlides);
+  const [slides, setSlides] = useState<SliderSlide[]>([]);
 
-  const [branchesInfo, setBranchesInfo] = useState<BranchesInfoConfig>(initialBranchesInfo);
+  const [branchesInfo, setBranchesInfo] = useState<BranchesInfoConfig>({
+    introTitle: '',
+    introSubtitle: '',
+    customerHotline: '',
+    workingDays: '',
+  });
 
   // Toast feedback state
   const [saveSuccessMsg, setSaveSuccessMsg] = useState<string | null>(null);

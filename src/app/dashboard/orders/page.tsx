@@ -2,11 +2,11 @@
 
 import React, { useState } from 'react';
 import { OrdersSection } from '@/components/dashboard/OrdersSection';
-import { OrderItem, initialOrders } from '@/data/dashboardMockData';
+import type { OrderItem } from '@/types';
 import { OrderModal, DeleteConfirmModal } from '@/components/dashboard/Modals';
 
 export default function OrdersDashboardPage() {
-  const [orders, setOrders] = useState<OrderItem[]>(initialOrders);
+  const [orders, setOrders] = useState<OrderItem[]>([]);
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [editingOrder, setEditingOrder] = useState<OrderItem | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<OrderItem | null>(null);

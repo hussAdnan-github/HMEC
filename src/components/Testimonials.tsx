@@ -1,6 +1,6 @@
 'use client';
 
-import { testimonials as staticTestimonials } from '@/data/siteData';
+
 import type { ApiCustomerReview } from '@/types/api';
 import { getImageUrl } from '@/lib/utils';
 import { useTranslations, useLocale } from 'next-intl';
@@ -28,7 +28,7 @@ export default function Testimonials({ reviews }: TestimonialsProps) {
         company: '',
         image: getImageUrl(review.image)
       }))
-    : staticTestimonials;
+    : [];
 
   return (
     <section className="py-24 bg-background relative" id="testimonials">

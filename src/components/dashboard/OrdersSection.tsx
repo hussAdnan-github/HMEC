@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { ShoppingBag, Search, Plus, Edit, Trash2, Phone, MapPin, CheckCircle2, Clock } from 'lucide-react';
-import { OrderItem } from '@/data/dashboardMockData';
+import type { OrderItem } from '@/types';
 
 interface OrdersSectionProps {
   orders: OrderItem[];

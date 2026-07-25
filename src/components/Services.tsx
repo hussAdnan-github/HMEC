@@ -1,6 +1,6 @@
 'use client';
 
-import { services as staticServices } from '@/data/siteData';
+
 import type { ApiService, ApiPublicService } from '@/types/api';
 import type { Service } from '@/types';
 import { useTranslations, useLocale } from 'next-intl';
@@ -28,7 +28,7 @@ export default function Services({ publicServices }: ServicesProps) {
         icon: '🔧',
         features: []
       }))
-    : staticServices;
+    : [];
 
   return (
     <section className="py-24 bg-slate-900 relative overflow-hidden" id="services">

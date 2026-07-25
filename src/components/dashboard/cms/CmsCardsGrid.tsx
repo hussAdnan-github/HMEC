@@ -14,7 +14,7 @@ import {
   ChevronLeft,
   MessageSquareQuote
 } from 'lucide-react';
-import { SliderSlide } from '@/data/siteCmsMockData';
+import type { SliderSlide } from '@/types';
 
 export type SubTabType =
   | 'overview_cards'

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Plus, Edit, Trash2, Eye, EyeOff, Sparkles, ExternalLink } from 'lucide-react';
-import { SliderSlide } from '@/data/siteCmsMockData';
+import type { SliderSlide } from '@/types';
 
 interface SliderTabProps {
   slides: SliderSlide[];

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Menu, X, Plus, Sun, Moon, Bell } from 'lucide-react';
+import Link from 'next/link';
 
 interface DashboardHeaderProps {
   isMobileOpen: boolean;
@@ -47,7 +48,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
         </button>
 
         {/* Brand Logo & Name */}
-        <div className="flex items-center gap-2.5">
+        <Link href="/" className="flex items-center gap-2.5 cursor-pointer hover:opacity-80 transition-opacity">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary via-primary-dark to-accent flex items-center justify-center text-primary-foreground font-black text-lg shadow-md shadow-primary/20">
             ⚡
           </div>
@@ -59,7 +60,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
               لوحة تحكم إدارة المحتوى | HMEC Dashboard
             </span>
           </div>
-        </div>
+        </Link>
       </div>
 
       {/* Right Action Tools */}

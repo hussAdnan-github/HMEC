@@ -5,7 +5,7 @@ import AgencyModal from './AgencyModal';
 import type { ApiSlider, ApiAgent, ApiProduct, ApiProject, ApiService } from '@/types/api';
 import type { Agency } from '@/types';
 import { getImageUrl, cn } from '@/lib/utils';
-import { agencies as staticAgencies } from '@/data/siteData';
+import { agencies as staticAgencies } from '@/config/site';
 import { useTranslations, useLocale } from 'next-intl';
 
 interface HeroSliderProps {

@@ -1,6 +1,6 @@
 'use client';
 
-import { branches as staticBranches } from '@/data/siteData';
+
 import type { ApiBranch } from '@/types/api';
 import { getImageUrl } from '@/lib/utils';
 import type { Branch } from '@/types';
@@ -34,7 +34,7 @@ export default function Branches({ branches }: BranchesProps) {
         imageUrl: getImageUrl(b.images),
         mapUrl: b.link_location
       }))
-    : staticBranches;
+    : [];
 
   return (
     <section className="py-24 bg-secondary relative" id="branches">

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { navLinks } from '@/data/siteData';
+import { navLinks } from '@/config/site';
 import { ApiContent } from '@/types/api';
 import { ShoppingCart, User, Menu, X, Globe, LogIn } from 'lucide-react';
 import { cn } from '@/lib/utils';

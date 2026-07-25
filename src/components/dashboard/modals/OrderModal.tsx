@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { X, Check, ShoppingBag } from 'lucide-react';
-import { OrderItem } from '@/data/dashboardMockData';
+import type { OrderItem } from '@/types';
 
 interface OrderModalProps {
   isOpen: boolean;

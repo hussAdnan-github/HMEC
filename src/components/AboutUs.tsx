@@ -1,6 +1,6 @@
 'use client';
 
-import { whyChooseUs } from '@/data/siteData';
+import { whyChooseUs } from '@/config/site';
 import type { ApiContent, ApiGoal } from '@/types/api';
 import { cn } from '@/lib/utils';
 import { useTranslations, useLocale } from 'next-intl';

@@ -18,11 +18,12 @@ import {
   ChevronLeft,
   Globe
 } from 'lucide-react';
-import { ProductItem, ProjectItem, OrderItem } from '@/data/dashboardMockData';
+import type { ApiProduct, ApiProject } from '@/types/api';
+import type { OrderItem } from '@/types';
 
 interface OverviewSectionProps {
-  products: ProductItem[];
-  projects: ProjectItem[];
+  products: ApiProduct[];
+  projects: ApiProject[];
   branches?: any[];
   orders: OrderItem[];
   onNavigateTab: (tab: string) => void;

@@ -7,7 +7,7 @@ import {
   CmsAgency,
   CmsService,
   CmsTestimonial
-} from '@/data/siteCmsMockData';
+} from '@/types';
 import { ApiGoal, ApiPublicService } from '@/types/api';
 
 // --- Modal 1: Hero Slider Modal ---

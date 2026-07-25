@@ -1,12 +1,14 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { chatbotResponses, quickReplies } from '@/data/siteData';
+import { chatbotResponses, quickReplies } from '@/config/site';
 import type { ChatMessage } from '@/types';
 import { MessageCircle, X, Send, Bot } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useLocale } from 'next-intl';
 
 export default function ChatBot() {
+  const locale = useLocale();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
@@ -82,7 +84,10 @@ export default function ChatBot() {
     <>
       {/* Trigger Button */}
       <button
-        className="fixed bottom-6 right-6 w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/40 transition-all duration-300 z-50"
+        className={cn(
+          "fixed bottom-6 w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/40 transition-all duration-300 z-50",
+          locale === 'ar' ? "left-6" : "right-6"
+        )}
         onClick={() => setIsOpen(!isOpen)}
         title="المساعد الآلي"
         id="chatbot-trigger"
@@ -92,7 +97,8 @@ export default function ChatBot() {
 
       {/* Chat Window */}
       <div className={cn(
-        "fixed bottom-28 right-6 w-[380px] max-w-[calc(100vw-48px)] h-[600px] max-h-[calc(100vh-140px)] bg-white rounded-3xl shadow-2xl border border-slate-100 flex flex-col overflow-hidden z-50 transition-all duration-300 origin-bottom-right",
+        "fixed bottom-28 w-[380px] max-w-[calc(100vw-48px)] h-[600px] max-h-[calc(100vh-140px)] bg-white rounded-3xl shadow-2xl border border-slate-100 flex flex-col overflow-hidden z-50 transition-all duration-300",
+        locale === 'ar' ? "left-6 origin-bottom-left" : "right-6 origin-bottom-right",
         isOpen ? "scale-100 opacity-100 translate-y-0" : "scale-95 opacity-0 translate-y-10 pointer-events-none"
       )}>
         {/* Header */}

@@ -1,6 +1,6 @@
 'use client';
 
-import { navLinks } from '@/data/siteData';
+import { navLinks } from '@/config/site';
 import type { ApiContent } from '@/types/api';
 import { Monitor, Camera, Video, MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { useTranslations, useLocale } from 'next-intl';
