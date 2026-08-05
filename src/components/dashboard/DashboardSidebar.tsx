@@ -14,7 +14,8 @@ import {
   Settings,
   Zap,
   X,
-  MessageSquare
+  MessageSquare,
+  Users
 } from 'lucide-react';
 
 export interface NavRouteItem {
@@ -54,6 +55,7 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
     { href: '/dashboard/site-cms', label: 'إدارة المحتوى', icon: Globe },
     { href: '/dashboard/products', label: 'إدارة المنتجات', icon: Package, badge: productsCount },
     { href: '/dashboard/projects', label: 'إدارة المشاريع', icon: FolderKanban, badge: projectsCount },
+    { href: '/dashboard/hr', label: 'الموارد البشرية', icon: Users },
     { href: '/dashboard/contact-messages', label: 'رسائل التواصل', icon: MessageSquare },
     {
       href: '/dashboard/orders',

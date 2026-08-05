@@ -244,3 +244,247 @@ export interface ApiAgentsResponse {
   message: string;
   data: ApiPaginatedData<ApiAgent>;
 }
+
+// ==========================================
+// HR MODULE TYPES
+// ==========================================
+
+export interface ApiJobTitle {
+  id: number;
+  name: string;
+  tesk: string;
+  create_at: string;
+  update_at: string;
+}
+
+export interface ApiJobTitlesResponse {
+  success: boolean;
+  message: string;
+  data: ApiPaginatedData<ApiJobTitle>;
+}
+
+export interface ApiSingleJobTitleResponse {
+  success: boolean;
+  message: string;
+  data: ApiJobTitle;
+}
+
+export interface ApiEducationalLevel {
+  id: number;
+  name: string;
+  create_at: string;
+  update_at: string;
+}
+
+export interface ApiEducationalLevelsResponse {
+  success: boolean;
+  message: string;
+  data: ApiPaginatedData<ApiEducationalLevel>;
+}
+
+export interface ApiSingleEducationalLevelResponse {
+  success: boolean;
+  message: string;
+  data: ApiEducationalLevel;
+}
+
+export interface ApiCompany {
+  id: number;
+  name: string;
+  address: string;
+  logo: string | null;
+  create_at: string;
+  update_at: string;
+}
+
+export interface ApiCompaniesResponse {
+  success: boolean;
+  message: string;
+  data: ApiPaginatedData<ApiCompany>;
+}
+
+export interface ApiSingleCompanyResponse {
+  success: boolean;
+  message: string;
+  data: ApiCompany;
+}
+
+export interface ApiDeviceFingerprint {
+  id: number;
+  name: string;
+  sn: string;
+  location: string;
+  ip_address: string;
+  port: number | null;
+  password: string;
+  create_at: string;
+  update_at: string;
+}
+
+export interface ApiDeviceFingerprintsResponse {
+  success: boolean;
+  message: string;
+  data: ApiPaginatedData<ApiDeviceFingerprint>;
+}
+
+export interface ApiSingleDeviceFingerprintResponse {
+  success: boolean;
+  message: string;
+  data: ApiDeviceFingerprint;
+}
+
+export interface ApiDataReception {
+  id: number;
+  user_id: number | null;
+  timestamp: string | null;
+  status: string;
+  finger_print_data: string;
+  device_finger_print: number | null;
+  create_at: string;
+  update_at: string;
+}
+
+export interface ApiDataReceptionsResponse {
+  success: boolean;
+  message: string;
+  data: ApiPaginatedData<ApiDataReception>;
+}
+
+export interface ApiSingleDataReceptionResponse {
+  success: boolean;
+  message: string;
+  data: ApiDataReception;
+}
+
+export interface ApiEmployee {
+  id?: number;
+  name: string;
+  birth_date: string | null;
+  basic_salary: number | null;
+  secondary_salary: number | null;
+  currency_basic: string | number | null;
+  currency_secondary: string | number | null;
+  job_title: number | null;
+  educational_level: number | null;
+  company: number | null;
+  type_of_employee: string | number | null;
+  marital_status: string | number | null;
+  create_at?: string;
+  update_at?: string;
+}
+
+export interface ApiEmployeesResponse {
+  success: boolean;
+  message: string;
+  data: ApiPaginatedData<ApiEmployee>;
+}
+
+export interface ApiSingleEmployeeResponse {
+  success: boolean;
+  message: string;
+  data: ApiEmployee;
+}
+
+export interface ApiEmployeeFingerprint {
+  id?: number;
+  employee_name?: string;
+  finger_print_id: string;
+  finger_print_data: string;
+  create_at?: string;
+  update_at?: string;
+  employee: number | null;
+  device_finger_print: number | null;
+}
+
+export interface ApiEmployeeFingerprintsResponse {
+  success: boolean;
+  message: string;
+  data: ApiPaginatedData<ApiEmployeeFingerprint>;
+}
+
+export interface ApiSingleEmployeeFingerprintResponse {
+  success: boolean;
+  message: string;
+  data: ApiEmployeeFingerprint;
+}
+
+export interface ApiShift {
+  id?: number;
+  name: string;
+  start_time: string | null;
+  end_time: string | null;
+  days: number[];
+  employees: number[];
+  create_at?: string;
+  update_at?: string;
+}
+
+export interface ApiShiftsResponse {
+  success: boolean;
+  message: string;
+  data: ApiPaginatedData<ApiShift>;
+}
+
+export interface ApiSingleShiftResponse {
+  success: boolean;
+  message: string;
+  data: ApiShift;
+}
+
+export interface ApiAttendance {
+  id?: number;
+  employee_name?: string;
+  shift_name?: string;
+  date: string | null;
+  time_in: string | null;
+  time_out: string | null;
+  is_present: boolean;
+  is_present1: number | null;
+  note: string;
+  create_at?: string;
+  update_at?: string;
+  employee: number | null;
+  shift: number | null;
+}
+
+export interface ApiAttendancesResponse {
+  success: boolean;
+  message: string;
+  data: ApiPaginatedData<ApiAttendance>;
+}
+
+export interface ApiSingleAttendanceResponse {
+  success: boolean;
+  message: string;
+  data: ApiAttendance;
+}
+
+export interface ApiLawFingerprinter {
+  id?: number;
+  name: string;
+  time_from_which_fingerprint_entry_is_received: string | null;
+  entry_grace_period: string | null;
+  consider_absent_if_late_by: string | null;
+  early_departure_allowance: string | null;
+  last_time_to_accept_finger_print: string | null;
+  time_from_which_fingerprint_out_is_received: string | null;
+  deduct_for_missing_check_in: boolean;
+  deduct_for_missing_check_out: boolean;
+  create_at?: string;
+  update_at?: string;
+  shift: number | null;
+}
+
+export interface ApiLawFingerprintersResponse {
+  success: boolean;
+  message: string;
+  data: ApiPaginatedData<ApiLawFingerprinter>;
+}
+
+export interface ApiSingleLawFingerprinterResponse {
+  success: boolean;
+  message: string;
+  data: ApiLawFingerprinter;
+}
+
+

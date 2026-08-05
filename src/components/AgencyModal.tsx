@@ -77,30 +77,7 @@ export default function AgencyModal({ agency, onClose }: AgencyModalProps) {
               {agency.description}
             </div>
 
-            {/* Projects */}
-            {agency.projects && agency.projects.length > 0 && (
-              <div className="mb-12">
-                <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
-                  <Building2 className="text-primary" size={24} />
-                  المشاريع المنفذة
-                </h3>
-                <div className="grid md:grid-cols-2 gap-4">
-                  {agency.projects.map((project) => (
-                    <div key={project.id} className="flex gap-4 p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-primary/30 transition-all group">
-                      <div className="text-4xl shrink-0 group-hover:scale-110 transition-transform">{project.image}</div>
-                      <div>
-                        <h4 className="font-bold text-slate-800 mb-1">{project.title}</h4>
-                        <p className="text-sm text-slate-500 mb-3">{project.description}</p>
-                        <div className="flex flex-wrap items-center gap-3 text-xs font-semibold text-slate-400">
-                          <span className="flex items-center gap-1"><Calendar size={14} /> {project.date}</span>
-                          <span className="flex items-center gap-1"><MapPin size={14} /> {project.location}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+
 
             {/* Detailed Services */}
             {agency.services && agency.services.length > 0 && (
