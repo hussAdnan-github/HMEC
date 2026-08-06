@@ -134,7 +134,7 @@ export default function HeroSlider({ sliders, agencies, products, projects }: He
 
         <div className="flex justify-center gap-5 flex-wrap max-w-7xl mx-auto px-6">
           {displayAgencies.map((agency) => {
-            const hasImage = (agency as any).imageUrl;
+            const hasImage = (agency as { imageUrl?: string }).imageUrl;
             return (
               <button
                 key={agency.id}
@@ -146,7 +146,7 @@ export default function HeroSlider({ sliders, agencies, products, projects }: He
                 <div className="relative z-10 w-16 h-16 shrink-0 rounded-2xl bg-white/10 flex items-center justify-center p-2 shadow-inner border border-white/5 group-hover:scale-110 transition-transform duration-500">
                   {hasImage ? (
                     <img
-                      src={(agency as any).imageUrl}
+                      src={(agency as { imageUrl?: string }).imageUrl}
                       alt={agency.name}
                       className="w-full h-full object-contain drop-shadow-md rounded-xl"
                     />

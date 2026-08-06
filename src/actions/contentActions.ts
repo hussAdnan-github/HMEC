@@ -13,7 +13,7 @@ export async function getContentServerAction(): Promise<ApiContent | null> {
     if (res.success && res.data) {
 
       const data = res.data;
-      let resultsArray: any[] = [];
+      let resultsArray: ApiContent[] = [];
 
       if (data.data?.results && Array.isArray(data.data.results)) {
         resultsArray = data.data.results;
@@ -59,9 +59,9 @@ export async function createContentServerAction(
       success: false,
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل حفظ المحتوى'),
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in createContentServerAction:', error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء حفظ المحتوى' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) || 'حدث خطأ أثناء حفظ المحتوى' };
   }
 }
 
@@ -88,8 +88,8 @@ export async function updateContentServerAction(
       success: false,
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل تعديل المحتوى'),
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in updateContentServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء تعديل المحتوى' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) || 'حدث خطأ أثناء تعديل المحتوى' };
   }
 }

@@ -52,9 +52,9 @@ export async function createBranchServerAction(
       success: false,
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل إضافة الفرع'),
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in createBranchServerAction:', error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء إضافة الفرع' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) || 'حدث خطأ أثناء إضافة الفرع' };
   }
 }
 
@@ -81,9 +81,9 @@ export async function updateBranchServerAction(
       success: false,
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل تعديل الفرع'),
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in updateBranchServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء تعديل الفرع' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) || 'حدث خطأ أثناء تعديل الفرع' };
   }
 }
 
@@ -106,8 +106,8 @@ export async function deleteBranchServerAction(
       success: false,
       error: res.error || 'فشل حذف الفرع',
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in deleteBranchServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء حذف الفرع' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) || 'حدث خطأ أثناء حذف الفرع' };
   }
 }

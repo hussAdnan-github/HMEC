@@ -84,7 +84,7 @@ export default function Footer({ content }: FooterProps) {
                     href="#services" 
                     className="text-white/60 hover:text-primary transition-colors flex items-center gap-2 before:content-[''] before:w-1.5 before:h-1.5 before:rounded-full before:bg-primary before:opacity-0 hover:before:opacity-100 before:transition-opacity"
                   >
-                    {tFooter(`services_list.${key}` as any)}
+                    {tFooter(`services_list.${key}` as never)}
                   </a>
                 </li>
               ))}

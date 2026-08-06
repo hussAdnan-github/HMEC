@@ -52,9 +52,9 @@ export async function createAgentServerAction(
       success: false,
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل إضافة الوكيل'),
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in createAgentServerAction:', error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء إضافة الوكيل' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) || 'حدث خطأ أثناء إضافة الوكيل' };
   }
 }
 
@@ -81,9 +81,9 @@ export async function updateAgentServerAction(
       success: false,
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل تعديل الوكيل'),
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in updateAgentServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء تعديل الوكيل' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) || 'حدث خطأ أثناء تعديل الوكيل' };
   }
 }
 
@@ -106,8 +106,8 @@ export async function deleteAgentServerAction(
       success: false,
       error: res.error || 'فشل حذف الوكيل',
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in deleteAgentServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء حذف الوكيل' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) || 'حدث خطأ أثناء حذف الوكيل' };
   }
 }

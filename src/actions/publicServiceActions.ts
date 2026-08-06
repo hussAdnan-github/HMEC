@@ -53,9 +53,9 @@ export async function createPublicServiceServerAction(data: {
       success: false,
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل إضافة الخدمة العامة'),
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in createPublicServiceServerAction:', error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء إضافة الخدمة العامة' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) || 'حدث خطأ أثناء إضافة الخدمة العامة' };
   }
 }
 
@@ -85,9 +85,9 @@ export async function updatePublicServiceServerAction(
       success: false,
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل تعديل الخدمة العامة'),
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in updatePublicServiceServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء تعديل الخدمة العامة' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) || 'حدث خطأ أثناء تعديل الخدمة العامة' };
   }
 }
 
@@ -110,8 +110,8 @@ export async function deletePublicServiceServerAction(
       success: false,
       error: res.error || 'فشل حذف الخدمة العامة',
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in deletePublicServiceServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء حذف الخدمة العامة' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) || 'حدث خطأ أثناء حذف الخدمة العامة' };
   }
 }

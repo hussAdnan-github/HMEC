@@ -76,9 +76,9 @@ export async function createProjectServerAction(
       success: false, 
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل إضافة المشروع') 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in createProjectServerAction:', error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء إضافة المشروع' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء إضافة المشروع' };
   }
 }
 
@@ -103,9 +103,9 @@ export async function updateProjectServerAction(
       success: false, 
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل تعديل بيانات المشروع') 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in updateProjectServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء تعديل بيانات المشروع' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء تعديل بيانات المشروع' };
   }
 }
 
@@ -124,9 +124,9 @@ export async function deleteProjectServerAction(
     }
 
     return { success: false, error: res.error || 'فشل حذف المشروع' };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in deleteProjectServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء حذف المشروع' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء حذف المشروع' };
   }
 }
 
@@ -151,9 +151,9 @@ export async function addProjectImageServerAction(
     }
 
     return { success: false, error: res.error || 'فشل رفع صورة المشروع الفرعية' };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in addProjectImageServerAction:', error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء رفع الصورة' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء رفع الصورة' };
   }
 }
 
@@ -172,8 +172,8 @@ export async function deleteProjectImageServerAction(
     }
 
     return { success: false, error: res.error || 'فشل حذف صورة المشروع الفرعية' };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in deleteProjectImageServerAction for image ${imageId}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء حذف الصورة' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء حذف الصورة' };
   }
 }

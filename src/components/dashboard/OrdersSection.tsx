@@ -160,7 +160,7 @@ export const OrdersSection: React.FC<OrdersSectionProps> = ({
                     <td className="p-4">
                       <select
                         value={ord.status}
-                        onChange={(e) => onStatusChange(ord.id, e.target.value as any)}
+                        onChange={(e) => onStatusChange(ord.id, e.target.value as OrderItem["status"])}
                         className={`px-3 py-1 rounded-xl text-xs font-bold border transition-colors ${
                           ord.status === 'new'
                             ? 'bg-red-500/10 text-red-600 border-red-500/30'

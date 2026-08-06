@@ -81,9 +81,9 @@ export async function createProductServerAction(
       success: false, 
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل إضافة المنتج') 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in createProductServerAction:', error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء إضافة المنتج' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء إضافة المنتج' };
   }
 }
 
@@ -108,9 +108,9 @@ export async function updateProductServerAction(
       success: false, 
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل تعديل المنتج') 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in updateProductServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'An error occurred' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'An error occurred' };
   }
 }
 
@@ -129,9 +129,9 @@ export async function deleteProductServerAction(
     }
 
     return { success: false, error: res.error || 'Failed to delete product' };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in deleteProductServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'An error occurred' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'An error occurred' };
   }
 }
 
@@ -156,9 +156,9 @@ export async function addProductImageServerAction(
     }
 
     return { success: false, error: res.error || 'فشل رفع صورة المنتج الفرعية' };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in addProductImageServerAction:', error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء رفع الصورة' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء رفع الصورة' };
   }
 }
 
@@ -177,9 +177,9 @@ export async function deleteProductImageServerAction(
     }
 
     return { success: false, error: res.error || 'فشل حذف صورة المنتج الفرعية' };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in deleteProductImageServerAction for image ${imageId}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء حذف الصورة' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء حذف الصورة' };
   }
 }
 
@@ -209,9 +209,9 @@ export async function createProductUnitServerAction(unitData: {
     }
 
     return { success: false, error: res.error || 'فشل إضافة وحدة المنتج' };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in createProductUnitServerAction:', error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء إضافة الوحدة' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء إضافة الوحدة' };
   }
 }
 
@@ -238,9 +238,9 @@ export async function updateProductUnitServerAction(
     }
 
     return { success: false, error: res.error || 'فشل تعديل وحدة المنتج' };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in updateProductUnitServerAction for unit ${unitId}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء تعديل الوحدة' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء تعديل الوحدة' };
   }
 }
 
@@ -259,9 +259,9 @@ export async function deleteProductUnitServerAction(
     }
 
     return { success: false, error: res.error || 'فشل حذف وحدة المنتج' };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in deleteProductUnitServerAction for unit ${unitId}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء حذف الوحدة' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء حذف الوحدة' };
   }
 }
 

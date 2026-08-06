@@ -52,7 +52,7 @@ export async function createJobTitleServerAction(data: {
     if (res.success && res.data) {
       // In the response example, sometimes DRF returns `{ success: true, data: { ...object } }`
       // But if it just returns the object itself, serverFetch assigns it to res.data
-      const jobData = (res.data as any).data || res.data;
+      const jobData = (res.data as { data?: unknown }).data || res.data;
       revalidatePath('/dashboard/hr/job-titles');
       return { success: true, data: jobData as ApiJobTitle };
     }
@@ -61,9 +61,9 @@ export async function createJobTitleServerAction(data: {
       success: false, 
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل إضافة المسمى الوظيفي') 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in createJobTitleServerAction:', error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء الإضافة' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء الإضافة' };
   }
 }
 
@@ -81,7 +81,7 @@ export async function updateJobTitleServerAction(
     });
 
     if (res.success && res.data) {
-      const jobData = (res.data as any).data || res.data;
+      const jobData = (res.data as { data?: unknown }).data || res.data;
       revalidatePath('/dashboard/hr/job-titles');
       return { success: true, data: jobData as ApiJobTitle };
     }
@@ -90,9 +90,9 @@ export async function updateJobTitleServerAction(
       success: false, 
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل تعديل المسمى الوظيفي') 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in updateJobTitleServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء التعديل' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء التعديل' };
   }
 }
 
@@ -110,9 +110,9 @@ export async function deleteJobTitleServerAction(
     }
 
     return { success: false, error: res.error || 'فشل حذف المسمى الوظيفي' };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in deleteJobTitleServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء الحذف' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء الحذف' };
   }
 }
 
@@ -163,7 +163,7 @@ export async function createEducationalLevelServerAction(data: {
     });
 
     if (res.success && res.data) {
-      const levelData = (res.data as any).data || res.data;
+      const levelData = (res.data as { data?: unknown }).data || res.data;
       revalidatePath('/dashboard/hr/education-levels');
       return { success: true, data: levelData as ApiEducationalLevel };
     }
@@ -172,9 +172,9 @@ export async function createEducationalLevelServerAction(data: {
       success: false, 
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل إضافة المستوى التعليمي') 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in createEducationalLevelServerAction:', error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء الإضافة' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء الإضافة' };
   }
 }
 
@@ -189,7 +189,7 @@ export async function updateEducationalLevelServerAction(
     });
 
     if (res.success && res.data) {
-      const levelData = (res.data as any).data || res.data;
+      const levelData = (res.data as { data?: unknown }).data || res.data;
       revalidatePath('/dashboard/hr/education-levels');
       return { success: true, data: levelData as ApiEducationalLevel };
     }
@@ -198,9 +198,9 @@ export async function updateEducationalLevelServerAction(
       success: false, 
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل تعديل المستوى التعليمي') 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in updateEducationalLevelServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء التعديل' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء التعديل' };
   }
 }
 
@@ -218,9 +218,9 @@ export async function deleteEducationalLevelServerAction(
     }
 
     return { success: false, error: res.error || 'فشل حذف المستوى التعليمي' };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in deleteEducationalLevelServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء الحذف' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء الحذف' };
   }
 }
 
@@ -271,7 +271,7 @@ export async function createCompanyServerAction(
     });
 
     if (res.success && res.data) {
-      const companyData = (res.data as any).data || res.data;
+      const companyData = (res.data as { data?: unknown }).data || res.data;
       revalidatePath('/dashboard/hr/companies');
       return { success: true, data: companyData as ApiCompany };
     }
@@ -280,9 +280,9 @@ export async function createCompanyServerAction(
       success: false, 
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل إضافة الشركة') 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in createCompanyServerAction:', error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء الإضافة' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء الإضافة' };
   }
 }
 
@@ -297,7 +297,7 @@ export async function updateCompanyServerAction(
     });
 
     if (res.success && res.data) {
-      const companyData = (res.data as any).data || res.data;
+      const companyData = (res.data as { data?: unknown }).data || res.data;
       revalidatePath('/dashboard/hr/companies');
       return { success: true, data: companyData as ApiCompany };
     }
@@ -306,9 +306,9 @@ export async function updateCompanyServerAction(
       success: false, 
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل تعديل الشركة') 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in updateCompanyServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء التعديل' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء التعديل' };
   }
 }
 
@@ -326,9 +326,9 @@ export async function deleteCompanyServerAction(
     }
 
     return { success: false, error: res.error || 'فشل حذف الشركة' };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in deleteCompanyServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء الحذف' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء الحذف' };
   }
 }
 
@@ -385,7 +385,7 @@ export async function createDeviceFingerprintServerAction(data: {
     });
 
     if (res.success && res.data) {
-      const deviceData = (res.data as any).data || res.data;
+      const deviceData = (res.data as { data?: unknown }).data || res.data;
       revalidatePath('/dashboard/hr/device-fingerprints');
       return { success: true, data: deviceData as ApiDeviceFingerprint };
     }
@@ -394,9 +394,9 @@ export async function createDeviceFingerprintServerAction(data: {
       success: false, 
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل إضافة جهاز البصمة') 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in createDeviceFingerprintServerAction:', error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء الإضافة' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء الإضافة' };
   }
 }
 
@@ -418,7 +418,7 @@ export async function updateDeviceFingerprintServerAction(
     });
 
     if (res.success && res.data) {
-      const deviceData = (res.data as any).data || res.data;
+      const deviceData = (res.data as { data?: unknown }).data || res.data;
       revalidatePath('/dashboard/hr/device-fingerprints');
       return { success: true, data: deviceData as ApiDeviceFingerprint };
     }
@@ -427,9 +427,9 @@ export async function updateDeviceFingerprintServerAction(
       success: false, 
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل تعديل جهاز البصمة') 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in updateDeviceFingerprintServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء التعديل' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء التعديل' };
   }
 }
 
@@ -447,9 +447,9 @@ export async function deleteDeviceFingerprintServerAction(
     }
 
     return { success: false, error: res.error || 'فشل حذف بصمة الجهاز' };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in deleteDeviceFingerprintServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء الحذف' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء الحذف' };
   }
 }
 
@@ -504,7 +504,7 @@ export async function createDataReceptionServerAction(data: {
     });
 
     if (res.success && res.data) {
-      const respData = (res.data as any).data || res.data;
+      const respData = (res.data as { data?: unknown }).data || res.data;
       revalidatePath('/dashboard/hr/data-descriptions');
       return { success: true, data: respData as ApiDataReception };
     }
@@ -513,9 +513,9 @@ export async function createDataReceptionServerAction(data: {
       success: false, 
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل الإضافة') 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in createDataReceptionServerAction:', error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء الإضافة' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء الإضافة' };
   }
 }
 
@@ -536,7 +536,7 @@ export async function updateDataReceptionServerAction(
     });
 
     if (res.success && res.data) {
-      const respData = (res.data as any).data || res.data;
+      const respData = (res.data as { data?: unknown }).data || res.data;
       revalidatePath('/dashboard/hr/data-descriptions');
       return { success: true, data: respData as ApiDataReception };
     }
@@ -545,9 +545,9 @@ export async function updateDataReceptionServerAction(
       success: false, 
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل التعديل') 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in updateDataReceptionServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء التعديل' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء التعديل' };
   }
 }
 
@@ -565,9 +565,9 @@ export async function deleteDataReceptionServerAction(
     }
 
     return { success: false, error: res.error || 'فشل الحذف' };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in deleteDataReceptionServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء الحذف' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء الحذف' };
   }
 }
 
@@ -628,7 +628,7 @@ export async function createEmployeeServerAction(data: {
     });
 
     if (res.success && res.data) {
-      const respData = (res.data as any).data || res.data;
+      const respData = (res.data as { data?: unknown }).data || res.data;
       revalidatePath('/dashboard/hr/employees');
       return { success: true, data: respData as ApiEmployee };
     }
@@ -637,9 +637,9 @@ export async function createEmployeeServerAction(data: {
       success: false, 
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل الإضافة') 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in createEmployeeServerAction:', error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء الإضافة' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء الإضافة' };
   }
 }
 
@@ -666,7 +666,7 @@ export async function updateEmployeeServerAction(
     });
 
     if (res.success && res.data) {
-      const respData = (res.data as any).data || res.data;
+      const respData = (res.data as { data?: unknown }).data || res.data;
       revalidatePath('/dashboard/hr/employees');
       return { success: true, data: respData as ApiEmployee };
     }
@@ -675,9 +675,9 @@ export async function updateEmployeeServerAction(
       success: false, 
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل التعديل') 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in updateEmployeeServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء التعديل' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء التعديل' };
   }
 }
 
@@ -695,9 +695,9 @@ export async function deleteEmployeeServerAction(
     }
 
     return { success: false, error: res.error || 'فشل الحذف' };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in deleteEmployeeServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء الحذف' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء الحذف' };
   }
 }
 
@@ -751,7 +751,7 @@ export async function createEmployeeFingerprintServerAction(data: {
     });
 
     if (res.success && res.data) {
-      const respData = (res.data as any).data || res.data;
+      const respData = (res.data as { data?: unknown }).data || res.data;
       revalidatePath('/dashboard/hr/employee-fingerprints');
       return { success: true, data: respData as ApiEmployeeFingerprint };
     }
@@ -760,9 +760,9 @@ export async function createEmployeeFingerprintServerAction(data: {
       success: false, 
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل الإضافة') 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in createEmployeeFingerprintServerAction:', error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء الإضافة' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء الإضافة' };
   }
 }
 
@@ -782,7 +782,7 @@ export async function updateEmployeeFingerprintServerAction(
     });
 
     if (res.success && res.data) {
-      const respData = (res.data as any).data || res.data;
+      const respData = (res.data as { data?: unknown }).data || res.data;
       revalidatePath('/dashboard/hr/employee-fingerprints');
       return { success: true, data: respData as ApiEmployeeFingerprint };
     }
@@ -791,9 +791,9 @@ export async function updateEmployeeFingerprintServerAction(
       success: false, 
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل التعديل') 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in updateEmployeeFingerprintServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء التعديل' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء التعديل' };
   }
 }
 
@@ -811,9 +811,9 @@ export async function deleteEmployeeFingerprintServerAction(
     }
 
     return { success: false, error: res.error || 'فشل الحذف' };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in deleteEmployeeFingerprintServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء الحذف' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء الحذف' };
   }
 }
 
@@ -868,7 +868,7 @@ export async function createShiftServerAction(data: {
     });
 
     if (res.success && res.data) {
-      const respData = (res.data as any).data || res.data;
+      const respData = (res.data as { data?: unknown }).data || res.data;
       revalidatePath('/dashboard/hr/shifts');
       return { success: true, data: respData as ApiShift };
     }
@@ -877,9 +877,9 @@ export async function createShiftServerAction(data: {
       success: false, 
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل الإضافة') 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in createShiftServerAction:', error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء الإضافة' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء الإضافة' };
   }
 }
 
@@ -900,7 +900,7 @@ export async function updateShiftServerAction(
     });
 
     if (res.success && res.data) {
-      const respData = (res.data as any).data || res.data;
+      const respData = (res.data as { data?: unknown }).data || res.data;
       revalidatePath('/dashboard/hr/shifts');
       return { success: true, data: respData as ApiShift };
     }
@@ -909,9 +909,9 @@ export async function updateShiftServerAction(
       success: false, 
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل التعديل') 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in updateShiftServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء التعديل' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء التعديل' };
   }
 }
 
@@ -929,9 +929,9 @@ export async function deleteShiftServerAction(
     }
 
     return { success: false, error: res.error || 'فشل الحذف' };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in deleteShiftServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء الحذف' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء الحذف' };
   }
 }
 
@@ -989,7 +989,7 @@ export async function createAttendanceServerAction(data: {
     });
 
     if (res.success && res.data) {
-      const respData = (res.data as any).data || res.data;
+      const respData = (res.data as { data?: unknown }).data || res.data;
       revalidatePath('/dashboard/hr/attendance');
       return { success: true, data: respData as ApiAttendance };
     }
@@ -998,9 +998,9 @@ export async function createAttendanceServerAction(data: {
       success: false, 
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل الإضافة') 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in createAttendanceServerAction:', error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء الإضافة' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء الإضافة' };
   }
 }
 
@@ -1024,7 +1024,7 @@ export async function updateAttendanceServerAction(
     });
 
     if (res.success && res.data) {
-      const respData = (res.data as any).data || res.data;
+      const respData = (res.data as { data?: unknown }).data || res.data;
       revalidatePath('/dashboard/hr/attendance');
       return { success: true, data: respData as ApiAttendance };
     }
@@ -1033,9 +1033,9 @@ export async function updateAttendanceServerAction(
       success: false, 
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل التعديل') 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in updateAttendanceServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء التعديل' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء التعديل' };
   }
 }
 
@@ -1053,9 +1053,9 @@ export async function deleteAttendanceServerAction(
     }
 
     return { success: false, error: res.error || 'فشل الحذف' };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in deleteAttendanceServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء الحذف' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء الحذف' };
   }
 }
 
@@ -1115,7 +1115,7 @@ export async function createLawFingerprinterServerAction(data: {
     });
 
     if (res.success && res.data) {
-      const respData = (res.data as any).data || res.data;
+      const respData = (res.data as { data?: unknown }).data || res.data;
       revalidatePath('/dashboard/hr/legal-specialists');
       return { success: true, data: respData as ApiLawFingerprinter };
     }
@@ -1124,9 +1124,9 @@ export async function createLawFingerprinterServerAction(data: {
       success: false, 
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل الإضافة') 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in createLawFingerprinterServerAction:', error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء الإضافة' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء الإضافة' };
   }
 }
 
@@ -1152,7 +1152,7 @@ export async function updateLawFingerprinterServerAction(
     });
 
     if (res.success && res.data) {
-      const respData = (res.data as any).data || res.data;
+      const respData = (res.data as { data?: unknown }).data || res.data;
       revalidatePath('/dashboard/hr/legal-specialists');
       return { success: true, data: respData as ApiLawFingerprinter };
     }
@@ -1161,9 +1161,9 @@ export async function updateLawFingerprinterServerAction(
       success: false, 
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل التعديل') 
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in updateLawFingerprinterServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء التعديل' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء التعديل' };
   }
 }
 
@@ -1181,8 +1181,8 @@ export async function deleteLawFingerprinterServerAction(
     }
 
     return { success: false, error: res.error || 'فشل الحذف' };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in deleteLawFingerprinterServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء الحذف' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) : undefined) || 'حدث خطأ أثناء الحذف' };
   }
 }

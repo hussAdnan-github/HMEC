@@ -54,9 +54,9 @@ export async function createGoalServerAction(data: {
       success: false,
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل إضافة الهدف'),
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in createGoalServerAction:', error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء إضافة الهدف' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) || 'حدث خطأ أثناء إضافة الهدف' };
   }
 }
 
@@ -86,9 +86,9 @@ export async function updateGoalServerAction(
       success: false,
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل تعديل الهدف'),
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in updateGoalServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء تعديل الهدف' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) || 'حدث خطأ أثناء تعديل الهدف' };
   }
 }
 
@@ -111,8 +111,8 @@ export async function deleteGoalServerAction(
       success: false,
       error: res.error || 'فشل حذف الهدف',
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in deleteGoalServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء حذف الهدف' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) || 'حدث خطأ أثناء حذف الهدف' };
   }
 }

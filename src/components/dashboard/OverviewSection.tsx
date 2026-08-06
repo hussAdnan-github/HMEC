@@ -24,7 +24,7 @@ import type { OrderItem } from '@/types';
 interface OverviewSectionProps {
   products: ApiProduct[];
   projects: ApiProject[];
-  branches?: any[];
+  branches?: Record<string, unknown>[];
   orders: OrderItem[];
   onNavigateTab: (tab: string) => void;
 }

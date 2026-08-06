@@ -124,7 +124,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, onSave,
               <label className="block mb-1 font-bold text-foreground">حالة الطلب</label>
               <select
                 value={formData.status}
-                onChange={(e) => setFormData({ ...formData, status: e.target.value as any })}
+                onChange={(e) => setFormData({ ...formData, status: e.target.value as OrderItem["status"] })}
                 className="w-full px-3 py-2.5 rounded-xl border border-input bg-background/50 font-bold"
               >
                 <option value="new">طلب جديد 🔴</option>

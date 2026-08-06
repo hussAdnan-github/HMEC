@@ -7,11 +7,12 @@
  * @param locale - The currently active locale ("ar" or "en")
  * @returns The localized string or an empty string if not found.
  */
-export function getLocalizedField(item: any, baseField: string, locale: string): string {
-  if (!item) return '';
+export function getLocalizedField(item: unknown, baseField: string, locale: string): string {
+  if (!item || typeof item !== 'object') return '';
 
+  const obj = item as Record<string, unknown>;
   const localizedKey = `${baseField}_${locale}`;
   const defaultKey = `${baseField}_ar`;
 
-  return item[localizedKey] || item[defaultKey] || '';
+  return String(obj[localizedKey] || obj[defaultKey] || '');
 }

@@ -52,9 +52,9 @@ export async function createTestimonialServerAction(
       success: false,
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل إضافة التقييم'),
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in createTestimonialServerAction:', error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء إضافة التقييم' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) || 'حدث خطأ أثناء إضافة التقييم' };
   }
 }
 
@@ -81,9 +81,9 @@ export async function updateTestimonialServerAction(
       success: false,
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل تعديل التقييم'),
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in updateTestimonialServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء تعديل التقييم' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) || 'حدث خطأ أثناء تعديل التقييم' };
   }
 }
 
@@ -106,8 +106,8 @@ export async function deleteTestimonialServerAction(
       success: false,
       error: res.error || 'فشل حذف التقييم',
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`Error in deleteTestimonialServerAction for id ${id}:`, error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء حذف التقييم' };
+    return { success: false, error: (error instanceof Error ? (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) : undefined) || 'حدث خطأ أثناء حذف التقييم' };
   }
 }

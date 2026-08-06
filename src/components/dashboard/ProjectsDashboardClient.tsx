@@ -95,9 +95,9 @@ export default function ProjectsDashboardClient({
           setToast({ type: 'success', message: isEditing ? 'تم التعديل بنجاح' : 'تمت الإضافة بنجاح' });
         }
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error saving project:', error);
-      setToast({ type: 'error', message: error?.message || 'فشلت العملية، يرجى المحاولة مرة أخرى' });
+      setToast({ type: 'error', message: (error instanceof Error ? error.message : undefined) || 'فشلت العملية، يرجى المحاولة مرة أخرى' });
     } finally {
       setIsSubmitting(false);
       setEditingProject(null);
@@ -115,9 +115,9 @@ export default function ProjectsDashboardClient({
       } else {
         setToast({ type: 'error', message: res.error || 'حدث خطأ أثناء حذف المشروع من السيرفر' });
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error deleting project:', error);
-      setToast({ type: 'error', message: error?.message || 'فشل حذف المشروع، يرجى التحقق من الاتصال بالشبكة' });
+      setToast({ type: 'error', message: (error instanceof Error ? error.message : undefined) || 'فشل حذف المشروع، يرجى التحقق من الاتصال بالشبكة' });
     } finally {
       setIsSubmitting(false);
       setDeleteTarget(null);

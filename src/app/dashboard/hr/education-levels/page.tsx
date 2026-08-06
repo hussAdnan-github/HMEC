@@ -71,8 +71,8 @@ export default function EducationalLevelsPage() {
       } else {
         setToast({ type: 'error', message: res.error || 'فشل الحذف' });
       }
-    } catch (error: any) {
-      setToast({ type: 'error', message: error.message || 'حدث خطأ أثناء الحذف' });
+    } catch (error) {
+      setToast({ type: 'error', message: (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) || 'حدث خطأ أثناء الحذف' });
     } finally {
       setIsSubmitting(false);
       setDeleteTarget(null);
@@ -103,8 +103,8 @@ export default function EducationalLevelsPage() {
           setToast({ type: 'error', message: res.error || 'فشل الإضافة' });
         }
       }
-    } catch (error: any) {
-      setToast({ type: 'error', message: error.message || 'حدث خطأ' });
+    } catch (error) {
+      setToast({ type: 'error', message: (error instanceof Error ? (error instanceof Error ? error.message : undefined) : undefined) || 'حدث خطأ' });
     } finally {
       setIsSubmitting(false);
     }

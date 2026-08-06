@@ -31,9 +31,9 @@ export async function submitContactUsAction(
       success: false,
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل إرسال الرسالة'),
     };
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in submitContactUsAction:', error);
-    return { success: false, error: error.message || 'حدث خطأ أثناء إرسال الرسالة' };
+    return { success: false, error: (error instanceof Error ? error.message : undefined) || 'حدث خطأ أثناء إرسال الرسالة' };
   }
 }
 

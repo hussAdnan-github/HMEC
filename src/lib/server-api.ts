@@ -71,21 +71,25 @@ export async function getAuthHeaders(extraHeaders?: HeadersInit): Promise<Header
 }
 
  
-export function formatApiErrorMessage(errJson: any): string {
+export function formatApiErrorMessage(errJson: unknown): string {
   if (!errJson) return 'حدث خطأ في السيرفر';
   if (typeof errJson === 'string') return errJson;
 
   let mainMessage = '';
-  if (errJson.message && typeof errJson.message === 'string') {
-    mainMessage = errJson.message;
-  } else if (errJson.detail && typeof errJson.detail === 'string') {
-    mainMessage = errJson.detail;
-  } else if (errJson.error && typeof errJson.error === 'string') {
-    mainMessage = errJson.error;
+  if (errJson && typeof errJson === 'object') {
+    const obj = errJson as Record<string, unknown>;
+    if (obj.message && typeof obj.message === 'string') {
+      mainMessage = obj.message;
+    } else if (obj.detail && typeof obj.detail === 'string') {
+      mainMessage = obj.detail;
+    } else if (obj.error && typeof obj.error === 'string') {
+      mainMessage = obj.error;
+    }
   }
 
   let fieldErrorsFormatted = '';
-  const rawErrors = errJson.errors || (errJson.error && typeof errJson.error === 'object' ? errJson.error : null);
+  const obj = typeof errJson === 'object' && errJson !== null ? (errJson as Record<string, unknown>) : {};
+  const rawErrors = obj.errors || (obj.error && typeof obj.error === 'object' ? obj.error : null);
 
   const extractValues = (errorsObj: Record<string, any>): string => {
     const errorValues: string[] = [];
@@ -158,8 +162,8 @@ export async function serverFetch<T>(
       options?.body instanceof FormData ||
       (options?.body &&
         typeof options.body === 'object' &&
-        typeof (options.body as any).append === 'function' &&
-        typeof (options.body as any).get === 'function');
+        typeof (options.body as unknown as FormData).append === 'function' &&
+        typeof (options.body as unknown as FormData).get === 'function');
 
     if (isFormData) {
       if (authHeaders instanceof Headers) {
@@ -209,7 +213,7 @@ export async function serverFetch<T>(
     const text = await response.text();
     const data: T = text ? JSON.parse(text) : ({} as T);
 
-    if (data && typeof data === 'object' && (data as any).success === false) {
+    if (data && typeof data === 'object' && (data as Record<string, unknown>).success === false) {
       const serverErrorMessage = formatApiErrorMessage(data);
       return {
         success: false,
@@ -220,11 +224,11 @@ export async function serverFetch<T>(
     }
 
     return { success: true, data, status: response.status };
-  } catch (error: any) {
+  } catch (error) {
     console.error(`serverFetch error for endpoint [${endpoint}]:`, error);
     return {
       success: false,
-      error: error?.message || 'حدث خطأ في الاتصال بالسيرفر',
+      error: (error instanceof Error ? error.message : undefined) || 'حدث خطأ في الاتصال بالسيرفر',
     };
   }
 }
