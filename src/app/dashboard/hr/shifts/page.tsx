@@ -7,8 +7,8 @@ import {
   createShiftServerAction,
   updateShiftServerAction,
   deleteShiftServerAction,
-  getEmployeesServerAction
-} from '@/actions/hrActions';
+} from '@/actions/hr/shifts.actions';
+import { getEmployeesServerAction } from '@/actions/hr/employees.actions';
 import type {
   ApiShift,
   ApiEmployee

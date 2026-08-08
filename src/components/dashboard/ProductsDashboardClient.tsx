@@ -14,7 +14,7 @@ import {
   deleteProductUnitServerAction,
   getProductByIdServerAction,
   getProductsServerAction
-} from '@/actions/productActions';
+} from '@/actions/products.actions';
 import { Loader2 } from 'lucide-react';
 import { ToastNotification, ToastMessage } from '@/components/ui/ToastNotification';
 

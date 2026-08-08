@@ -10,7 +10,7 @@ import {
   createPublicServiceServerAction,
   updatePublicServiceServerAction,
   deletePublicServiceServerAction,
-} from '@/actions/publicServiceActions';
+} from '@/actions/public-services.actions';
 
 interface PublicServicesTabProps {
   initialPublicServices: ApiPublicService[];

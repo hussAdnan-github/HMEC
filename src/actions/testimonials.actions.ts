@@ -1,26 +1,17 @@
 'use server';
 
 import { serverFetch, formatApiErrorMessage } from '@/lib/server-api';
-import type { ApiCustomerReview } from '@/types/api';
+import type { ApiCustomerReview, ApiPaginatedData } from '@/types/api';
 import { revalidatePath } from 'next/cache';
 
 export async function getTestimonialsServerAction(): Promise<ApiCustomerReview[] | null> {
   try {
-    const res = await serverFetch<any>('/content/customerreview/', {
+    const res = await serverFetch<{ success: boolean; message: string; data: ApiPaginatedData<ApiCustomerReview> }>('/content/customerreview/', {
       next: { revalidate: 0 },
     });
 
-    if (res.success && res.data) {
-      const data = res.data;
-      if (data.data?.results && Array.isArray(data.data.results)) {
-        return data.data.results;
-      } else if (Array.isArray(data.data)) {
-        return data.data;
-      } else if (data.results && Array.isArray(data.results)) {
-        return data.results;
-      } else if (Array.isArray(data)) {
-        return data;
-      }
+    if (res.success && res.data?.data?.results) {
+      return res.data.data.results;
     }
 
     return null;
@@ -34,7 +25,7 @@ export async function createTestimonialServerAction(
   formData: FormData
 ): Promise<{ success: boolean; data?: ApiCustomerReview; error?: string }> {
   try {
-    const res = await serverFetch<any>('/content/customerreview/', {
+    const res = await serverFetch<{ success: boolean; message: string; data: ApiCustomerReview }>('/content/customerreview/', {
       method: 'POST',
       body: formData,
     });
@@ -44,7 +35,7 @@ export async function createTestimonialServerAction(
       revalidatePath('/[locale]', 'layout');
       revalidatePath('/dashboard/site-cms/testimonials');
 
-      const responseData = res.data.data || res.data;
+      const responseData = res.data.data;
       return { success: true, data: responseData };
     }
 
@@ -63,7 +54,7 @@ export async function updateTestimonialServerAction(
   formData: FormData
 ): Promise<{ success: boolean; data?: ApiCustomerReview; error?: string }> {
   try {
-    const res = await serverFetch<any>(`/content/customerreview/${id}/`, {
+    const res = await serverFetch<{ success: boolean; message: string; data: ApiCustomerReview }>(`/content/customerreview/${id}/`, {
       method: 'PATCH',
       body: formData,
     });
@@ -73,7 +64,7 @@ export async function updateTestimonialServerAction(
       revalidatePath('/[locale]', 'layout');
       revalidatePath('/dashboard/site-cms/testimonials');
 
-      const responseData = res.data.data || res.data;
+      const responseData = res.data.data;
       return { success: true, data: responseData };
     }
 
@@ -91,7 +82,7 @@ export async function deleteTestimonialServerAction(
   id: number
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const res = await serverFetch<any>(`/content/customerreview/${id}/`, {
+    const res = await serverFetch<{ success: boolean; message: string }>(`/content/customerreview/${id}/`, {
       method: 'DELETE',
     });
 

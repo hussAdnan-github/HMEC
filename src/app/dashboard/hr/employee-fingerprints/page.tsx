@@ -7,9 +7,9 @@ import {
   createEmployeeFingerprintServerAction, 
   updateEmployeeFingerprintServerAction, 
   deleteEmployeeFingerprintServerAction,
-  getEmployeesServerAction,
-  getDeviceFingerprintsServerAction
-} from '@/actions/hrActions';
+} from '@/actions/hr/employee-fingerprints.actions';
+import { getEmployeesServerAction } from '@/actions/hr/employees.actions';
+import { getDeviceFingerprintsServerAction } from '@/actions/hr/device-fingerprints.actions';
 import type { 
   ApiEmployeeFingerprint, 
   ApiEmployee, 

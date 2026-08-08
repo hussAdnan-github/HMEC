@@ -1,8 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { getDetailedServicesServerAction } from '@/actions/detailedServiceActions';
-import { getAgentsServerAction } from '@/actions/agentActions';
+import { getDetailedServicesServerAction } from '@/actions/detailed-services.actions';
+import { getAgentsServerAction } from '@/actions/agents.actions';
 import { ServicesTab } from '@/components/dashboard/cms/tabs/ServicesTab';
 
 // Disable layout or fetch cache to ensure CMS admin always gets fresh DB results

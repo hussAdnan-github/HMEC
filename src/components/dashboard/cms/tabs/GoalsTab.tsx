@@ -10,7 +10,7 @@ import {
   createGoalServerAction,
   updateGoalServerAction,
   deleteGoalServerAction,
-} from '@/actions/goalActions';
+} from '@/actions/goals.actions';
 
 interface GoalsTabProps {
   initialGoals: ApiGoal[];

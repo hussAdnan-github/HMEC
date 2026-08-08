@@ -9,9 +9,9 @@ import {
   createAttendanceServerAction, 
   updateAttendanceServerAction, 
   deleteAttendanceServerAction,
-  getEmployeesServerAction,
-  getShiftsServerAction
-} from '@/actions/hrActions';
+} from '@/actions/hr/attendances.actions';
+import { getEmployeesServerAction } from '@/actions/hr/employees.actions';
+import { getShiftsServerAction } from '@/actions/hr/shifts.actions';
 import type { 
   ApiAttendance, 
   ApiEmployee, 

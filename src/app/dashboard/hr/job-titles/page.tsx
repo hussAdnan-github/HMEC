@@ -7,7 +7,7 @@ import {
   createJobTitleServerAction, 
   updateJobTitleServerAction, 
   deleteJobTitleServerAction 
-} from '@/actions/hrActions';
+} from '@/actions/hr/job-titles.actions';
 import type { ApiJobTitle } from '@/types/api';
 import { DeleteConfirmModal } from '@/components/dashboard/Modals';
 import { ToastNotification, ToastMessage } from '@/components/ui/ToastNotification';

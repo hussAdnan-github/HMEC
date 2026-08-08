@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { X, Check, Package, Upload, Plus, Trash2 } from 'lucide-react';
 import { ApiProduct, ApiAgent, ApiProductImage, ApiProductUnit } from '@/types/api';
 import { getImageUrl } from '@/lib/utils';
-import { getAgentsServerAction } from '@/actions/productActions';
+import { getAgentsServerAction } from '@/actions/products.actions';
 
 export interface NewUnitInput {
   name_unit_ar: string;

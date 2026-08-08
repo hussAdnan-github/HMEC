@@ -9,10 +9,10 @@ import {
   createEmployeeServerAction, 
   updateEmployeeServerAction, 
   deleteEmployeeServerAction,
-  getJobTitlesServerAction,
-  getEducationalLevelsServerAction,
-  getCompaniesServerAction
-} from '@/actions/hrActions';
+} from '@/actions/hr/employees.actions';
+import { getJobTitlesServerAction } from '@/actions/hr/job-titles.actions';
+import { getEducationalLevelsServerAction } from '@/actions/hr/educational-levels.actions';
+import { getCompaniesServerAction } from '@/actions/hr/companies.actions';
 import type { 
   ApiEmployee, 
   ApiJobTitle, 

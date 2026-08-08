@@ -11,7 +11,7 @@ import {
   createBranchServerAction,
   updateBranchServerAction,
   deleteBranchServerAction,
-} from '@/actions/branchActions';
+} from '@/actions/branches.actions';
 
 interface BranchesTabProps {
   initialBranches: ApiBranch[];

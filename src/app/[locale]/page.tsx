@@ -10,8 +10,8 @@ import Contact from '@/components/Contact';
 import ChatBot from '@/components/ChatBot';
 import Footer from '@/components/Footer';
 import { getSiteData } from '@/lib/api';
-import { getProductsServerAction } from '@/actions/productActions';
-import { getProjectsServerAction } from '@/actions/projectActions';
+import { getProductsServerAction } from '@/actions/products.actions';
+import { getProjectsServerAction } from '@/actions/projects.actions';
 
 export default async function Home() {
   const [siteData, productsRes, projectsRes] = await Promise.all([

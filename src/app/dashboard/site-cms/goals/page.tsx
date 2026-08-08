@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { getGoalsServerAction } from '@/actions/goalActions';
+import { getGoalsServerAction } from '@/actions/goals.actions';
 import { GoalsTab } from '@/components/dashboard/cms/tabs/GoalsTab';
 
 // Disable layout or fetch cache to ensure CMS admin always gets fresh DB results

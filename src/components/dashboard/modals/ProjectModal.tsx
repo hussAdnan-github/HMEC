@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { X, Check, FolderPlus, Upload, Video } from 'lucide-react';
 import { ApiProject, ApiAgent, ApiProjectImage } from '@/types/api';
 import { getImageUrl } from '@/lib/utils';
-import { getAgentsServerAction } from '@/actions/productActions';
+import { getAgentsServerAction } from '@/actions/products.actions';
 
 interface ProjectModalProps {
   isOpen: boolean;
@@ -52,6 +52,11 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
 
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [videoPreview, setVideoPreview] = useState<string | null>(null);
+
+  // Sub-images (Gallery) state
+  const [existingSubImages, setExistingSubImages] = useState<ApiProjectImage[]>([]);
+  const [deletedSubImageIds, setDeletedSubImageIds] = useState<number[]>([]);
+  const [newSubImageFiles, setNewSubImageFiles] = useState<{ file: File; preview: string }[]>([]);
 
   // Sync or fetch agents list
   useEffect(() => {
@@ -102,6 +107,9 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
       setImagePreview(getImageUrl(initialData.image));
       setVideoFile(null);
       setVideoPreview(initialData.video_files ? getImageUrl(initialData.video_files) : null);
+      setExistingSubImages(initialData.project_images || []);
+      setDeletedSubImageIds([]);
+      setNewSubImageFiles([]);
     } else {
       setFormData({
         name_ar: '',
@@ -127,6 +135,9 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
       setImagePreview(null);
       setVideoFile(null);
       setVideoPreview(null);
+      setExistingSubImages([]);
+      setDeletedSubImageIds([]);
+      setNewSubImageFiles([]);
     }
   }, [initialData, isOpen, localAgents]);
 
@@ -150,6 +161,26 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
       setVideoFile(file);
       setVideoPreview(URL.createObjectURL(file));
     }
+  };
+
+  const handleNewSubImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length > 0) {
+      const items = files.map((file) => ({
+        file,
+        preview: URL.createObjectURL(file),
+      }));
+      setNewSubImageFiles((prev) => [...prev, ...items]);
+    }
+  };
+
+  const removeNewSubImage = (index: number) => {
+    setNewSubImageFiles((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const removeExistingSubImage = (id: number) => {
+    setExistingSubImages((prev) => prev.filter((img) => img.id !== id));
+    setDeletedSubImageIds((prev) => [...prev, id]);
   };
 
   return (
@@ -198,7 +229,11 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
             if (formData.agent) data.append('agent', formData.agent);
             if (imageFile) data.append('image', imageFile);
 
-            onSave(data, [], []);
+            onSave(
+              data,
+              newSubImageFiles.map((item) => item.file),
+              deletedSubImageIds
+            );
             onClose();
           }}
           className="p-6 sm:p-8 overflow-y-auto space-y-6 text-xs sm:text-sm flex-1"
@@ -400,6 +435,54 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                     <Video className="w-5 h-5 mb-1 text-primary" />
                     <span className="truncate max-w-[180px]">{videoFile ? videoFile.name : (initialData?.video_files ? 'تغيير الفيديو' : 'اختر ملف الفيديو')}</span>
                     <input type="file" accept="video/*" onChange={handleVideoChange} className="hidden" />
+                  </label>
+                </div>
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="block mb-1.5 font-bold text-foreground">الصور الفرعية (المعرض)</label>
+                <div className="space-y-3">
+                  {(existingSubImages.length > 0 || newSubImageFiles.length > 0) && (
+                    <div className="flex flex-wrap gap-2.5 p-3 rounded-2xl bg-muted/40 border border-border/80 max-h-28 overflow-y-auto">
+                      {existingSubImages.map((img) => (
+                        <div key={`existing-${img.id}`} className="relative w-14 h-14 rounded-xl overflow-hidden border border-border group shrink-0">
+                          <img src={getImageUrl(img.image)} alt="Sub image" className="w-full h-full object-cover" />
+                          <button
+                            type="button"
+                            onClick={() => removeExistingSubImage(img.id)}
+                            className="absolute top-1 right-1 p-1 rounded-full bg-rose-500/90 text-white opacity-90 sm:opacity-0 group-hover:opacity-100 transition-opacity hover:bg-rose-600"
+                            title="حذف الصورة"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+                        </div>
+                      ))}
+                      {newSubImageFiles.map((item, idx) => (
+                        <div key={`new-${idx}`} className="relative w-14 h-14 rounded-xl overflow-hidden border border-primary/40 group shrink-0">
+                          <img src={item.preview} alt="New sub image" className="w-full h-full object-cover" />
+                          <button
+                            type="button"
+                            onClick={() => removeNewSubImage(idx)}
+                            className="absolute top-1 right-1 p-1 rounded-full bg-rose-500/90 text-white opacity-90 sm:opacity-0 group-hover:opacity-100 transition-opacity hover:bg-rose-600"
+                            title="إزالة الصورة"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <label className="flex items-center justify-center gap-2 border border-dashed border-input hover:border-primary rounded-xl p-3 cursor-pointer transition-colors text-center text-xs font-bold text-primary bg-primary/5 hover:bg-primary/10">
+                    <Upload className="w-4 h-4" />
+                    <span>إضافة صور فرعية</span>
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={handleNewSubImagesChange}
+                      className="hidden"
+                    />
                   </label>
                 </div>
               </div>

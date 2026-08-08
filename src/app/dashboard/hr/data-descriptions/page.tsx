@@ -7,8 +7,8 @@ import {
   createDataReceptionServerAction, 
   updateDataReceptionServerAction, 
   deleteDataReceptionServerAction,
-  getDeviceFingerprintsServerAction
-} from '@/actions/hrActions';
+} from '@/actions/hr/data-receptions.actions';
+import { getDeviceFingerprintsServerAction } from '@/actions/hr/device-fingerprints.actions';
 import type { ApiDataReception, ApiDeviceFingerprint } from '@/types/api';
 import { DeleteConfirmModal } from '@/components/dashboard/Modals';
 import { ToastNotification, ToastMessage } from '@/components/ui/ToastNotification';

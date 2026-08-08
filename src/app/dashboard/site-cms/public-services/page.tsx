@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { getPublicServicesServerAction } from '@/actions/publicServiceActions';
+import { getPublicServicesServerAction } from '@/actions/public-services.actions';
 import { PublicServicesTab } from '@/components/dashboard/cms/tabs/PublicServicesTab';
 
 // Disable layout or fetch cache to ensure CMS admin always gets fresh DB results

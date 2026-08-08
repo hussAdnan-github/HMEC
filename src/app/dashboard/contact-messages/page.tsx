@@ -1,5 +1,5 @@
 import React from 'react';
-import { getContactMessagesAction } from '@/actions/contactActions';
+import { getContactMessagesAction } from '@/actions/contacts.actions';
 import { MessageSquare, Mail, Phone, Calendar } from 'lucide-react';
 
 // Force dynamic rendering to always fetch fresh messages

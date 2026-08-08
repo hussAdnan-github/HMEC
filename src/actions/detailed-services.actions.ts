@@ -1,26 +1,17 @@
 'use server';
 
 import { serverFetch } from '@/lib/server-api';
-import type { ApiService } from '@/types/api';
+import type { ApiService, ApiPaginatedData } from '@/types/api';
 import { revalidatePath } from 'next/cache';
 
 export async function getDetailedServicesServerAction(): Promise<ApiService[] | null> {
   try {
-    const res = await serverFetch<any>('/content/service/', {
+    const res = await serverFetch<{ success: boolean; message: string; data: ApiPaginatedData<ApiService> }>('/content/service/', {
       next: { revalidate: 3600 },
     });
 
-    if (res.success && res.data) {
-      const data = res.data;
-      if (data.data?.results && Array.isArray(data.data.results)) {
-        return data.data.results;
-      } else if (Array.isArray(data.data)) {
-        return data.data;
-      } else if (data.results && Array.isArray(data.results)) {
-        return data.results;
-      } else if (Array.isArray(data)) {
-        return data;
-      }
+    if (res.success && res.data?.data?.results) {
+      return res.data.data.results;
     }
 
     return null;
@@ -32,7 +23,7 @@ export async function getDetailedServicesServerAction(): Promise<ApiService[] | 
 
 export async function createDetailedServiceServerAction(data: { name_ar: string; name_en: string; agent: number }) {
   try {
-    const res = await serverFetch<any>('/content/service/', {
+    const res = await serverFetch<{ success: boolean; message: string; data: ApiService }>('/content/service/', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {
@@ -43,7 +34,7 @@ export async function createDetailedServiceServerAction(data: { name_ar: string;
     if (res.success && res.data) {
       revalidatePath('/dashboard/site-cms');
       revalidatePath('/[locale]', 'layout');
-      const responseData = res.data.data || res.data;
+      const responseData = res.data.data;
       return { success: true, data: responseData };
     }
 
@@ -56,7 +47,7 @@ export async function createDetailedServiceServerAction(data: { name_ar: string;
 
 export async function updateDetailedServiceServerAction(id: number, data: { name_ar: string; name_en: string; agent: number }) {
   try {
-    const res = await serverFetch<any>(`/content/service/${id}/`, {
+    const res = await serverFetch<{ success: boolean; message: string; data: ApiService }>(`/content/service/${id}/`, {
       method: 'PUT',
       body: JSON.stringify(data),
       headers: {
@@ -67,7 +58,7 @@ export async function updateDetailedServiceServerAction(id: number, data: { name
     if (res.success && res.data) {
       revalidatePath('/dashboard/site-cms');
       revalidatePath('/[locale]', 'layout');
-      const responseData = res.data.data || res.data;
+      const responseData = res.data.data;
       return { success: true, data: responseData };
     }
 
@@ -80,7 +71,7 @@ export async function updateDetailedServiceServerAction(id: number, data: { name
 
 export async function deleteDetailedServiceServerAction(id: number) {
   try {
-    const res = await serverFetch<any>(`/content/service/${id}/`, {
+    const res = await serverFetch<{ success: boolean; message: string }>(`/content/service/${id}/`, {
       method: 'DELETE',
     });
 

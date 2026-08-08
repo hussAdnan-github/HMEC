@@ -10,7 +10,7 @@ import {
   createDetailedServiceServerAction,
   updateDetailedServiceServerAction,
   deleteDetailedServiceServerAction,
-} from '@/actions/detailedServiceActions';
+} from '@/actions/detailed-services.actions';
 
 interface ServicesTabProps {
   initialServices: ApiService[];

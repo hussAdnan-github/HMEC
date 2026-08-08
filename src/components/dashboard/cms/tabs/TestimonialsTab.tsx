@@ -11,7 +11,7 @@ import {
   createTestimonialServerAction,
   updateTestimonialServerAction,
   deleteTestimonialServerAction,
-} from '@/actions/testimonialActions';
+} from '@/actions/testimonials.actions';
 
 interface TestimonialsTabProps {
   initialTestimonials: ApiCustomerReview[];

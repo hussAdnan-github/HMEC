@@ -13,18 +13,18 @@ export interface ApiContactMessage {
   message: string;
   create_at?: string;
 }
-
+ 
 export async function submitContactUsAction(
   data: Omit<ApiContactMessage, 'id' | 'create_at'>
 ): Promise<{ success: boolean; data?: ApiContactMessage; error?: string }> {
   try {
-    const res = await serverFetch<any>('/content/contactus/', {
+    const res = await serverFetch<{ success: boolean; message: string; data: ApiContactMessage }>('/content/contactus/', {
       method: 'POST',
       body: JSON.stringify(data),
     });
 
     if (res.success && res.data) {
-      return { success: true, data: res.data.data || res.data };
+      return { success: true, data: res.data.data };
     }
 
     return {
@@ -39,21 +39,12 @@ export async function submitContactUsAction(
 
 export async function getContactMessagesAction(): Promise<ApiContactMessage[] | null> {
   try {
-    const res = await serverFetch<any>('/content/contactus/', {
+    const res = await serverFetch<{ success: boolean; message: string; data: { results: ApiContactMessage[] } }>('/content/contactus/', {
       next: { revalidate: 0 },
     });
 
-    if (res.success && res.data) {
-      const data = res.data;
-      if (data.data?.results && Array.isArray(data.data.results)) {
-        return data.data.results;
-      } else if (Array.isArray(data.data)) {
-        return data.data;
-      } else if (data.results && Array.isArray(data.results)) {
-        return data.results;
-      } else if (Array.isArray(data)) {
-        return data;
-      }
+    if (res.success && res.data?.data?.results) {
+      return res.data.data.results;
     }
 
     return null;

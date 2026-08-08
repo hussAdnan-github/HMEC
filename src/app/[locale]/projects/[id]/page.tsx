@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getProjectByIdServerAction } from '@/actions/projectActions';
+import { getProjectByIdServerAction } from '@/actions/projects.actions';
 import ProjectDetailsClient from '@/components/ProjectDetailsClient';
 
 export default async function ProjectPage({

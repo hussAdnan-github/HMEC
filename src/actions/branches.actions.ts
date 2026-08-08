@@ -1,26 +1,17 @@
 'use server';
 
 import { serverFetch, formatApiErrorMessage } from '@/lib/server-api';
-import type { ApiBranch } from '@/types/api';
+import type { ApiBranch, ApiPaginatedData } from '@/types/api';
 import { revalidatePath } from 'next/cache';
 
 export async function getBranchesServerAction(): Promise<ApiBranch[] | null> {
   try {
-    const res = await serverFetch<any>('/content/branch/', {
+    const res = await serverFetch<{ success: boolean; message: string; data: ApiPaginatedData<ApiBranch> }>('/content/branch/', {
       next: { revalidate: 0 },
     });
 
-    if (res.success && res.data) {
-      const data = res.data;
-      if (data.data?.results && Array.isArray(data.data.results)) {
-        return data.data.results;
-      } else if (Array.isArray(data.data)) {
-        return data.data;
-      } else if (data.results && Array.isArray(data.results)) {
-        return data.results;
-      } else if (Array.isArray(data)) {
-        return data;
-      }
+    if (res.success && res.data?.data?.results) {
+      return res.data.data.results;
     }
 
     return null;
@@ -34,7 +25,7 @@ export async function createBranchServerAction(
   formData: FormData
 ): Promise<{ success: boolean; data?: ApiBranch; error?: string }> {
   try {
-    const res = await serverFetch<any>('/content/branch/', {
+    const res = await serverFetch<{ success: boolean; message: string; data: ApiBranch }>('/content/branch/', {
       method: 'POST',
       body: formData,
     });
@@ -44,7 +35,7 @@ export async function createBranchServerAction(
       revalidatePath('/[locale]', 'layout');
       revalidatePath('/dashboard/site-cms/branches');
 
-      const responseData = res.data.data || res.data;
+      const responseData = res.data.data;
       return { success: true, data: responseData };
     }
 
@@ -63,7 +54,7 @@ export async function updateBranchServerAction(
   formData: FormData
 ): Promise<{ success: boolean; data?: ApiBranch; error?: string }> {
   try {
-    const res = await serverFetch<any>(`/content/branch/${id}/`, {
+    const res = await serverFetch<{ success: boolean; message: string; data: ApiBranch }>(`/content/branch/${id}/`, {
       method: 'PATCH',
       body: formData,
     });
@@ -73,9 +64,9 @@ export async function updateBranchServerAction(
       revalidatePath('/[locale]', 'layout');
       revalidatePath('/dashboard/site-cms/branches');
 
-      const responseData = res.data.data || res.data;
+      const responseData = res.data.data;
       return { success: true, data: responseData };
-    }
+    } 
 
     return {
       success: false,
@@ -91,7 +82,7 @@ export async function deleteBranchServerAction(
   id: number
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const res = await serverFetch<any>(`/content/branch/${id}/`, {
+    const res = await serverFetch<{ success: boolean; message: string }>(`/content/branch/${id}/`, {
       method: 'DELETE',
     });
 

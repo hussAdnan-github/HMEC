@@ -1,33 +1,18 @@
 'use server';
 
 import { serverFetch, formatApiErrorMessage } from '@/lib/server-api';
-import type { ApiContent } from '@/types/api';
+import type { ApiContent, ApiPaginatedData } from '@/types/api';
 import { revalidatePath } from 'next/cache';
 
 export async function getContentServerAction(): Promise<ApiContent | null> {
   try {
-    const res = await serverFetch<any>('/content/content/', {
+    const res = await serverFetch<{ success: boolean; message: string; data: ApiPaginatedData<ApiContent> }>('/content/content/', {
       next: { revalidate: 0 },
     });
 
-    if (res.success && res.data) {
-
-      const data = res.data;
-      let resultsArray: ApiContent[] = [];
-
-      if (data.data?.results && Array.isArray(data.data.results)) {
-        resultsArray = data.data.results;
-      } else if (Array.isArray(data.data)) {
-        resultsArray = data.data;
-      } else if (data.results && Array.isArray(data.results)) {
-        resultsArray = data.results;
-      } else if (Array.isArray(data)) {
-        resultsArray = data;
-      }
-
-      if (resultsArray.length > 0) {
-        return resultsArray[0] as ApiContent; 
-      }
+    const results = res.data?.data?.results;
+    if (res.success && results && results.length > 0) {
+      return results[0]; 
     }
 
     return null;
@@ -41,7 +26,7 @@ export async function createContentServerAction(
   data: Omit<ApiContent, 'id' | 'create_at' | 'update_at'>
 ): Promise<{ success: boolean; data?: ApiContent; error?: string }> {
   try {
-    const res = await serverFetch<any>('/content/content/', {
+    const res = await serverFetch<{ success: boolean; message: string; data: ApiContent }>('/content/content/', {
       method: 'POST',
       body: JSON.stringify(data),
     });
@@ -51,7 +36,7 @@ export async function createContentServerAction(
       revalidatePath('/[locale]', 'layout');
       revalidatePath('/dashboard/site-cms/main-content');
 
-      const responseData = res.data.data || res.data;
+      const responseData = res.data.data;
       return { success: true, data: responseData };
     }
 
@@ -70,7 +55,7 @@ export async function updateContentServerAction(
   data: Partial<Omit<ApiContent, 'id' | 'create_at' | 'update_at'>>
 ): Promise<{ success: boolean; data?: ApiContent; error?: string }> {
   try {
-    const res = await serverFetch<any>(`/content/content/${id}/`, {
+    const res = await serverFetch<{ success: boolean; message: string; data: ApiContent }>(`/content/content/${id}/`, {
       method: 'PATCH',
       body: JSON.stringify(data),
     });
@@ -80,7 +65,7 @@ export async function updateContentServerAction(
       revalidatePath('/[locale]', 'layout');
       revalidatePath('/dashboard/site-cms/main-content');
 
-      const responseData = res.data.data || res.data;
+      const responseData = res.data.data;
       return { success: true, data: responseData };
     }
 

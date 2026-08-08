@@ -1,26 +1,17 @@
 'use server';
 
 import { serverFetch, formatApiErrorMessage } from '@/lib/server-api';
-import type { ApiPublicService } from '@/types/api';
+import type { ApiPublicService, ApiPaginatedData } from '@/types/api';
 import { revalidatePath } from 'next/cache';
 
 export async function getPublicServicesServerAction(): Promise<ApiPublicService[] | null> {
   try {
-    const res = await serverFetch<any>('/content/pullicservice/', {
+    const res = await serverFetch<{ success: boolean; message: string; data: ApiPaginatedData<ApiPublicService> }>('/content/pullicservice/', {
       next: { revalidate: 0 },
     });
 
-    if (res.success && res.data) {
-      const data = res.data;
-      if (data.data?.results && Array.isArray(data.data.results)) {
-        return data.data.results;
-      } else if (Array.isArray(data.data)) {
-        return data.data;
-      } else if (data.results && Array.isArray(data.results)) {
-        return data.results;
-      } else if (Array.isArray(data)) {
-        return data;
-      }
+    if (res.success && res.data?.data?.results) {
+      return res.data.data.results;
     }
 
     return null;
@@ -35,7 +26,7 @@ export async function createPublicServiceServerAction(data: {
   name_en: string;
 }): Promise<{ success: boolean; data?: ApiPublicService; error?: string }> {
   try {
-    const res = await serverFetch<any>('/content/pullicservice/', {
+    const res = await serverFetch<{ success: boolean; message: string; data: ApiPublicService }>('/content/pullicservice/', {
       method: 'POST',
       body: JSON.stringify(data),
     });
@@ -45,7 +36,7 @@ export async function createPublicServiceServerAction(data: {
       revalidatePath('/[locale]', 'layout');
       revalidatePath('/dashboard/site-cms/public-services');
 
-      const responseData = res.data.data || res.data;
+      const responseData = res.data.data;
       return { success: true, data: responseData };
     }
 
@@ -67,7 +58,7 @@ export async function updatePublicServiceServerAction(
   }
 ): Promise<{ success: boolean; data?: ApiPublicService; error?: string }> {
   try {
-    const res = await serverFetch<any>(`/content/pullicservice/${id}/`, {
+    const res = await serverFetch<{ success: boolean; message: string; data: ApiPublicService }>(`/content/pullicservice/${id}/`, {
       method: 'PATCH',
       body: JSON.stringify(data),
     });
@@ -77,7 +68,7 @@ export async function updatePublicServiceServerAction(
       revalidatePath('/[locale]', 'layout');
       revalidatePath('/dashboard/site-cms/public-services');
 
-      const responseData = res.data.data || res.data;
+      const responseData = res.data.data;
       return { success: true, data: responseData };
     }
 
@@ -95,7 +86,7 @@ export async function deletePublicServiceServerAction(
   id: number
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const res = await serverFetch<any>(`/content/pullicservice/${id}/`, {
+    const res = await serverFetch<{ success: boolean; message: string }>(`/content/pullicservice/${id}/`, {
       method: 'DELETE',
     });
 

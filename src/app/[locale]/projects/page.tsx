@@ -1,5 +1,5 @@
 import Projects from '@/components/Projects';
-import { getProjectsServerAction } from '@/actions/projectActions';
+import { getProjectsServerAction } from '@/actions/projects.actions';
 import { Link } from '@/i18n/routing';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 

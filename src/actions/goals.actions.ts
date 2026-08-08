@@ -1,27 +1,17 @@
 'use server';
 
 import { serverFetch, formatApiErrorMessage } from '@/lib/server-api';
-import type { ApiGoal } from '@/types/api';
+import type { ApiGoal, ApiPaginatedData } from '@/types/api';
 import { revalidatePath } from 'next/cache';
 
 export async function getGoalsServerAction(): Promise<ApiGoal[] | null> {
   try {
-    const res = await serverFetch<any>('/content/gool/', {
+    const res = await serverFetch<{ success: boolean; message: string; data: ApiPaginatedData<ApiGoal> }>('/content/gool/', {
       next: { revalidate: 0 },
     });
 
-    if (res.success && res.data) {
-
-      const data = res.data;
-      if (data.data?.results && Array.isArray(data.data.results)) {
-        return data.data.results;
-      } else if (Array.isArray(data.data)) {
-        return data.data;
-      } else if (data.results && Array.isArray(data.results)) {
-        return data.results;
-      } else if (Array.isArray(data)) {
-        return data;
-      }
+    if (res.success && res.data?.data?.results) {
+      return res.data.data.results;
     }
 
     return null;
@@ -36,7 +26,7 @@ export async function createGoalServerAction(data: {
   name_en: string;
 }): Promise<{ success: boolean; data?: ApiGoal; error?: string }> {
   try {
-    const res = await serverFetch<any>('/content/gool/', {
+    const res = await serverFetch<{ success: boolean; message: string; data: ApiGoal }>('/content/gool/', {
       method: 'POST',
       body: JSON.stringify(data),
     });
@@ -46,10 +36,10 @@ export async function createGoalServerAction(data: {
       revalidatePath('/[locale]', 'layout');
       revalidatePath('/dashboard/site-cms/goals');
 
-      const responseData = res.data.data || res.data;
+      const responseData = res.data.data;
       return { success: true, data: responseData };
     }
-
+ 
     return {
       success: false,
       error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل إضافة الهدف'),
@@ -68,7 +58,7 @@ export async function updateGoalServerAction(
   }
 ): Promise<{ success: boolean; data?: ApiGoal; error?: string }> {
   try {
-    const res = await serverFetch<any>(`/content/gool/${id}/`, {
+    const res = await serverFetch<{ success: boolean; message: string; data: ApiGoal }>(`/content/gool/${id}/`, {
       method: 'PATCH',
       body: JSON.stringify(data),
     });
@@ -78,7 +68,7 @@ export async function updateGoalServerAction(
       revalidatePath('/[locale]', 'layout');
       revalidatePath('/dashboard/site-cms/goals');
 
-      const responseData = res.data.data || res.data;
+      const responseData = res.data.data;
       return { success: true, data: responseData };
     }
 
@@ -96,7 +86,7 @@ export async function deleteGoalServerAction(
   id: number
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const res = await serverFetch<any>(`/content/gool/${id}/`, {
+    const res = await serverFetch<{ success: boolean; message: string }>(`/content/gool/${id}/`, {
       method: 'DELETE',
     });
 

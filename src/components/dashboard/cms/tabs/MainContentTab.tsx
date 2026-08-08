@@ -3,7 +3,7 @@
 import React, { useState, useTransition } from 'react';
 import { FileText, Save, Loader2, Info, MapPin, Share2 } from 'lucide-react';
 import { ApiContent } from '@/types/api';
-import { createContentServerAction, updateContentServerAction } from '@/actions/contentActions';
+import { createContentServerAction, updateContentServerAction } from '@/actions/content.actions';
 import { ToastNotification } from '@/components/ui/ToastNotification';
 
 interface MainContentTabProps {

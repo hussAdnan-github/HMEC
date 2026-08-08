@@ -11,7 +11,7 @@ import {
   addProjectImageServerAction,
   deleteProjectImageServerAction,
   getProjectByIdServerAction
-} from '@/actions/projectActions';
+} from '@/actions/projects.actions';
 import { Loader2 } from 'lucide-react';
 import { ToastNotification, ToastMessage } from '@/components/ui/ToastNotification';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { getContentServerAction } from '@/actions/contentActions';
+import { getContentServerAction } from '@/actions/content.actions';
 import { MainContentTab } from '@/components/dashboard/cms/tabs/MainContentTab';
 
 // Disable layout or fetch cache to ensure CMS admin always gets fresh DB results

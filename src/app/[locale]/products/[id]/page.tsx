@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getProductByIdServerAction } from '@/actions/productActions';
+import { getProductByIdServerAction } from '@/actions/products.actions';
 import ProductDetailsClient from '@/components/ProductDetailsClient';
 
 export default async function ProductDetailsPage({

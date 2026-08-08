@@ -1,9 +1,9 @@
 'use server';
 
 import { serverFetch, formatApiErrorMessage } from '@/lib/server-api';
-import type { 
-  ApiProjectsResponse, 
-  ApiSingleProjectResponse, 
+import type {
+  ApiProjectsResponse,
+  ApiSingleProjectResponse,
   ApiProject,
   ApiProjectImage
 } from '@/types/api';
@@ -72,9 +72,9 @@ export async function createProjectServerAction(
       return { success: true, data: res.data.data };
     }
 
-    return { 
-      success: false, 
-      error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل إضافة المشروع') 
+    return {
+      success: false,
+      error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل إضافة المشروع')
     };
   } catch (error) {
     console.error('Error in createProjectServerAction:', error);
@@ -99,9 +99,9 @@ export async function updateProjectServerAction(
       return { success: true, data: res.data.data };
     }
 
-    return { 
-      success: false, 
-      error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل تعديل بيانات المشروع') 
+    return {
+      success: false,
+      error: res.error || (res.data ? formatApiErrorMessage(res.data) : 'فشل تعديل بيانات المشروع')
     };
   } catch (error) {
     console.error(`Error in updateProjectServerAction for id ${id}:`, error);
@@ -113,7 +113,7 @@ export async function deleteProjectServerAction(
   id: string | number
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const res = await serverFetch<any>(`/gallery/project/${id}/`, {
+    const res = await serverFetch<{ success: boolean; message: string }>(`/gallery/project/${id}/`, {
       method: 'DELETE',
     });
 
@@ -139,15 +139,15 @@ export async function addProjectImageServerAction(
     formData.append('project', String(projectId));
     formData.append('image', imageFile);
 
-    const res = await serverFetch<ApiProjectImage>('/gallery/projectimage/', {
+    const res = await serverFetch<{ success: boolean; message: string; data: ApiProjectImage }>('/gallery/projectimage/', {
       method: 'POST',
       body: formData,
     });
 
-    if (res.success && res.data) {
+    if (res.success && res.data?.data) {
       revalidatePath('/projects');
       revalidatePath('/[locale]/projects', 'page');
-      return { success: true, data: res.data };
+      return { success: true, data: res.data.data };
     }
 
     return { success: false, error: res.error || 'فشل رفع صورة المشروع الفرعية' };
@@ -161,7 +161,7 @@ export async function deleteProjectImageServerAction(
   imageId: string | number
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const res = await serverFetch<any>(`/gallery/projectimage/${imageId}/`, {
+    const res = await serverFetch<{ success: boolean; message: string }>(`/gallery/projectimage/${imageId}/`, {
       method: 'DELETE',
     });
 

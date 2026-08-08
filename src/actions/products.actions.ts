@@ -118,7 +118,7 @@ export async function deleteProductServerAction(
   id: string | number
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const res = await serverFetch<any>(`/products/product/${id}/`, {
+    const res = await serverFetch<{ success: boolean; message: string }>(`/products/product/${id}/`, {
       method: 'DELETE',
     });
 
@@ -144,15 +144,15 @@ export async function addProductImageServerAction(
     formData.append('product', String(productId));
     formData.append('image', imageFile);
 
-    const res = await serverFetch<ApiProductImage>('/products/productimage/', {
+    const res = await serverFetch<{ success: boolean; message: string; data: ApiProductImage }>('/products/productimage/', {
       method: 'POST',
       body: formData,
     });
 
-    if (res.success && res.data) {
+    if (res.success && res.data?.data) {
       revalidatePath('/products');
       revalidatePath('/[locale]/products', 'page');
-      return { success: true, data: res.data };
+      return { success: true, data: res.data.data };
     }
 
     return { success: false, error: res.error || 'فشل رفع صورة المنتج الفرعية' };
@@ -166,7 +166,7 @@ export async function deleteProductImageServerAction(
   imageId: string | number
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const res = await serverFetch<any>(`/products/productimage/${imageId}/`, {
+    const res = await serverFetch<{ success: boolean; message: string }>(`/products/productimage/${imageId}/`, {
       method: 'DELETE',
     });
 
@@ -191,7 +191,7 @@ export async function createProductUnitServerAction(unitData: {
   product: number | string;
 }): Promise<{ success: boolean; data?: ApiProductUnit; error?: string }> {
   try {
-    const res = await serverFetch<ApiProductUnit>('/products/unit/', {
+    const res = await serverFetch<{ success: boolean; message: string; data: ApiProductUnit }>('/products/unit/', {
       method: 'POST',
       body: JSON.stringify({
         name_unit_ar: unitData.name_unit_ar,
@@ -202,10 +202,10 @@ export async function createProductUnitServerAction(unitData: {
       }),
     });
 
-    if (res.success && res.data) {
+    if (res.success && res.data?.data) {
       revalidatePath('/products');
       revalidatePath('/[locale]/products', 'page');
-      return { success: true, data: res.data };
+      return { success: true, data: res.data.data };
     }
 
     return { success: false, error: res.error || 'فشل إضافة وحدة المنتج' };
@@ -226,15 +226,15 @@ export async function updateProductUnitServerAction(
   }>
 ): Promise<{ success: boolean; data?: ApiProductUnit; error?: string }> {
   try {
-    const res = await serverFetch<ApiProductUnit>(`/products/unit/${unitId}/`, {
+    const res = await serverFetch<{ success: boolean; message: string; data: ApiProductUnit }>(`/products/unit/${unitId}/`, {
       method: 'PATCH',
       body: JSON.stringify(unitData),
     });
 
-    if (res.success && res.data) {
+    if (res.success && res.data?.data) {
       revalidatePath('/products');
       revalidatePath('/[locale]/products', 'page');
-      return { success: true, data: res.data };
+      return { success: true, data: res.data.data };
     }
 
     return { success: false, error: res.error || 'فشل تعديل وحدة المنتج' };
@@ -248,7 +248,7 @@ export async function deleteProductUnitServerAction(
   unitId: number | string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const res = await serverFetch<any>(`/products/unit/${unitId}/`, {
+    const res = await serverFetch<{ success: boolean; message: string }>(`/products/unit/${unitId}/`, {
       method: 'DELETE',
     });
 

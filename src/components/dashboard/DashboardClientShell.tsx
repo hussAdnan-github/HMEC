@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { DashboardHeader } from './DashboardHeader';
 import { DashboardSidebar } from './DashboardSidebar';
 import { ProductModal } from './Modals';
-import { createProductServerAction, addProductImageServerAction } from '@/actions/productActions';
+import { createProductServerAction, addProductImageServerAction } from '@/actions/products.actions';
 
 interface DashboardClientShellProps {
   children: React.ReactNode;

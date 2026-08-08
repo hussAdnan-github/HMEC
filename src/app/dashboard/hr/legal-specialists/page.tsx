@@ -7,8 +7,8 @@ import {
   createLawFingerprinterServerAction, 
   updateLawFingerprinterServerAction, 
   deleteLawFingerprinterServerAction,
-  getShiftsServerAction
-} from '@/actions/hrActions';
+} from '@/actions/hr/law-fingerprinters.actions';
+import { getShiftsServerAction } from '@/actions/hr/shifts.actions';
 import type { 
   ApiLawFingerprinter, 
   ApiShift 

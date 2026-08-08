@@ -11,7 +11,7 @@ import {
   createAgentServerAction,
   updateAgentServerAction,
   deleteAgentServerAction,
-} from '@/actions/agentActions';
+} from '@/actions/agents.actions';
 
 interface AgenciesTabProps {
   initialAgencies: ApiAgent[];

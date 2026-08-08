@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { getTestimonialsServerAction } from '@/actions/testimonialActions';
+import { getTestimonialsServerAction } from '@/actions/testimonials.actions';
 import { TestimonialsTab } from '@/components/dashboard/cms/tabs/TestimonialsTab';
 
 export const revalidate = 0;

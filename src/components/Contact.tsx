@@ -6,7 +6,7 @@ import type { ApiContent } from '@/types/api';
 import { MapPin, Phone, Mail, Clock, Send, Monitor, Camera, Video } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTranslations, useLocale } from 'next-intl';
-import { submitContactUsAction } from '@/actions/contactActions';
+import { submitContactUsAction } from '@/actions/contacts.actions';
 
 interface ContactProps {
   content?: ApiContent;

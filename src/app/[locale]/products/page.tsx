@@ -1,16 +1,15 @@
 import Products from '@/components/Products';
-import { getProductsServerAction, getAgentsServerAction } from '@/actions/productActions';
+import { getProductsServerAction, getAgentsServerAction } from '@/actions/products.actions';
 import { Link } from '@/i18n/routing';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 
 export default async function ProductsPage({
-  params,
-  searchParams,
+ 
+  searchParams
 }: {
-  params: Promise<{ locale: string }>;
+ 
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const { locale } = await params;
   const resolvedSearchParams = await searchParams;
   const agentParam = resolvedSearchParams?.agent;
   const searchParam = resolvedSearchParams?.search;

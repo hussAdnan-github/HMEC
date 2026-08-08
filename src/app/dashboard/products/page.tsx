@@ -1,4 +1,4 @@
-import { getProductsServerAction, getAgentsServerAction } from '@/actions/productActions';
+import { getProductsServerAction, getAgentsServerAction } from '@/actions/products.actions';
 import ProductsDashboardClient from '@/components/dashboard/ProductsDashboardClient';
 
 export const revalidate = 0; // Disable server-side caching for the dashboard page
